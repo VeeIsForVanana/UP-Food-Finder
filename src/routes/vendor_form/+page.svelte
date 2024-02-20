@@ -14,7 +14,7 @@
 
 <form method="post" action="?/registerVendor">
     <div class="input_div">
-        <label for="username" title="Enter your username. Will not necessarily be displayed publicly.">Username</label>
+        <label for="username">Username</label>
         <input id="username" type="text" required/>
     </div>
 
