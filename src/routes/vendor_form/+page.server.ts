@@ -13,6 +13,7 @@ export const actions = {
         let failure = false;
         let data = null;
 
+        // check if any of the necessary fields is missing and return an error if so
         [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
             if (!elem) {
                 failure = true;
