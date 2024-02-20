@@ -16,6 +16,9 @@
 {#if form?.registrationSuccess}
     <h2 id="registered">Congratulations, you are now a vendor.</h2>
 {/if}
+{#if form?.missing}
+    <h2 id="error">Registration failed, have you filled up all fields?</h2>
+{/if}
 
 <form method="post" action="?/registerVendor" id="vendorRegistration">
     <div class="input_div">
@@ -67,5 +70,9 @@
 
     #registered {
         color: green;
+    }
+
+    #error {
+        color: maroon;
     }
 </style>

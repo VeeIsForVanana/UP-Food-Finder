@@ -4,15 +4,34 @@ import { registerVendor } from '$lib/server/database';
 export const actions = {
     registerVendor: async ({ request }: any) => {
         const formData: FormData = await request.formData()
+        const username = String(formData.get("username"))
+        const password = String(formData.get("password"));
+        const phoneNumber = String(formData.get("phone_number"));
+        const securityQuestion = String(formData.get("security_q"));
+        const securityQuestionAnswer = String(formData.get("security_a"));
+
+        let failure = false;
+        let data = null;
+
+        [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
+            if (!elem) {
+                failure = true;
+                data = { missing: true };
+            }
+        });
+
+        if(failure && data != null) {
+            return fail(400, data);
+        }
 
         registerVendor(
-            String(formData.get("username")),
-            String(formData.get("password")),
-            String(formData.get("phone_number")),
-            String(formData.get("security_q")),
-            String(formData.get("security_a")),
-        )
+            username,
+            password,
+            phoneNumber,
+            securityQuestion,
+            securityQuestionAnswer,
+        );
 
-        return { registrationSuccess: true }
+        return { registrationSuccess: true };
     }
 }
