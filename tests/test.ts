@@ -12,6 +12,16 @@ test('vendor page has expected label', async ({ page }) => {
 
 test('vendor page submission with empty fields results in no greeting message', async ({ page }) => {
 	await page.goto('/vendor_form');
-	await page.locator("[type=submit]").click()
+	await page.locator("[type=submit]").click();
 	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
+});
+
+test('vendor page submission with filled fields results in congratulatory message', async ({ page }) => {
+	await page.goto('/vendor_form');
+	await page.locator("[name=username]").fill("username");
+	await page.locator("[name=password]").fill("password");
+	await page.locator("[name=phone_no]").fill("0945");
+	await page.locator("[name=security_a]").fill("security answer");
+	await page.locator("[type=submit]").click();
+	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeVisible();
 });
