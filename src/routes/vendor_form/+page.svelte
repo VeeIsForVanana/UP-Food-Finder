@@ -1,5 +1,10 @@
-<script>
-    export let form
+<script lang="ts">
+    /** @type {import('./$types').PageData} */
+
+    export let form: any;
+    export let data: any;
+
+    console.log(data.securityQuestionsList)
 </script>
 
 <head>
@@ -12,25 +17,33 @@
     <h2 id="registered">Congratulations, you are now a vendor.</h2>
 {/if}
 
-<form method="post" action="?/registerVendor">
+<form method="post" action="?/registerVendor" id="vendorRegistration">
     <div class="input_div">
         <label for="username">Username</label>
-        <input id="username" type="text" required/>
+        <input name="username" type="text" required/>
     </div>
 
     <div class="input_div">
         <label for="password">Password</label>
-        <input id="password" type="password" required/>
+        <input name="password" type="password" required/>
     </div>
 
     <div class="input_div">
         <label for="phone_no">Phone Number</label>
-        <input id="phone_no" type="text" required/>
+        <input name="phone_no" type="text" required/>
     </div>
 
     <div class="input_div">
         <label for="security_q">Security Question</label>
-        <input id="security_q" type="text" required/>
+        {#if data.securityQuestionsList.length == 0}
+            <input name="security_q" type="text" required/>
+        {:else}
+            <select name="security_q" form="vendorRegistration" required>
+                {#each data.securityQuestionsList as securityQuestion}
+                    <option value={securityQuestion}> {@html securityQuestion} </option> 
+                {/each}
+            </select>
+        {/if}
     </div>
 
     <div class="input_div">
