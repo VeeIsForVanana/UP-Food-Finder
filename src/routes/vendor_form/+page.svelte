@@ -2,6 +2,10 @@
     export let form
 </script>
 
+<head>
+    <title>Vendor Registration</title>
+</head>
+
 <h1>Vendor Account Creation Form</h1>
 
 {#if form?.registrationSuccess}
