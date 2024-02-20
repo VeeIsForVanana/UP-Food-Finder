@@ -33,7 +33,7 @@
 
     <div class="input_div">
         <label for="phone_no">Phone Number</label>
-        <input name="phone_no" type="text" required/>
+        <input name="phone_no" type="telno" required/>
     </div>
 
     <div class="input_div">
