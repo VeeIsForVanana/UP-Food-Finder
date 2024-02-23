@@ -24,24 +24,36 @@
 <form method="post" action="?/registerVendor" id="vendorRegistration">
     <div class="input_div">
         <label for="username">Username</label>
-        <input name="username" type="text" required/>
+        <input  name="username"
+                type="text"
+                required/>
     </div>
 
     <div class="input_div">
         <label for="password">Password</label>
-        <input name="password" type="password" required/>
+        <input  name="password"
+                type="password"
+                required/>
     </div>
 
     <div class="input_div">
         <label for="phone_no">Phone Number</label>
-        <input name="phone_no" type="telno" required/>
+        <!-- requires format 0XXXXXXXXXX -->
+        <input  name="phone_no"
+                type="tel"
+                pattern={"0[0-9]{10}"}
+                placeholder="0XXXXXXXXXX"
+                title="0XXXXXXXXXX"
+                required/>
     </div>
 
     <div class="input_div">
         <label for="security_q">Security Question</label>
         <!-- no fixed security questions, let user type their own -->
         {#if data.securityQuestionsList.length == 0}
-            <input name="security_q" type="text" required/>
+            <input  name="security_q"
+                    type="text"
+                    required/>
         
         <!-- display each security question in list -->
         {:else}
@@ -55,11 +67,15 @@
 
     <div class="input_div">
         <label for="security_a">Security Question Answer</label>
-        <input name="security_a" type="text" required/>
+        <input  name="security_a"
+                type="text"
+                required/>
     </div>
 
     <div class="input_div">
-        <input id="submission" type="submit" disabled={form?.registrationSuccess}/>
+        <input  id="submission"
+                type="submit"
+                disabled={form?.registrationSuccess}/>
     </div>
 </form>
 
