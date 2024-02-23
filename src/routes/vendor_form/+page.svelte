@@ -13,6 +13,7 @@
 
 <h1>Vendor Account Creation Form</h1>
 
+<!-- result of submitting form -->
 {#if form?.registrationSuccess}
     <h2 id="registered">Congratulations, you are now a vendor.</h2>
 {/if}
@@ -38,8 +39,11 @@
 
     <div class="input_div">
         <label for="security_q">Security Question</label>
+        <!-- no fixed security questions, let user type their own -->
         {#if data.securityQuestionsList.length == 0}
             <input name="security_q" type="text" required/>
+        
+        <!-- display each security question in list -->
         {:else}
             <select name="security_q" form="vendorRegistration" required>
                 {#each data.securityQuestionsList as securityQuestion}

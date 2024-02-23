@@ -3,6 +3,7 @@ import { registerVendor } from '$lib/server/database';
 
 export const actions = {
     registerVendor: async ({ request }: any) => {
+        // get form data, variables based on page.svelte, input tag, name attribute
         const formData: FormData = await request.formData()
         const username = String(formData.get("username"))
         const password = String(formData.get("password"));
@@ -21,10 +22,12 @@ export const actions = {
             }
         });
 
+        // form has missing field(s)
         if(failure && data != null) {
             return fail(400, data);
         }
 
+        // successful registration
         registerVendor(
             username,
             password,
