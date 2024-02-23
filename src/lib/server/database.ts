@@ -18,6 +18,10 @@ export function registerVendor(
     securityQuestion: string,
     securityQAnswer: string,
 ) {
+    // perform additional check on inputs
+    let phoneNumberRegex = new RegExp("^0[0-9]{10}$");
+    if (!phoneNumberRegex.test(phoneNumber)) return;
+
     let newVendor = new Vendor (
         username,
         password,
