@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import { registerVendor } from '$lib/server/database';
+import { isPhoneNumberExists } from '$lib/server/database';
 
 export const actions = {
     registerVendor: async ({ request }: any) => {
@@ -22,6 +23,13 @@ export const actions = {
             }
         });
 
+        // Check if phone number already exists in the database
+        const phoneNumberExists = await isPhoneNumberExists(phoneNumber);
+        if (phoneNumberExists) {
+            failure = true;
+            data = { phoneNumberExists: true };
+        }
+        
         // form has missing field(s)
         if(failure && data != null) {
             return fail(400, data);

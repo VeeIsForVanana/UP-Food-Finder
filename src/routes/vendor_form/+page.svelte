@@ -33,8 +33,12 @@
     </div>
 
     <div class="input_div">
-        <label for="phone_no">Phone Number</label>
-        <input name="phone_no" type="telno" required/>
+        <label for="phone_number">Phone Number</label>
+        <input name="phone_number" type="telno" required/>
+
+        {#if form?.phoneNumberExists}
+            <p id="error">Phone number is already registered. Please choose a different one.</p>
+        {/if}
     </div>
 
     <div class="input_div">

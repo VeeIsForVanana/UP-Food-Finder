@@ -25,3 +25,16 @@ test('vendor page submission with filled fields results in congratulatory messag
 	await page.locator("[type=submit]").click();
 	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeVisible();
 });
+
+test.describe('vendor page submission with phone number already existing in database', () => {
+	test('phone number exists', async ({ page }) => {
+		await page.goto('/vendor_form');
+		await page.locator("[name=username]").fill("username");
+		await page.locator("[name=password]").fill("password");
+		await page.locator("[name=phone_no]").fill("01234567890");
+		await page.locator("[name=security_a]").fill("security answer");
+		await page.locator("[type=submit]").click();
+		await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
+		await expect(page.getByText("Phone number is already registered. Please choose a different one.")).toBeVisible();
+	});
+});
