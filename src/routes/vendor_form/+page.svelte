@@ -29,7 +29,13 @@
 
     <div class="input_div">
         <label for="password">Password</label>
-        <input name="password" type="password" required/>
+        <input name="password" 
+               type="password" 
+               required/>
+        <!-- check for password length -->
+        {#if form?.passwordError}
+            <p id="error">Password must be at within 8 to 32 characters long.</p>
+        {/if}
     </div>
 
     <div class="input_div">
