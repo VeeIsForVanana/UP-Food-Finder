@@ -20,7 +20,7 @@ test('vendor page submission with filled fields results in congratulatory messag
 	await page.goto('/vendor_form');
 	await page.locator("[name=username]").fill("username");
 	await page.locator("[name=password]").fill("password");
-	await page.locator("[name=phone_no]").fill("0945");
+	await page.locator("[name=phone_number]").fill("0945");
 	await page.locator("[name=security_a]").fill("security answer");
 	await page.locator("[type=submit]").click();
 	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeVisible();
@@ -31,7 +31,7 @@ test.describe('vendor page submission with phone number already existing in data
 		await page.goto('/vendor_form');
 		await page.locator("[name=username]").fill("username");
 		await page.locator("[name=password]").fill("password");
-		await page.locator("[name=phone_no]").fill("01234567890");
+		await page.locator("[name=phone_number]").fill("01234567890");
 		await page.locator("[name=security_a]").fill("security answer");
 		await page.locator("[type=submit]").click();
 		await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
