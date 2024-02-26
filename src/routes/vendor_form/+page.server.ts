@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { registerVendor } from '$lib/server/database';
+import { getVendors, registerVendor } from '$lib/server/database';
 
 export const actions = {
     registerVendor: async ({ request }: any) => {
@@ -16,7 +16,7 @@ export const actions = {
 
         // check if any of the necessary fields is missing and return an error if so
         [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
-            if (!elem) {
+            if (elem === 'null' || !elem) {
                 failure = true;
                 data = { missing: true };
             }
@@ -35,6 +35,8 @@ export const actions = {
             securityQuestion,
             securityQuestionAnswer,
         );
+
+        console.log(getVendors());
 
         return { registrationSuccess: true };
     }
