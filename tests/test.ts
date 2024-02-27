@@ -27,7 +27,7 @@ test('vendor page submission with filled fields results in congratulatory messag
 });
 
 test.describe('vendor page submission with defective password results in error message', () => {
-	test('vendor page submission with password length less than 8 characters results in error message', async ({ page }) => {
+	test('too short (< 8 characters)', async ({ page }) => {
 		await page.goto('/vendor_form');
 		await page.locator("[name=username]").fill("username");
 		await page.locator("[name=password]").fill("pass");
@@ -37,7 +37,7 @@ test.describe('vendor page submission with defective password results in error m
 		await expect(page.getByText("Password must be at within 8 to 32 characters long.")).toBeVisible();
 	});
 
-	test('vendor page submission with password length more than 32 characters results in error message', async ({ page }) => {
+	test('too long (> 32 characters)', async ({ page }) => {
 		await page.goto('/vendor_form');
 		await page.locator("[name=username]").fill("username");
 		await page.locator("[name=password]").fill("pass");
