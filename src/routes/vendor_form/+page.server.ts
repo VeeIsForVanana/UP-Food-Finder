@@ -22,6 +22,13 @@ export const actions = {
             }
         });
 
+        // perform additional check on inputs
+        let phoneNumberRegex = new RegExp("^0[0-9]{10}$");
+        if (!phoneNumberRegex.test(phoneNumber)) {
+            failure = true;
+            data = { phoneError: true};
+        }
+
         // form has missing field(s)
         if(failure && data != null) {
             return fail(400, data);
