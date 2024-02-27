@@ -13,12 +13,15 @@
 
 <h1>Vendor Account Creation Form</h1>
 
-<!-- result of submitting form -->
+<!-- result of submitting form, single place for displaying errors and results -->
 {#if form?.registrationSuccess}
     <h2 id="registered">Congratulations, you are now a vendor.</h2>
 {/if}
 {#if form?.missing}
     <h2 id="error">Registration failed, have you filled up all fields?</h2>
+{/if}
+{#if form?.phoneError}
+    <h2 id="phone_error">Phone number must have format 0XXXXXXXXXX.</h2>
 {/if}
 
 <form method="post" action="?/registerVendor" id="vendorRegistration">
@@ -44,11 +47,6 @@
                 placeholder="0XXXXXXXXXX"
                 title="0XXXXXXXXXX"
                 required/>
-        
-        <!-- check for phone format -->
-        {#if form?.phoneError}
-            <p id="phone_error">Phone number must have format 0XXXXXXXXXX.</p>
-        {/if}
     </div>
 
     <div class="input_div">
