@@ -21,7 +21,7 @@
     <h2 id="error">Registration failed, have you filled up all fields?</h2>
 {/if}
 {#if form?.phoneError}
-    <h2 id="phone_error">Phone number must have format 0XXXXXXXXXX.</h2>
+    <h2 id="error">Phone number must have format 0XXXXXXXXXX.</h2>
 {/if}
 
 <form method="post" action="?/registerVendor" id="vendorRegistration">
