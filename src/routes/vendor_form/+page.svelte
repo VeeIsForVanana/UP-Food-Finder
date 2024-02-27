@@ -20,6 +20,9 @@
 {#if form?.missing}
     <h2 id="error">Registration failed, have you filled up all fields?</h2>
 {/if}
+{#if form?.phoneNumberExists}
+    <p id="error">Phone number is already registered. Please choose a different one.</p>
+{/if}
 
 <form method="post" action="?/registerVendor" id="vendorRegistration">
     <div class="input_div">
@@ -36,9 +39,6 @@
         <label for="phone_number">Phone Number</label>
         <input name="phone_number" type="telno" required/>
 
-        {#if form?.phoneNumberExists}
-            <p id="error">Phone number is already registered. Please choose a different one.</p>
-        {/if}
     </div>
 
     <div class="input_div">
