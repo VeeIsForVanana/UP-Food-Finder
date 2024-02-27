@@ -20,6 +20,9 @@
 {#if form?.missing}
     <h2 id="error">Registration failed, have you filled up all fields?</h2>
 {/if}
+{#if form?.passwordError}
+    <h2 id="error">Password must be at within 8 to 32 characters long.</h2>
+{/if}
 
 <form method="post" action="?/registerVendor" id="vendorRegistration">
     <div class="input_div">
@@ -32,10 +35,6 @@
         <input name="password" 
                type="password" 
                required/>
-        <!-- check for password length -->
-        {#if form?.passwordError}
-            <p id="error">Password must be at within 8 to 32 characters long.</p>
-        {/if}
     </div>
 
     <div class="input_div">
