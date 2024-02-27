@@ -37,14 +37,18 @@
     </div>
 
     <div class="input_div">
-        <label for="phone_no">Phone Number</label>
+        <label for="phone_number">Phone Number</label>
         <!-- requires format 0XXXXXXXXXX -->
-        <input  name="phone_no"
+        <input  name="phone_number"
                 type="tel"
-                pattern={"0[0-9]{10}"}
                 placeholder="0XXXXXXXXXX"
                 title="0XXXXXXXXXX"
                 required/>
+        
+        <!-- check for phone format -->
+        {#if form?.phoneError}
+            <p id="phone_error">Phone number must have format 0XXXXXXXXXX.</p>
+        {/if}
     </div>
 
     <div class="input_div">
