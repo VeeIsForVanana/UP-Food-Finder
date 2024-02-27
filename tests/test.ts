@@ -26,7 +26,7 @@ test('vendor page submission with filled fields results in congratulatory messag
 	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeVisible();
 });
 
-test.describe('vendor page submission with phone number already existing in database', () => {
+test.describe('vendor page submission with phone number already existing in database results in error message', () => {
 	test('phone number exists', async ({ page }) => {
 		await page.goto('/vendor_form');
 		await page.locator("[name=username]").fill("username");
