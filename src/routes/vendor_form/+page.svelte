@@ -13,39 +13,54 @@
 
 <h1>Vendor Account Creation Form</h1>
 
-<!-- result of submitting form -->
+<!-- result of submitting form, single place for displaying errors and results -->
 {#if form?.registrationSuccess}
     <h2 id="registered">Congratulations, you are now a vendor.</h2>
 {/if}
 {#if form?.missing}
     <h2 id="error">Registration failed, have you filled up all fields?</h2>
 {/if}
+
 {#if form?.phoneNumberExists}
     <p id="error">Phone number is already registered. Please choose a different one.</p>
+{/if}
+
+{#if form?.phoneError}
+    <h2 id="error">Phone number must have format 0XXXXXXXXXX.</h2>
 {/if}
 
 <form method="post" action="?/registerVendor" id="vendorRegistration">
     <div class="input_div">
         <label for="username">Username</label>
-        <input name="username" type="text" required/>
+        <input  name="username"
+                type="text"
+                required/>
     </div>
 
     <div class="input_div">
         <label for="password">Password</label>
-        <input name="password" type="password" required/>
+        <input  name="password"
+                type="password"
+                required/>
     </div>
 
     <div class="input_div">
         <label for="phone_number">Phone Number</label>
-        <input name="phone_number" type="telno" required/>
-
+        <!-- requires format 0XXXXXXXXXX -->
+        <input  name="phone_number"
+                type="tel"
+                placeholder="0XXXXXXXXXX"
+                title="0XXXXXXXXXX"
+                required/>
     </div>
 
     <div class="input_div">
         <label for="security_q">Security Question</label>
         <!-- no fixed security questions, let user type their own -->
         {#if data.securityQuestionsList.length == 0}
-            <input name="security_q" type="text" required/>
+            <input  name="security_q"
+                    type="text"
+                    required/>
         
         <!-- display each security question in list -->
         {:else}
@@ -59,11 +74,15 @@
 
     <div class="input_div">
         <label for="security_a">Security Question Answer</label>
-        <input name="security_a" type="text" required/>
+        <input  name="security_a"
+                type="text"
+                required/>
     </div>
 
     <div class="input_div">
-        <input id="submission" type="submit" disabled={form?.registrationSuccess}/>
+        <input  id="submission"
+                type="submit"
+                disabled={form?.registrationSuccess}/>
     </div>
 </form>
 
