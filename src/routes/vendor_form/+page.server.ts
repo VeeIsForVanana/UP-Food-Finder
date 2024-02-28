@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { registerVendor } from '$lib/server/database';
+import { getVendors, registerVendor, isPhoneNumberExists } from '$lib/server/database';
 
 export const actions = {
     registerVendor: async ({ request }: any) => {
@@ -16,14 +16,25 @@ export const actions = {
 
         // check if any of the necessary fields is missing and return an error if so
         [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
-            if (!elem) {
+            if (elem === 'null' || !elem) {
                 failure = true;
                 data = { missing: true };
             }
-
         });
         
-        // form has missing field(s)
+        // Check if phone number already exists in the database
+        const phoneNumberExists = await isPhoneNumberExists(phoneNumber);
+        if (phoneNumberExists) {
+            failure = true;
+            data = { phoneNumberExists: true };
+        }
+
+        // perform additional check on inputs
+        let phoneNumberRegex = new RegExp("^0[0-9]{10}$");
+        if (!phoneNumberRegex.test(phoneNumber)) {
+            failure = true;
+            data = { phoneError: true};
+        }
         
         // check if the password is too short or too long
         if (password.length < 8 || password.length > 32) {
@@ -43,6 +54,8 @@ export const actions = {
             securityQuestion,
             securityQuestionAnswer,
         );
+
+        console.log(getVendors());
 
         return { registrationSuccess: true };
     }

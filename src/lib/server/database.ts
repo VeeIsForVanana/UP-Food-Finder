@@ -7,9 +7,22 @@ class Vendor {
         private securityQuestion: string,
         private securityQAnswer: string,
     ) {}
+
+    getPhoneNumber() {
+        return this.phoneNumber;
+    }
 }
 
-let vendors: Vendor[] = [];
+let vendors: Vendor[] = [
+    // Sample Vendor for Testing
+    new Vendor(
+    "testUser",         // username
+    "testPassword",     // password
+    "01234567890",       // phoneNumber
+    "What is your mother's maiden name?",     // securityQuestion
+    "testAnswer"        // securityQAnswer
+    )
+];
 
 export function registerVendor(
     username: string,
@@ -27,6 +40,10 @@ export function registerVendor(
     )
 
     vendors.push(newVendor);
+}
+
+export function isPhoneNumberExists(phoneNumber: string) {
+    return vendors.some((vendor) => vendor.getPhoneNumber() === phoneNumber);
 }
 
 export function getVendors() {
