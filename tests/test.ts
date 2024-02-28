@@ -31,7 +31,7 @@ test.describe('vendor page submission with defective password results in error m
 		await page.goto('/vendor_form');
 		await page.locator("[name=username]").fill("username");
 		await page.locator("[name=password]").fill("pass");
-		await page.locator("[name=phone_no]").fill("09451231234");
+		await page.locator("[name=phone_number]").fill("09451231234");
 		await page.locator("[name=security_a]").fill("security answer");
 		await page.locator("[type=submit]").click();
 		await expect(page.getByText("Password must be at within 8 to 32 characters long.")).toBeVisible();
@@ -41,7 +41,7 @@ test.describe('vendor page submission with defective password results in error m
 		await page.goto('/vendor_form');
 		await page.locator("[name=username]").fill("username");
 		await page.locator("[name=password]").fill("1234567890123456789012345678901234567890");
-		await page.locator("[name=phone_no]").fill("09451231234");
+		await page.locator("[name=phone_number]").fill("09451231234");
 		await page.locator("[name=security_a]").fill("security answer");
 		await page.locator("[type=submit]").click();
 		await expect(page.getByText("Password must be at within 8 to 32 characters long.")).toBeVisible();
