@@ -21,7 +21,7 @@ export const actions = {
                 data = { missing: true };
             }
         });
-
+        
         // Check if phone number already exists in the database
         const phoneNumberExists = await isPhoneNumberExists(phoneNumber);
         if (phoneNumberExists) {
@@ -35,8 +35,13 @@ export const actions = {
             failure = true;
             data = { phoneError: true};
         }
-
-        // form has missing field(s)
+        
+        // check if the password is too short or too long
+        if (password.length < 8 || password.length > 32) {
+            failure = true;
+            data = { passwordError: true };
+        }
+        
         if(failure && data != null) {
             return fail(400, data);
         }

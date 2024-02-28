@@ -20,6 +20,9 @@
 {#if form?.missing}
     <h2 id="error">Registration failed, have you filled up all fields?</h2>
 {/if}
+{#if form?.passwordError}
+    <h2 id="error">Password must be at within 8 to 32 characters long.</h2>
+{/if}
 
 {#if form?.phoneNumberExists}
     <p id="error">Phone number is already registered. Please choose a different one.</p>
