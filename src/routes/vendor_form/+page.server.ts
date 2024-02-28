@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getVendors, registerVendor } from '$lib/server/database';
+import { getVendors, registerVendor, isPhoneNumberExists } from '$lib/server/database';
 
 export const actions = {
     registerVendor: async ({ request }: any) => {
@@ -21,6 +21,13 @@ export const actions = {
                 data = { missing: true };
             }
         });
+
+        // Check if phone number already exists in the database
+        const phoneNumberExists = await isPhoneNumberExists(phoneNumber);
+        if (phoneNumberExists) {
+            failure = true;
+            data = { phoneNumberExists: true };
+        }
 
         // perform additional check on inputs
         let phoneNumberRegex = new RegExp("^0[0-9]{10}$");

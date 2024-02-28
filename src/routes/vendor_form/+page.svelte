@@ -20,6 +20,11 @@
 {#if form?.missing}
     <h2 id="error">Registration failed, have you filled up all fields?</h2>
 {/if}
+
+{#if form?.phoneNumberExists}
+    <p id="error">Phone number is already registered. Please choose a different one.</p>
+{/if}
+
 {#if form?.phoneError}
     <h2 id="error">Phone number must have format 0XXXXXXXXXX.</h2>
 {/if}
