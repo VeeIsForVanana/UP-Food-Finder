@@ -12,13 +12,13 @@ export const actions = {
         const securityQuestionAnswer = String(formData.get("security_a"));
 
         let failure = false;
-        let data = null;
+        let data: any = { };
 
         // check if any of the necessary fields is missing and return an error if so
         [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
             if (elem === 'null' || !elem) {
                 failure = true;
-                data = { missing: true };
+                data.missing = true;
             }
         });
         
@@ -26,20 +26,20 @@ export const actions = {
         const phoneNumberExists = await isPhoneNumberExists(phoneNumber);
         if (phoneNumberExists) {
             failure = true;
-            data = { phoneNumberExists: true };
+            data.phoneNumberExists = true;
         }
 
         // perform additional check on inputs
         let phoneNumberRegex = new RegExp("^0[0-9]{10}$");
         if (!phoneNumberRegex.test(phoneNumber)) {
             failure = true;
-            data = { phoneError: true};
+            data.phoneError = true;
         }
         
         // check if the password is too short or too long
         if (password.length < 8 || password.length > 32) {
             failure = true;
-            data = { passwordError: true };
+            data.passwordError = true;
         }
         
         if(failure && data != null) {
