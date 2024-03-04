@@ -25,7 +25,7 @@
 {/if}
 
 {#if form?.phoneNumberExists}
-    <p id="error">Phone number is already registered. Please choose a different one.</p>
+    <h2 id="error">Phone number is already registered. Please choose a different one.</h2>
 {/if}
 
 {#if form?.phoneError}
