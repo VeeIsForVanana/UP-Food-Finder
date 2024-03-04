@@ -18,14 +18,14 @@
     <h2 id="registered">Congratulations, you are now a vendor.</h2>
 {/if}
 {#if form?.missing}
-    <h2 id="error">Registration failed, have you filled up all fields?</h2>
+    <h2 id="error">Some fields have not been filled.</h2>
 {/if}
 {#if form?.passwordError}
-    <h2 id="error">Password must be at within 8 to 32 characters long.</h2>
+    <h2 id="error">Password must be between 8 and 32 characters long.</h2>
 {/if}
 
 {#if form?.phoneNumberExists}
-    <p id="error">Phone number is already registered. Please choose a different one.</p>
+    <h2 id="error">Phone number is already registered. Please choose a different one.</h2>
 {/if}
 
 {#if form?.phoneError}
