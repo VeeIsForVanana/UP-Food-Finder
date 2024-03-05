@@ -24,6 +24,10 @@
     <h2 id="error">Password must be between 8 and 32 characters long.</h2>
 {/if}
 
+{#if form?.usernameExists}
+    <h2 id="error">Username is already registered. Please choose a different one.</h2>
+{/if}
+
 {#if form?.phoneNumberExists}
     <h2 id="error">Phone number is already registered. Please choose a different one.</h2>
 {/if}

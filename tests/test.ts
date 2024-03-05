@@ -48,6 +48,19 @@ test.describe('vendor page submission with defective password results in error m
     });
 });
 
+test.describe('vendor page submission with username already existing in database results in error message', () => {
+	test('username exists', async ({ page }) => {
+		await page.goto('/vendor_form');
+		await page.locator("[name=username]").fill("upfoodfinder");
+		await page.locator("[name=password]").fill("password");
+		await page.locator("[name=phone_number]").fill("01234567899");
+		await page.locator("[name=security_a]").fill("security answer");
+		await page.locator("[type=submit]").click();
+		await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
+		await expect(page.getByText("Username is already registered. Please choose a different one.")).toBeVisible();
+    });
+});
+
 test.describe('vendor page submission with phone number already existing in database results in error message', () => {
 	test('phone number exists', async ({ page }) => {
 		await page.goto('/vendor_form');
