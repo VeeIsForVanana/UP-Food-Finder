@@ -16,7 +16,7 @@ class Vendor {
 class Storefront {
 
     constructor (
-        private name: string,
+        private storeName: string,
         private owner: Vendor,
         private menu: MenuItem[],
     ) {}
@@ -25,7 +25,7 @@ class Storefront {
 class MenuItem {
 
     constructor (
-        private name: string,
+        private foodName: string,
         private price: number,
     ) {}
 }
@@ -64,16 +64,17 @@ export function registerVendor(
 }
 
 export function registerStorefront(
-    name: string,
+    storeName: string,
     owner: Vendor,
+    menu: MenuItem[],
 ) {
     let newStorefront = new Storefront (
-        name,
+        storeName,
         owner,
+        menu,
     )
 
     storefronts.push(newStorefront);
-    console.log(storefronts) // TO REMOVE
 }
 
 export function isPhoneNumberExists(phoneNumber: string) {
@@ -82,4 +83,8 @@ export function isPhoneNumberExists(phoneNumber: string) {
 
 export function getVendors() {
     return structuredClone(vendors);
+}
+
+export function getStorefronts() {
+    return structuredClone(storefronts);
 }
