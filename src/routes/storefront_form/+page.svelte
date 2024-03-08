@@ -2,14 +2,14 @@
     /** @type {import('./$types').PageData} */
 
     export let form: any;
+
+    let store_name = "";
     let menu = [
-        {name:"item1", price:100},
-        {name:"item2", price:100},
-        {name:"item3", price:100},
+        {foodName:"item 0", price:0},
     ];
 
     function add_menu_item() {
-        menu = menu.concat({name:"", price:0});
+        menu = menu.concat({foodName:`item ${menu.length}`, price:0});
     }
     function remove_menu_item() {
         menu = menu.slice(0, menu.length-1);
@@ -33,22 +33,28 @@
     <h2 id="error">Registration failed, have you filled up all fields?</h2>
 {/if}
 
-<form method="post" action="?/registerStorefront" id="storefrontRegistration">
+<form
+    method="post"
+    action="?/registerStorefront"
+    id="storefrontRegistration">
+
     <div class="input_div">
         <label for="storename">Store name</label>
         <input  name="storename"
                 type="text"
-                required/>
+                bind:value={store_name}
+                required
+                />
     </div>
     <div class="input_div">
         <h2 id="menu">Menu Items</h2>
         <div class="menu_names">
             <h3 id="menu_names_header">Name</h3>
-            {#each menu as _, i}
+            {#each menu as menu_item, i}
                 <div class="input_div">
                     <input  name="menu_name_{i}"
                             type="text"
-                            bind:value={menu[i].name}
+                            bind:value={menu_item.foodName}
                             required
                             />
                 </div>
@@ -56,11 +62,11 @@
         </div>
         <div class="menu_prices">
             <h3 id="menu_prices_header">Price</h3>
-            {#each menu as _, i}
+            {#each menu as menu_item, i}
                 <div class="input_div">
                     <input  name="menu_price_{i}"
                             type="number"
-                            bind:value={menu[i].price}
+                            bind:value={menu_item.price}
                             required
                             />
                 </div>
@@ -68,12 +74,17 @@
         </div>
     </div>
     <div>
-        <button on:click={add_menu_item}>Add menu item (can add more after creation)</button>
-    </div>
-    <div>
-        <button on:click={remove_menu_item}>Remove menu item</button>
+        <button>Submit</button>
     </div>
 </form>
+
+<div>
+    <button on:click={add_menu_item}>Add menu item (can add more after creation)</button>
+</div>
+<div>
+    <button on:click={remove_menu_item}>Remove menu item</button>
+</div>
+
 
 <style>
     title {
