@@ -18,6 +18,15 @@ class Storefront {
     constructor (
         private name: string,
         private owner: Vendor,
+        private menu: MenuItem[],
+    ) {}
+}
+
+class MenuItem {
+
+    constructor (
+        private name: string,
+        private price: number,
     ) {}
 }
 
