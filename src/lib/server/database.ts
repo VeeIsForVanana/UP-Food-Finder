@@ -13,7 +13,15 @@ class Vendor {
     }
 }
 
-let vendors: Vendor[] = [
+class Storefront {
+
+    constructor (
+        private name: string,
+        private owner: Vendor,
+    ) {}
+}
+
+export let vendors: Vendor[] = [
     // Sample Vendor for Testing
     new Vendor(
     "testUser",         // username
@@ -22,6 +30,10 @@ let vendors: Vendor[] = [
     "What is your mother's maiden name?",     // securityQuestion
     "testAnswer"        // securityQAnswer
     )
+];
+
+let storefronts: Storefront[] = [
+
 ];
 
 export function registerVendor(
@@ -40,6 +52,19 @@ export function registerVendor(
     )
 
     vendors.push(newVendor);
+}
+
+export function registerStorefront(
+    name: string,
+    owner: Vendor,
+) {
+    let newStorefront = new Storefront (
+        name,
+        owner,
+    )
+
+    storefronts.push(newStorefront);
+    console.log(storefronts) // TO REMOVE
 }
 
 export function isPhoneNumberExists(phoneNumber: string) {
