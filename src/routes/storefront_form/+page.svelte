@@ -2,7 +2,18 @@
     /** @type {import('./$types').PageData} */
 
     export let form: any;
-    let menuLength: number = 5;
+    let menu = [
+        {name:"item1", price:100},
+        {name:"item2", price:100},
+        {name:"item3", price:100},
+    ];
+
+    function add_menu_item() {
+        menu = menu.concat({name:"", price:0});
+    }
+    function remove_menu_item() {
+        menu = menu.slice(0, menu.length-1);
+    }
 </script>
 
 <head>
@@ -33,10 +44,11 @@
         <h2 id="menu">Menu Items</h2>
         <div class="menu_names">
             <h3 id="menu_names_header">Name</h3>
-            {#each Array(menuLength) as _, i}
+            {#each menu as _, i}
                 <div class="input_div">
-                    <input  name="menu_name_${i}"
+                    <input  name="menu_name_{i}"
                             type="text"
+                            bind:value={menu[i].name}
                             required
                             />
                 </div>
@@ -44,10 +56,11 @@
         </div>
         <div class="menu_prices">
             <h3 id="menu_prices_header">Price</h3>
-            {#each Array(menuLength) as _, i}
+            {#each menu as _, i}
                 <div class="input_div">
-                    <input  name="menu_price_${i}"
+                    <input  name="menu_price_{i}"
                             type="number"
+                            bind:value={menu[i].price}
                             required
                             />
                 </div>
@@ -55,7 +68,10 @@
         </div>
     </div>
     <div>
-        <button></button>
+        <button on:click={add_menu_item}>Add menu item (can add more after creation)</button>
+    </div>
+    <div>
+        <button on:click={remove_menu_item}>Remove menu item</button>
     </div>
 </form>
 
