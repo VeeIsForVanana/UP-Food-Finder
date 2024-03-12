@@ -84,6 +84,9 @@
 <div>
     <button on:click={remove_menu_item}>Remove menu item</button>
 </div>
+<div>
+    <a href="/storefront_management">(temp) Storefront Management</a>
+</div>
 
 
 <style>
