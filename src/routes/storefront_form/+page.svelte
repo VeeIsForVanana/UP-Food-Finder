@@ -1,4 +1,15 @@
-<script lang="ts">
+<svelte:head>
+<link   rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+</svelte:head>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+        lang="ts">
+
     /** @type {import('./$types').PageData} */
 
     export let form: any;
@@ -14,6 +25,9 @@
     function remove_menu_item() {
         menu = menu.slice(0, menu.length-1);
     }
+
+    //import L from 'leaflet';
+    //var map = L.map('map').setView([51.505, -0.09], 13);
 </script>
 
 <head>
@@ -85,6 +99,7 @@
     <button on:click={remove_menu_item}>Remove menu item</button>
 </div>
 
+<div id="map"></div>
 
 <style>
     title {
@@ -114,6 +129,10 @@
     .menu_prices {
         float: left;
         width: 25%;
+    }
+
+    #map {
+        height: 180px;
     }
 
     #storeRegistered {
