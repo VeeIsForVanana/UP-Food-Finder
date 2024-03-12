@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, updateStorefront, getVendorStorefronts, vendors } from '$lib/server/database';
+import { getStorefronts, updateStorefront, getVendorStorefronts, vendors, getStorefrontsMenuItems} from '$lib/server/database';
 
 // sample vendor as owner
 let vendor = vendors[0];
@@ -11,13 +11,17 @@ export function load() {
 
     console.log("HERE");
     console.log(vendor);
-    console.log(storefronts);
+
     let storefrontsNames = storefronts.map(storefront => storefront.getStoreName());
     console.log("HERE");
     console.log(storefrontsNames);
+    
+    let storefrontsMenuItems = getStorefrontsMenuItems(storefronts);
+    console.log(storefrontsMenuItems);
 
     return {
         storefrontsNames: storefrontsNames,
+        storefrontsMenuItems: storefrontsMenuItems,
     };
 }
 

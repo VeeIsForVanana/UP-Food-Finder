@@ -45,6 +45,9 @@ class Storefront {
     getStoreName() {
         return this.storeName;
     }
+    getMenu() {
+        return this.menu;
+    }
 }
 
 class MenuItem {
@@ -138,6 +141,10 @@ export function updateStorefront(
         // Handle the case where the index is out of bounds
         console.error("Index out of bounds in updateStorefront");
     }
+}
+
+export function getStorefrontsMenuItems(storefronts: Storefront[]) {
+    return storefronts.map(storefront => storefront.getMenu());
 }
 
 export function getVendors() {

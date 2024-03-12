@@ -1,8 +1,26 @@
 <script lang="ts">
     /** @type {import('./$types').PageData} */
+    import { onMount } from 'svelte';
 
     export let form: any;
     export let data: any;
+
+    let selectedStorefrontIndex = 0;
+    let selectedStorefront = "";
+    console.log("Selected");
+    console.log(selectedStorefront);
+    let selectedStorefrontMenu : any = [];
+
+    onMount(() => {
+        // Initialize selectedStorefront if storefrontsNames has initial values
+        if (data.storefrontsNames.length > 0) {
+            selectedStorefront = data.storefrontsNames[selectedStorefrontIndex];
+        }
+    });
+
+    function handleSelectChange(event: any) {
+        selectedStorefrontIndex = event.target.selectedIndex - 1;
+    }
 
     let store_name = "";
     let menu = [
@@ -18,6 +36,7 @@
     
     console.log("TESTING");
     console.log(data.storefrontsNames);
+    console.log(data.storefrontsMenuItems);
     
 </script>
 
@@ -49,7 +68,7 @@
         {#if data.storefrontsNames.length == 0}
             <input class="input" name="storefront" type="text" required/>
         {:else}
-            <select class="select" name="storefront" form="storefrontManagement" required>
+            <select class="select" name="storefront" form="storefrontManagement" required bind:value={selectedStorefront} on:change={handleSelectChange}>
                 <option value="">Select a storefront...</option> <!-- Placeholder option -->
                 {#each data.storefrontsNames as storefront}
                     <option value={storefront}> {@html storefront} </option> 
@@ -64,6 +83,12 @@
     </div>
     <div class="input_div">
         <h2 id="menu">Menu Items</h2>
+        <!-- Display selected storefront menu items -->
+        <ul>
+            {#each selectedStorefrontMenu as menuItem}
+                <li>{menuItem.foodName} - {menuItem.price}</li>
+            {/each}
+        </ul>
         <div class="menu_names">
             <h3 id="menu_names_header">Name</h3>
             {#each menu as menu_item, i}
