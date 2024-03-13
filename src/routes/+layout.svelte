@@ -7,7 +7,7 @@
 
 
 <AppShell>
-	<svelte:fragment slot="header"><AppBar background="bg-gradient-to-bl from-secondary-400 to-primary-400"><h4 class="h4">UP Food Finder</h4></AppBar></svelte:fragment>
+	<svelte:fragment slot="header"><AppBar background="bg-surface-50 text-primary-500"><h4 class="h4">UP Food Finder</h4></AppBar></svelte:fragment>
 	<!-- (sidebarLeft) -->
 	<!-- (sidebarRight) -->
 	<!-- (pageHeader) -->

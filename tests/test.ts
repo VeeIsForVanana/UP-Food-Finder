@@ -7,7 +7,7 @@ test('index page has expected h1', async ({ page }) => {
 
 test('vendor page has expected label', async ({ page }) => {
 	await page.goto('/vendor_form');
-	await expect(page.getByRole('heading', { name: 'Vendor Account Creation Form'})).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Create your vendor account'})).toBeVisible();
 });
 
 test('vendor page submission with empty fields results in no greeting message', async ({ page }) => {
