@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, updateStorefront, getVendorStorefronts, vendors, getStorefrontsMenuItems} from '$lib/server/database';
+import { getStorefronts, updateStorefront, getVendorStorefronts, vendors, getStorefrontsMenuItems, deleteStorefront} from '$lib/server/database';
 
 // sample vendor as owner
 let vendor = vendors[0];
@@ -11,6 +11,9 @@ export function load() {
 
     console.log("page.server.ts load");
     console.log(vendor);
+
+    console.log("Storefronts in Database");
+    console.log(getStorefronts());
 
     let storefrontsNames = storefronts.map(storefront => storefront.getStoreName());
     console.log("Storefronts owned by Vendor");
@@ -30,14 +33,21 @@ export const actions = {
     updateStorefront: async ({ request }: any) => {
         console.log("page.server.ts actions");
         const formData: FormData = await request.formData();
-        const index = formData.get('selectedStorefrontIndex');
-        const storeName = String(formData.get("storename"));
+        const deleteStorefrontBoolean = Boolean(formData.get('deleteStorefrontBoolean'));
+        const index = Number(formData.get('selectedStorefrontIndex'));
         console.log("INDEX");
         console.log(index);
+
+        if (deleteStorefrontBoolean) {
+            deleteStorefront(vendor, index);
+            return { storefrontDeleteSuccess: true }; 
+        }
+
+        const storeName = String(formData.get("storename"));
         const owner = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
-        let menu = [];
 
+        let menu = [];
         for (let i = 0; i < menuItemCount; i++) {
             menu = menu.concat(
                 {
@@ -50,7 +60,7 @@ export const actions = {
         console.log(menu);
 
         updateStorefront(
-            Number(index),
+            index,
             storeName,
             owner,
             menu,

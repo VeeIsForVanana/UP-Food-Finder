@@ -6,7 +6,8 @@
 
     let selectedStorefrontIndex = 0;
     let selectedStorefront = "";
-    let selectedStorefrontMenu : any = []; 
+    let selectedStorefrontMenu : any = [];
+    let deleteStorefrontBoolean = false;
     console.log("page.svelte script")
     console.log("Menu of selected storefront:");
     console.log(selectedStorefrontMenu);
@@ -23,10 +24,13 @@
         console.log(selectedStorefront);
     }
 
+    function handleDeleteStorefront() {
+        console.log("Handling delete storefront...");
+        deleteStorefrontBoolean = true;
+    }
+
     let store_name = "";
     let menu = selectedStorefrontMenu;
-    //     {foodName:"item 0", price:0},
-    // ];
 
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0});
@@ -51,6 +55,10 @@
 <div class="vendor_name">
     <a href="/vendor_form">testUser</a>
 </div>
+
+{#if form?.storefrontDeleteSuccess}
+    <h2 id="storeDeleted">The storefront was successfully deleted.</h2>
+{/if}
 
 {#if form?.storefrontUpdateSuccess}
     <h2 id="storeUpdated">The storefront was updated successfully.</h2>
@@ -105,21 +113,24 @@
         </div>
     </div>
     
-<input type="hidden" name="selectedStorefrontIndex" value={selectedStorefrontIndex} />
-
+<input type="hidden" name="selectedStorefrontIndex" bind:value={selectedStorefrontIndex} />
+<input type="hidden" name="deleteStorefrontBoolean" bind:value={deleteStorefrontBoolean} />
     <div>
         <button>Submit</button>
     </div>
+    <div>
+        <button on:click= {handleDeleteStorefront}>Delete Storefront</button>
+    </div>
 </form>
-
 <div>
     <button on:click={add_menu_item}>Add menu item (can add more after creation)</button>
 </div>
 <div>
     <button on:click={remove_menu_item}>Remove menu item</button>
+</div>
+<div>
     <a href="/storefront_form">Create New Storefront</a>
 </div>
-
 
 
 <style>
@@ -152,6 +163,10 @@
         width: 25%;
     }
 
+    #storeDeleted {
+        color: red;
+    }
+    
     #storeUpdated {
         color: green;
     }

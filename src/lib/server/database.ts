@@ -21,11 +21,9 @@ class Vendor {
     getStorefronts() {
         return this.storefronts;
     }
-    // wala pa
     addStorefront(storefront: Storefront) {
         this.storefronts.push(storefront);
     }
-    // wala pa
     removeStorefront(index: number) {
         if (index >= 0 && index < this.storefronts.length) {
             this.storefronts.splice(index, 1);
@@ -125,6 +123,17 @@ export function getStorefrontsFromNames(storeNames: string[]) {
 
 export function getVendorStorefronts(vendor: Vendor): Storefront[] {
     return vendor.getStorefronts();
+}
+
+export function addStorefrontToVendor(vendor: Vendor, storefront: Storefront) {
+    vendor.addStorefront(storefront);
+}
+
+export function deleteStorefront(vendor: Vendor, index: number) {
+    // Remove the storefront from the list of all storefronts
+    storefronts.splice(storefronts.indexOf(vendor.getStorefronts()[index]), 1);
+    // Remove the storefront from Vendor
+    vendor.removeStorefront(index);
 }
 
 export function updateStorefront(
