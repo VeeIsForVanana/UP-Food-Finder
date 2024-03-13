@@ -1,3 +1,5 @@
+import { coordinates } from '$lib/server/database';
+
 class Vendor {
 
     constructor (
@@ -19,6 +21,7 @@ class Storefront {
         private storeName: string,
         private owner: Vendor,
         private menu: MenuItem[],
+        private coords: coordinates,
     ) {}
 }
 
@@ -67,11 +70,13 @@ export function registerStorefront(
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
+    coords: coordinates,
 ) {
     let newStorefront = new Storefront (
         storeName,
         owner,
         menu,
+        coords,
     )
 
     storefronts.push(newStorefront);
