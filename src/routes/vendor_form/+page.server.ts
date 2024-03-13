@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getVendors, registerVendor, isPhoneNumberExists } from '$lib/server/database';
+import { getVendors, registerVendor, isPhoneNumberExists, isUsernameExists } from '$lib/server/database';
 
 export const actions = {
     registerVendor: async ({ request }: any) => {
@@ -22,6 +22,13 @@ export const actions = {
             }
         });
         
+        // Check if username already exists in the database
+        const usernameExists = await isUsernameExists(username);
+        if (usernameExists) {
+            failure = true;
+            data.usernameExists = true;
+        }
+
         // Check if phone number already exists in the database
         const phoneNumberExists = await isPhoneNumberExists(phoneNumber);
         if (phoneNumberExists) {

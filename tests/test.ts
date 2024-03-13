@@ -7,11 +7,20 @@ test('index page has expected h1', async ({ page }) => {
 
 test('vendor page has expected label', async ({ page }) => {
 	await page.goto('/vendor_form');
-	await expect(page.getByRole('heading', { name: 'Vendor Account Creation Form'})).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'Create your vendor account'})).toBeVisible();
 });
 
 test('vendor page submission with empty fields results in no greeting message', async ({ page }) => {
 	await page.goto('/vendor_form');
+	await page.locator("[type=submit]").click();
+	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
+});
+
+test('empty field for security question answer results in no greeting message', async ({ page }) => {
+	await page.goto('/vendor_form');
+	await page.locator("[name=username]").fill("username");
+	await page.locator("[name=password]").fill("password");
+	await page.locator("[name=phone_number]").fill("09123456788");
 	await page.locator("[type=submit]").click();
 	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
 });
@@ -45,6 +54,19 @@ test.describe('vendor page submission with defective password results in error m
 		await page.locator("[name=security_a]").fill("security answer");
 		await page.locator("[type=submit]").click();
 		await expect(page.getByText("Password must be between 8 and 32 characters long.")).toBeVisible();
+    });
+});
+
+test.describe('vendor page submission with username already existing in database results in error message', () => {
+	test('username exists', async ({ page }) => {
+		await page.goto('/vendor_form');
+		await page.locator("[name=username]").fill("upfoodfinder");
+		await page.locator("[name=password]").fill("password");
+		await page.locator("[name=phone_number]").fill("01234567899");
+		await page.locator("[name=security_a]").fill("security answer");
+		await page.locator("[type=submit]").click();
+		await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
+		await expect(page.getByText("Username is already registered. Please choose a different one.")).toBeVisible();
     });
 });
 
