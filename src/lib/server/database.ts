@@ -1,4 +1,4 @@
-import { coordinates } from '$lib/server/database';
+import { coordinates } from '$lib/constants';
 
 class Vendor {
 
