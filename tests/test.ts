@@ -16,6 +16,15 @@ test('vendor page submission with empty fields results in no greeting message', 
 	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
 });
 
+test('empty field for security question answer results in no greeting message', async ({ page }) => {
+	await page.goto('/vendor_form');
+	await page.locator("[name=username]").fill("username");
+	await page.locator("[name=password]").fill("password");
+	await page.locator("[name=phone_number]").fill("09123456788");
+	await page.locator("[type=submit]").click();
+	await expect(page.getByRole('heading', { name: "Congratulations, you are now a vendor." })).toBeHidden();
+});
+
 test('vendor page submission with correctly filled fields results in congratulatory message', async ({ page }) => {
 	await page.goto('/vendor_form');
 	await page.locator("[name=username]").fill("username");
