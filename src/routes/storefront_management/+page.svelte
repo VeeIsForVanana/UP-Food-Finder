@@ -75,7 +75,7 @@
     <div class="input_div">
         <label for="storename">Store name</label>
         {#if data.storefrontsNames.length == 0}
-            <input class="input" name="storename" type="text" required/>
+            <input class="input" name="storename" value="No storefronts available. To manage storefronts, please create one." type="text" readonly/>
         {:else}
             <select class="select" name="storename"  bind:value={selectedStorefront} on:input={handleSelectChange} required > 
                 <option value="">Select a storefront...</option> <!-- Placeholder option -->
@@ -84,6 +84,10 @@
                 {/each}
             </select>
         {/if}
+    </div>
+    <div class="input_div">
+        <label for="new_storename">Rename Storefront</label>
+        <input class="input" name="new_storename" placeholder="To keep the current name, leave this field blank." type="text"/>
     </div>
     <div class="input_div">
         <h2 id="menu">Menu Items</h2>
@@ -153,20 +157,16 @@
         text-align: right;
     }
 
-    .menu_names {
+    .menu_prices, .menu_names {
         float: left;
         width: 25%;
-    }
-
-    .menu_prices {
-        float: left;
-        width: 25%;
+        min-height: 200px;
     }
 
     #storeDeleted {
         color: red;
     }
-    
+
     #storeUpdated {
         color: green;
     }

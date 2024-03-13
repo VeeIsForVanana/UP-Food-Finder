@@ -3,7 +3,7 @@ import { getStorefronts, updateStorefront, getVendorStorefronts, vendors, getSto
 
 // sample vendor as owner
 let vendor = vendors[0];
-const NON_MENU = 2; // number of fields in form not for menu
+const NON_MENU = 4; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
@@ -33,17 +33,25 @@ export const actions = {
     updateStorefront: async ({ request }: any) => {
         console.log("page.server.ts actions");
         const formData: FormData = await request.formData();
-        const deleteStorefrontBoolean = Boolean(formData.get('deleteStorefrontBoolean'));
+        const deleteStorefrontBoolean = formData.get('deleteStorefrontBoolean') === "true";
         const index = Number(formData.get('selectedStorefrontIndex'));
         console.log("INDEX");
         console.log(index);
-
         if (deleteStorefrontBoolean) {
+            console.log("DELETING STOREFRONT");
             deleteStorefront(vendor, index);
             return { storefrontDeleteSuccess: true }; 
         }
 
-        const storeName = String(formData.get("storename"));
+        const renameStorefront = String(formData.get('new_storename'));
+        let storeName;
+        if (renameStorefront) {
+            storeName = String(formData.get("new_storename"));
+        }
+        else {
+            storeName = String(formData.get("storename"));
+        }
+        
         const owner = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
 
