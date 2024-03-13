@@ -1,15 +1,26 @@
 <script lang="ts">
-    /** @type {import('./$types').PageData} */
     import { onMount } from 'svelte';
+    /** @type {import('./$types').PageData} */
 
     export let form: any;
     export let data: any;
 
     let selectedStorefrontIndex = 0;
     let selectedStorefront = "";
-    console.log("Selected");
-    console.log(selectedStorefront);
-    let selectedStorefrontMenu : any = [];
+    let selectedStorefrontMenu : any = data.storefrontsMenuItems[1] || []; // sample cause i cant get it to work
+    console.log("Selected1");
+    console.log(selectedStorefrontMenu);
+
+    function handleSelectChange(event: any) {
+        console.log("Selected2");
+        selectedStorefrontIndex = event.target.selectedIndex - 1;
+        if (data.storefrontsNames.length > 0) {
+            selectedStorefront = data.storefrontsNames[selectedStorefrontIndex];
+            selectedStorefrontMenu = data.storefrontsMenuItems[selectedStorefrontIndex] || [];
+        }
+        console.log("Selected2");
+        console.log(selectedStorefront);
+    }
 
     onMount(() => {
         // Initialize selectedStorefront if storefrontsNames has initial values
@@ -18,14 +29,10 @@
         }
     });
 
-    function handleSelectChange(event: any) {
-        selectedStorefrontIndex = event.target.selectedIndex - 1;
-    }
-
     let store_name = "";
-    let menu = [
-        {foodName:"item 0", price:0},
-    ];
+    let menu = selectedStorefrontMenu;
+    //     {foodName:"item 0", price:0},
+    // ];
 
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0});
@@ -68,7 +75,7 @@
         {#if data.storefrontsNames.length == 0}
             <input class="input" name="storefront" type="text" required/>
         {:else}
-            <select class="select" name="storefront" form="storefrontManagement" required bind:value={selectedStorefront} on:change={handleSelectChange}>
+            <select class="select" name="storefront"  bind:value={selectedStorefront} on:input={handleSelectChange} required > 
                 <option value="">Select a storefront...</option> <!-- Placeholder option -->
                 {#each data.storefrontsNames as storefront}
                     <option value={storefront}> {@html storefront} </option> 
@@ -84,14 +91,14 @@
     <div class="input_div">
         <h2 id="menu">Menu Items</h2>
         <!-- Display selected storefront menu items -->
-        <ul>
+        <!-- <ul>
             {#each selectedStorefrontMenu as menuItem}
                 <li>{menuItem.foodName} - {menuItem.price}</li>
             {/each}
-        </ul>
+        </ul> -->
         <div class="menu_names">
             <h3 id="menu_names_header">Name</h3>
-            {#each menu as menu_item, i}
+            {#each selectedStorefrontMenu as menu_item, i}
                 <div class="input_div">
                     <input  name="menu_name_{i}"
                             type="text"
@@ -103,7 +110,7 @@
         </div>
         <div class="menu_prices">
             <h3 id="menu_prices_header">Price</h3>
-            {#each menu as menu_item, i}
+            {#each selectedStorefrontMenu as menu_item, i}
                 <div class="input_div">
                     <input  name="menu_price_{i}"
                             type="number"
