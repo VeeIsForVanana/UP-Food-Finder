@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, registerStorefront, vendors, coordinates } from '$lib/server/database';
+import { getStorefronts, registerStorefront, vendors} from '$lib/server/database';
+import { coordinates } from '$lib/constants';
 
 // sample vendor as owner
 let vendor = vendors[0];
