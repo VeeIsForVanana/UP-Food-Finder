@@ -99,15 +99,15 @@
         </div>
     </div>
     <div>
-        <button>Submit</button>
+        <button name="submit">Submit</button>
     </div>
 </form>
 
 <div>
-    <button on:click={add_menu_item}>Add menu item (can add more after creation)</button>
+    <button on:click={add_menu_item} name="add_menu">Add menu item (can add more after creation)</button>
 </div>
 <div>
-    <button on:click={remove_menu_item}>Remove menu item</button>
+    <button on:click={remove_menu_item} name="remove_menu">Remove menu item</button>
 </div>
 
 <div id="map"></div>
