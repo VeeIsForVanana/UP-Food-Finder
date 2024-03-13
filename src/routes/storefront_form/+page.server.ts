@@ -30,5 +30,7 @@ export const actions = {
         )
 
         console.log(getStorefronts());
+
+        return { storeRegistrationSuccess: true };
     }
 }
