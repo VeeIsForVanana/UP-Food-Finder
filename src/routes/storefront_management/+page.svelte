@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
     /** @type {import('./$types').PageData} */
 
     export let form: any;
@@ -7,7 +6,7 @@
 
     let selectedStorefrontIndex = 0;
     let selectedStorefront = "";
-    let selectedStorefrontMenu : any = data.storefrontsMenuItems[selectedStorefrontIndex] || []; // sample cause i cant get it to work
+    let selectedStorefrontMenu : any = []; 
     console.log("page.svelte script")
     console.log("Menu of selected storefront:");
     console.log(selectedStorefrontMenu);
@@ -18,17 +17,11 @@
         if (data.storefrontsNames.length > 0) {
             selectedStorefront = data.storefrontsNames[selectedStorefrontIndex];
             selectedStorefrontMenu = data.storefrontsMenuItems[selectedStorefrontIndex] || [];
+            menu = selectedStorefrontMenu;
         }
         console.log("Selected storefront:");
         console.log(selectedStorefront);
     }
-
-    // onMount(() => {
-    //     // Initialize selectedStorefront if storefrontsNames has initial values
-    //     if (data.storefrontsNames.length > 0) {
-    //         selectedStorefront = data.storefrontsNames[selectedStorefrontIndex];
-    //     }
-    // });
 
     let store_name = "";
     let menu = selectedStorefrontMenu;
@@ -83,23 +76,12 @@
                 {/each}
             </select>
         {/if}
-        <!-- <input  name="storename"
-                type="text"
-                bind:value={store_name}
-                required
-                /> -->
     </div>
     <div class="input_div">
         <h2 id="menu">Menu Items</h2>
-        <!-- Display selected storefront menu items -->
-        <!-- <ul>
-            {#each selectedStorefrontMenu as menuItem}
-                <li>{menuItem.foodName} - {menuItem.price}</li>
-            {/each}
-        </ul> -->
         <div class="menu_names">
             <h3 id="menu_names_header">Name</h3>
-            {#each selectedStorefrontMenu as menu_item, i}
+            {#each menu as menu_item, i}
                 <div class="input_div">
                     <input  name="menu_name_{i}"
                             type="text"
@@ -111,7 +93,7 @@
         </div>
         <div class="menu_prices">
             <h3 id="menu_prices_header">Price</h3>
-            {#each selectedStorefrontMenu as menu_item, i}
+            {#each menu as menu_item, i}
                 <div class="input_div">
                     <input  name="menu_price_{i}"
                             type="number"
@@ -135,10 +117,9 @@
 </div>
 <div>
     <button on:click={remove_menu_item}>Remove menu item</button>
-</div>
-<div>
     <a href="/storefront_form">Create New Storefront</a>
 </div>
+
 
 
 <style>

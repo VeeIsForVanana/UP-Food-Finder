@@ -98,6 +98,7 @@ export function registerVendor(
 
 export function isUsernameExists(username: string) {
     return vendors.some((vendor) => vendor.getUsername() === username);
+}
 
 export function registerStorefront(
     storeName: string,
