@@ -17,7 +17,24 @@ class Vendor {
     }
 }
 
-let vendors: Vendor[] = [
+class Storefront {
+
+    constructor (
+        private storeName: string,
+        private owner: Vendor,
+        private menu: MenuItem[],
+    ) {}
+}
+
+class MenuItem {
+
+    constructor (
+        private foodName: string,
+        private price: number,
+    ) {}
+}
+
+export let vendors: Vendor[] = [
     // Sample Vendor for Testing
     new Vendor(
     "upfoodfinder",         // username
@@ -26,6 +43,10 @@ let vendors: Vendor[] = [
     "What is your mother's maiden name?",     // securityQuestion
     "testAnswer"        // securityQAnswer
     )
+];
+
+let storefronts: Storefront[] = [
+
 ];
 
 export function registerVendor(
@@ -46,8 +67,22 @@ export function registerVendor(
     vendors.push(newVendor);
 }
 
+
 export function isUsernameExists(username: string) {
     return vendors.some((vendor) => vendor.getUsername() === username);
+
+export function registerStorefront(
+    storeName: string,
+    owner: Vendor,
+    menu: MenuItem[],
+) {
+    let newStorefront = new Storefront (
+        storeName,
+        owner,
+        menu,
+    )
+
+    storefronts.push(newStorefront);
 }
 
 export function isPhoneNumberExists(phoneNumber: string) {
@@ -56,4 +91,8 @@ export function isPhoneNumberExists(phoneNumber: string) {
 
 export function getVendors() {
     return structuredClone(vendors);
+}
+
+export function getStorefronts() {
+    return structuredClone(storefronts);
 }

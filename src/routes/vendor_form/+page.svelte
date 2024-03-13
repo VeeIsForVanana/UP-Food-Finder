@@ -39,14 +39,16 @@
 <form method="post" action="?/registerVendor" id="vendorRegistration">
     <div class="input_div">
         <label for="username">Username</label>
-        <input  name="username"
+        <input  class="input"
+                name="username"
                 type="text"
                 required/>
     </div>
 
     <div class="input_div">
         <label for="password">Password</label>
-        <input  name="password"
+        <input  class="input" 
+                name="password"
                 type="password"
                 required/>
     </div>
@@ -54,7 +56,8 @@
     <div class="input_div">
         <label for="phone_number">Phone Number</label>
         <!-- requires format 0XXXXXXXXXX -->
-        <input  name="phone_number"
+        <input  class="input"
+                name="phone_number"
                 type="tel"
                 placeholder="0XXXXXXXXXX"
                 title="0XXXXXXXXXX"
@@ -65,13 +68,14 @@
         <label for="security_q">Security Question</label>
         <!-- no fixed security questions, let user type their own -->
         {#if data.securityQuestionsList.length == 0}
-            <input  name="security_q"
+            <input  class="input"
+                    name="security_q"
                     type="text"
                     required/>
         
         <!-- display each security question in list -->
         {:else}
-            <select name="security_q" form="vendorRegistration" required>
+            <select class="select" name="security_q" form="vendorRegistration" required>
                 {#each data.securityQuestionsList as securityQuestion}
                     <option value={securityQuestion}> {@html securityQuestion} </option> 
                 {/each}
@@ -81,13 +85,15 @@
 
     <div class="input_div">
         <label for="security_a">Security Question Answer</label>
-        <input  name="security_a"
+        <input  class="input"
+                name="security_a"
                 type="text"
                 required/>
     </div>
 
     <div class="input_div">
-        <input  id="submission"
+        <input  class="input"
+                id="submission"
                 type="submit"
                 disabled={form?.registrationSuccess}/>
     </div>

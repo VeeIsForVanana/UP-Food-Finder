@@ -4,8 +4,8 @@ import { getVendors, registerVendor, isPhoneNumberExists, isUsernameExists } fro
 export const actions = {
     registerVendor: async ({ request }: any) => {
         // get form data, variables based on page.svelte, input tag, name attribute
-        const formData: FormData = await request.formData()
-        const username = String(formData.get("username"))
+        const formData: FormData = await request.formData();
+        const username = String(formData.get("username"));
         const password = String(formData.get("password"));
         const phoneNumber = String(formData.get("phone_number"));
         const securityQuestion = String(formData.get("security_q"));
