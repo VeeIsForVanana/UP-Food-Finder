@@ -1,9 +1,10 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, updateStorefront, getVendorStorefronts, vendors, getStorefrontsMenuItems, deleteStorefront} from '$lib/server/database';
+import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront} from '$lib/server/database';
+import { get } from 'https';
 
 // sample vendor as owner
 let vendor = vendors[0];
-const NON_MENU = 4; // number of fields in form not for menu
+const NON_MENU = 6; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
@@ -23,9 +24,12 @@ export function load() {
     console.log("Menu items of storefronts owned by Vendor");
     console.log(storefrontsMenuItems);
 
+    let storefrontsCoords = getStorefrontsCoords(storefronts);
+
     return {
         storefrontsNames: storefrontsNames,
         storefrontsMenuItems: storefrontsMenuItems,
+        storefrontsCoords: storefrontsCoords
     };
 }
 
@@ -54,6 +58,9 @@ export const actions = {
         
         const owner = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
+        const xcoords = formData.get("new_xcoords");
+        const ycoords = formData.get("new_ycoords");
+        const coords : [number, number] = [xcoords ? +xcoords : 0, ycoords ? +ycoords : 0];
 
         let menu = [];
         for (let i = 0; i < menuItemCount; i++) {
@@ -72,6 +79,7 @@ export const actions = {
             storeName,
             owner,
             menu,
+            coords
         )
         console.log("Storefronts in database:");        
         console.log(getStorefronts());

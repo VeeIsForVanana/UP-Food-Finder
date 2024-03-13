@@ -7,6 +7,7 @@
     let selectedStorefrontIndex = 0;
     let selectedStorefront = "";
     let selectedStorefrontMenu : any = [];
+    let selectedStorefrontCoords = [0,0];
     let deleteStorefrontBoolean = false;
     console.log("page.svelte script")
     console.log("Menu of selected storefront:");
@@ -18,6 +19,7 @@
         if (data.storefrontsNames.length > 0) {
             selectedStorefront = data.storefrontsNames[selectedStorefrontIndex];
             selectedStorefrontMenu = data.storefrontsMenuItems[selectedStorefrontIndex] || [];
+            selectedStorefrontCoords = data.storefrontsCoords[selectedStorefrontIndex] || [0,0];
             menu = selectedStorefrontMenu;
         }
         console.log("Selected storefront:");
@@ -88,6 +90,14 @@
     <div class="input_div">
         <label for="new_storename">Rename Storefront</label>
         <input class="input" name="new_storename" placeholder="To keep the current name, leave this field blank." type="text"/>
+    </div>
+    <div class="input_div">
+        <label for="new_xcoords">Update X-coordinates</label>
+        <input class="input" name="new_xcoords" bind:value={selectedStorefrontCoords[0]} type="number" step="0.001" required/>
+    </div>
+    <div class="input_div">
+        <label for="new_ycoords">Update Y-coordinates</label>
+        <input class="input" name="new_ycoords" bind:value={selectedStorefrontCoords[1]} type="number" step="0.001" required/>
     </div>
     <div class="input_div">
         <h2 id="menu">Menu Items</h2>

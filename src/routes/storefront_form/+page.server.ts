@@ -4,7 +4,7 @@ import { coordinates } from '$lib/constants';
 
 // sample vendor as owner
 let vendor = vendors[0];
-const NON_MENU = 1; // number of fields in form not for menu
+const NON_MENU = 4; // number of fields in form not for menu
 
 export const actions = {
     registerStorefront: async ({ request }: any) => {
@@ -31,6 +31,7 @@ export const actions = {
                 storeName,
                 owner,
                 menu,
+                storeCoords
             )
         );
 
