@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, registerStorefront, vendors} from '$lib/server/database';
+import { getStorefronts, registerStorefront, getVendorStorefronts, vendors, addStorefrontToVendor } from '$lib/server/database';
 import { coordinates } from '$lib/constants';
 
 // sample vendor as owner
@@ -25,14 +25,20 @@ export const actions = {
         }
         console.log(menu);
 
-        registerStorefront(
-            storeName,
+        addStorefrontToVendor(
             owner,
-            menu,
-            storeCoords,
-        )
+            registerStorefront(
+                storeName,
+                owner,
+                menu,
+            )
+        );
 
         console.log(getStorefronts());
+        console.log("Storefronts in database END");
+        console.log("Storefronts owned by Vendor:");
+        console.log(getVendorStorefronts(vendor));
+        console.log("Storefronts owned by Vendor END");
 
         return { storeRegistrationSuccess: true };
     }
