@@ -53,6 +53,9 @@ class Storefront {
     getMenu() {
         return this.menu;
     }
+    getCoords() {
+        return this.coords;
+    }
 }
 
 class MenuItem {
@@ -105,7 +108,7 @@ export function registerStorefront(
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
-    coords: coordinates,
+    coords: coordinates
 ) {
     let newStorefront = new Storefront (
         storeName,
@@ -146,28 +149,29 @@ export function updateStorefront(
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
+    coords: coordinates
 ) {
-    if (index >= 0 && index < storefronts.length) {
-        // Update the storefront at the specified index
-        const updatedStorefront = new Storefront(storeName, owner, menu);
-        storefronts[storefronts.indexOf(owner.getStorefronts()[index])] = updatedStorefront;
+    // Update the storefront at the specified index
+    const updatedStorefront = new Storefront(storeName, owner, menu, coords);
+    storefronts[storefronts.indexOf(owner.getStorefronts()[index])] = updatedStorefront;
 
-        // Update the corresponding storefront in the Vendor object's list of storefronts
-        const vendorStorefronts = owner.getStorefronts();
-        if (index >= 0 && index < vendorStorefronts.length) {
-            vendorStorefronts[index] = updatedStorefront;
-        } else {
-            // Handle the case where the index is out of bounds
-            console.error("Index out of bounds in updateStorefront");
-        }
+    // Update the corresponding storefront in the Vendor object's list of storefronts
+    const vendorStorefronts = owner.getStorefronts();
+    if (index >= 0 && index < vendorStorefronts.length) {
+        vendorStorefronts[index] = updatedStorefront;
     } else {
         // Handle the case where the index is out of bounds
         console.error("Index out of bounds in updateStorefront");
     }
+
 }
 
 export function getStorefrontsMenuItems(storefronts: Storefront[]) {
     return storefronts.map(storefront => storefront.getMenu());
+}
+
+export function getStorefrontsCoords(storefronts: Storefront[]) {
+    return storefronts.map(storefront => storefront.getCoords());
 }
 
 export function getVendors() {
