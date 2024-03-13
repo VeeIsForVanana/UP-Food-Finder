@@ -7,27 +7,28 @@
 
     let selectedStorefrontIndex = 0;
     let selectedStorefront = "";
-    let selectedStorefrontMenu : any = data.storefrontsMenuItems[1] || []; // sample cause i cant get it to work
-    console.log("Selected1");
+    let selectedStorefrontMenu : any = data.storefrontsMenuItems[selectedStorefrontIndex] || []; // sample cause i cant get it to work
+    console.log("page.svelte script")
+    console.log("Menu of selected storefront:");
     console.log(selectedStorefrontMenu);
 
     function handleSelectChange(event: any) {
-        console.log("Selected2");
+        console.log("Handling select change...");
         selectedStorefrontIndex = event.target.selectedIndex - 1;
         if (data.storefrontsNames.length > 0) {
             selectedStorefront = data.storefrontsNames[selectedStorefrontIndex];
             selectedStorefrontMenu = data.storefrontsMenuItems[selectedStorefrontIndex] || [];
         }
-        console.log("Selected2");
+        console.log("Selected storefront:");
         console.log(selectedStorefront);
     }
 
-    onMount(() => {
-        // Initialize selectedStorefront if storefrontsNames has initial values
-        if (data.storefrontsNames.length > 0) {
-            selectedStorefront = data.storefrontsNames[selectedStorefrontIndex];
-        }
-    });
+    // onMount(() => {
+    //     // Initialize selectedStorefront if storefrontsNames has initial values
+    //     if (data.storefrontsNames.length > 0) {
+    //         selectedStorefront = data.storefrontsNames[selectedStorefrontIndex];
+    //     }
+    // });
 
     let store_name = "";
     let menu = selectedStorefrontMenu;
@@ -40,10 +41,10 @@
     function remove_menu_item() {
         menu = menu.slice(0, menu.length-1);
     }
-    
-    console.log("TESTING");
+    console.log("Data from server:");
     console.log(data.storefrontsNames);
     console.log(data.storefrontsMenuItems);
+    console.log("end of page.svelte script");
     
 </script>
 
@@ -73,9 +74,9 @@
     <div class="input_div">
         <label for="storename">Store name</label>
         {#if data.storefrontsNames.length == 0}
-            <input class="input" name="storefront" type="text" required/>
+            <input class="input" name="storename" type="text" required/>
         {:else}
-            <select class="select" name="storefront"  bind:value={selectedStorefront} on:input={handleSelectChange} required > 
+            <select class="select" name="storename"  bind:value={selectedStorefront} on:input={handleSelectChange} required > 
                 <option value="">Select a storefront...</option> <!-- Placeholder option -->
                 {#each data.storefrontsNames as storefront}
                     <option value={storefront}> {@html storefront} </option> 
@@ -121,6 +122,9 @@
             {/each}
         </div>
     </div>
+    
+<input type="hidden" name="selectedStorefrontIndex" value={selectedStorefrontIndex} />
+
     <div>
         <button>Submit</button>
     </div>
