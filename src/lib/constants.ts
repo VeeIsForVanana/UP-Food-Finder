@@ -1,4 +1,4 @@
-export const coordinates: readonly [number, number];
+export let coordinates: readonly [number, number];
 
 const SECURITY_QUESTIONS_LIST = [
     "What is your mother's maiden name?",
