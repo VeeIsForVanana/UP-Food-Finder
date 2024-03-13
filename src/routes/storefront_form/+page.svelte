@@ -1,15 +1,4 @@
-<svelte:head>
-<link   rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin=""/>
-</svelte:head>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""
-        lang="ts">
-
+<script lang="ts">
     /** @type {import('./$types').PageData} */
 
     export let form: any;
@@ -18,6 +7,8 @@
     let menu = [
         {foodName:"item 0", price:0},
     ];
+    let store_x_coord;
+    let store_y_coord;
 
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0});
@@ -26,8 +17,6 @@
         menu = menu.slice(0, menu.length-1);
     }
 
-    //import L from 'leaflet';
-    //var map = L.map('map').setView([51.505, -0.09], 13);
 </script>
 
 <head>
@@ -60,6 +49,28 @@
                 required
                 />
     </div>
+
+    <div class="input_div">
+        <label for="store_x">Store x coordinate</label>
+        <input  name="store_x"
+                type="number"
+                step="0.001"
+                bind:value={store_x_coord}
+                required
+                />
+    </div>
+
+    <div class="input_div">
+        <label for="store_y">Store y coordinate</label>
+        <input  name="store_y"
+                type="number"
+                step="0.001"
+                bind:value={store_y_coord}
+                required
+                />
+    </div>
+
+
     <div class="input_div">
         <h2 id="menu">Menu Items</h2>
         <div class="menu_names">
@@ -88,15 +99,15 @@
         </div>
     </div>
     <div>
-        <button>Submit</button>
+        <button name="submit">Submit</button>
     </div>
 </form>
 
 <div>
-    <button on:click={add_menu_item}>Add menu item (can add more after creation)</button>
+    <button on:click={add_menu_item} name="add_menu">Add menu item (can add more after creation)</button>
 </div>
 <div>
-    <button on:click={remove_menu_item}>Remove menu item</button>
+    <button on:click={remove_menu_item} name="remove_menu">Remove menu item</button>
 </div>
 
 <div id="map"></div>
