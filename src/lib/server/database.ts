@@ -7,6 +7,10 @@ class Vendor {
         private securityQuestion: string,
         private securityQAnswer: string,
     ) {}
+    
+    getUsername() {
+        return this.username;
+    }
 
     getPhoneNumber() {
         return this.phoneNumber;
@@ -33,7 +37,7 @@ class MenuItem {
 export let vendors: Vendor[] = [
     // Sample Vendor for Testing
     new Vendor(
-    "testUser",         // username
+    "upfoodfinder",         // username
     "testPassword",     // password
     "01234567890",       // phoneNumber
     "What is your mother's maiden name?",     // securityQuestion
@@ -62,6 +66,10 @@ export function registerVendor(
 
     vendors.push(newVendor);
 }
+
+
+export function isUsernameExists(username: string) {
+    return vendors.some((vendor) => vendor.getUsername() === username);
 
 export function registerStorefront(
     storeName: string,
