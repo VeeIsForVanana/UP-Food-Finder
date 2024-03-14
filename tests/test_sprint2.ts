@@ -211,5 +211,12 @@ test.describe('Successful update of storefront', () => {
 			fail("Option 'Fruit Juices' is not present in the dropdown");
 		}
 	});
+	
+	test('deleting a store', async ({ page }) => {
+		await page.goto('/storefront_management');
+		await page.locator("[name=storename]").selectOption("Fruit shakes1");
+		await page.locator("[name=delete_storefront]").click();
 
+		await expect(page.getByText("The storefront was successfully deleted.")).toBeVisible();
+	});
 });
