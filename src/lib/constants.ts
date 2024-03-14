@@ -1,3 +1,5 @@
+export type coordinates = readonly [number, number];
+
 const SECURITY_QUESTIONS_LIST = [
     "What is your mother's maiden name?",
     "What is your favorite pet's name?",
