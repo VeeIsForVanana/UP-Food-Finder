@@ -7,8 +7,8 @@
     let menu = [
         {foodName:"item 0", price:0},
     ];
-    let store_x_coord;
-    let store_y_coord;
+    let store_x_coord: Number;
+    let store_y_coord: Number;
 
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0});
@@ -96,6 +96,8 @@
                     <input  name="menu_price_{i}"
                             type="number"
                             bind:value={menu_item.price}
+                            step = "0.01"
+                            min = "0"
                             required
                             />
                 </div>
