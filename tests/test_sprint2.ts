@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import { a } from 'vitest/dist/suite-xGC-mxBC.js';
 
 test.describe('successful registration of new storefront', () => {
 	test('one menu item', async({ page }) => {
