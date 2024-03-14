@@ -45,28 +45,28 @@
     action="?/registerStorefront"
     id="storefrontRegistration">
 
-    <div class="input_div">
-        <label for="storename">Store name</label>
-        <input  name="storename"
+    <h2 id="storefront">Storefront Information</h2>
+    <div>
+        <label class="label" for="storename">Store name</label>
+        <input  class="input w-80"
+                name="storename"
                 type="text"
                 bind:value={store_name}
                 required
                 />
-    </div>
 
-    <div class="input_div">
-        <label for="store_x">Store x coordinate</label>
-        <input  name="store_x"
+        <label class="label" for="store_x">Store x coordinate</label>
+        <input  class="input w-80"
+                name="store_x"
                 type="number"
                 step="0.001"
                 bind:value={store_x_coord}
                 required
                 />
-    </div>
 
-    <div class="input_div">
-        <label for="store_y">Store y coordinate</label>
-        <input  name="store_y"
+        <label class="label" for="store_y">Store y coordinate</label>
+        <input  class="input w-80"
+                name="store_y"
                 type="number"
                 step="0.001"
                 bind:value={store_y_coord}
@@ -74,48 +74,42 @@
                 />
     </div>
 
+    <h2 id="menu">Menu Items</h2>
+    <div style="width:100%; display: flex;">
+        <div id="menu_items"  style="width:25%; flex:1">
+            <label class="label" for="menu_names">Name</label>
+            {#each menu as menu_item, i}
+                <input  class="input w-60"
+                        name="menu_name_{i}"
+                        type="text"
+                        bind:value={menu_item.foodName}
+                        required
+                        />
+            {/each}
+        </div>
 
-    <div class="input_div">
-        <h2 id="menu">Menu Items</h2>
-        <div class="menu_names">
-            <h3 id="menu_names_header">Name</h3>
+        <div id="menu_prices"  style="width:25%; flex:1">
+            <label class="label" for="menu_prices">Price</label>
             {#each menu as menu_item, i}
-                <div class="input_div">
-                    <input  name="menu_name_{i}"
-                            type="text"
-                            bind:value={menu_item.foodName}
-                            required
-                            />
-                </div>
+                <input  class="input w-60"
+                        name="menu_price_{i}"
+                        type="number"
+                        bind:value={menu_item.price}
+                        required
+                        />
             {/each}
         </div>
-        <div class="menu_prices">
-            <h3 id="menu_prices_header">Price</h3>
-            {#each menu as menu_item, i}
-                <div class="input_div">
-                    <input  name="menu_price_{i}"
-                            type="number"
-                            bind:value={menu_item.price}
-                            required
-                            />
-                </div>
-            {/each}
+
+        <div id="buttons" style="width:50%; flex: 1;">
+            <button on:click={add_menu_item} class="input" name="add_menu" id="btn" style="width:200px; margin-top:10px">Add</button>
+            <button on:click={remove_menu_item} class="input" name="remove_menu" id="btn" style="width:200px; margin-top:10px">Remove</button>
+            <button class="input" name="submit" id="btn" style="width:200px; margin-top:10px">Submit</button>
+            <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
         </div>
     </div>
-    <div>
-        <button name="submit">Submit</button>
-    </div>
+
 </form>
-
-<div>
-    <button on:click={add_menu_item} name="add_menu">Add menu item (can add more after creation)</button>
-</div>
-<div>
-    <button on:click={remove_menu_item} name="remove_menu">Remove menu item</button>
-</div>
-<div>
-    <a href="/storefront_management">(temp) Storefront Management</a>
-</div>
+    
 
 <div id="map"></div>
 
@@ -126,10 +120,6 @@
 
     label {
         display: block;
-    }
-
-    .input_div {
-        margin: 10px;
     }
 
     .vendor_name {
