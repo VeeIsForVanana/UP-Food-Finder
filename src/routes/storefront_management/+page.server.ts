@@ -57,11 +57,13 @@ export const actions = {
         }
 
         // Start of error checking
+
         storeName.trim(); // remove leading and trailing whitespaces
         const storefrontExists = await isStorefrontNameExists(storeName);
-        if (storefrontExists) {
+        if (storefrontExists && renameStorefront) {
             return fail(400, { storeNameExists: true });
         } // check if any of the store name is taken
+
         // End of error checking
         
         const owner = vendor;
