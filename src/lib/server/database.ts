@@ -1,5 +1,5 @@
 //storefronts or stored twice, once in the Vendor class and another in the list fo all storefronts.
-import { coordinates } from '$lib/constants';
+import type { coordinates } from '$lib/constants';
 
 
 class Vendor {

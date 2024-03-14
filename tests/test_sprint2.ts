@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+import { a } from 'vitest/dist/suite-xGC-mxBC.js';
+import { fail } from 'assert';
 
 test.describe('successful registration of new storefront', () => {
 	test('one menu item', async({ page }) => {
@@ -22,8 +24,8 @@ test.describe('successful registration of new storefront', () => {
 		await page.locator("[name=menu_price_0]").fill("50");
 
 		await page.locator("[name=add_menu]").click();
-		await page.locator("[name=menu_name_0]").fill("Milo dinosaur");
-		await page.locator("[name=menu_price_0]").fill("150");
+		await page.locator("[name=menu_name_1]").fill("Milo dinosaur");
+		await page.locator("[name=menu_price_1]").fill("150");
 
 		await page.locator("[name=submit]").click();
 
@@ -39,8 +41,8 @@ test.describe('successful registration of new storefront', () => {
 		await page.locator("[name=menu_price_0]").fill("50");
 
 		await page.locator("[name=add_menu]").click();
-		await page.locator("[name=menu_name_0]").fill("Milo dinosaur");
-		await page.locator("[name=menu_price_0]").fill("150");
+		await page.locator("[name=menu_name_1]").fill("Milo dinosaur");
+		await page.locator("[name=menu_price_1]").fill("150");
 		await page.locator("[name=remove_menu]").click();
 
 		await page.locator("[name=submit]").click();
@@ -57,12 +59,12 @@ test.describe('successful registration of new storefront', () => {
 		await page.locator("[name=menu_price_0]").fill("50");
 
 		await page.locator("[name=add_menu]").click();
-		await page.locator("[name=menu_name_0]").fill("Milo dinosaur");
-		await page.locator("[name=menu_price_0]").fill("150");
+		await page.locator("[name=menu_name_1]").fill("Milo dinosaur");
+		await page.locator("[name=menu_price_1]").fill("150");
 
 		await page.locator("[name=add_menu]").click();
-		await page.locator("[name=menu_name_0]").fill("Strawberry banana");
-		await page.locator("[name=menu_price_0]").fill("80");
+		await page.locator("[name=menu_name_2]").fill("Strawberry banana");
+		await page.locator("[name=menu_price_2]").fill("80");
 
 		await page.locator("[name=submit]").click();
 
@@ -156,4 +158,58 @@ test.describe('unsuccessful update of storefront', () => {
 
 		await expect(page.getByText("Store name is already registered. Please choose a different one.")).toBeVisible();
 	}); // ALL changes should NOT push through
+});
+
+
+test.describe('Successful update of storefront', () => {
+	test('removing a menu item', async ({ page }) => {
+		await page.goto('/storefront_management');
+		await page.locator("[name=storename]").selectOption("Fruit shakes3");
+		await page.locator("[name=remove_menu]").click();
+		await page.locator("[name=submit]").click();
+		await page.locator("[name=storename]").selectOption("Fruit shakes3");
+
+		await expect(page.getByText("Strawberry banana")).toBeHidden();
+	});
+
+	test('updating menu item and coordinates', async ({ page }) => {
+		await page.goto('/storefront_management');
+		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.locator("[name=new_xcoords]").fill("789");
+		await page.locator("[name=new_ycoords]").fill("-987");
+		await page.locator("[name=menu_name_0]").fill("Strawberry banana");
+		await page.locator("[name=menu_price_0]").fill("80");
+		await page.locator("[name=submit]").click();
+		await page.locator("[name=storename]").selectOption("Fruit shakes");
+
+		await expect(page.locator("[name=new_xcoords]")).toHaveValue("789");
+		await expect(page.locator("[name=new_ycoords]")).toHaveValue("-987");
+		await expect(page.locator("[name=menu_name_0]")).toHaveValue("Strawberry banana");
+	});
+
+	test('adding a menu item', async ({ page }) => {
+		await page.goto('/storefront_management');
+		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.locator("[name=add_menu]").click();
+		await page.locator("[name=menu_name_1]").fill("Milo dinosaur");
+		await page.locator("[name=menu_price_1]").fill("150");
+		await page.locator("[name=submit]").click();
+		await page.locator("[name=storename]").selectOption("Fruit shakes");
+
+		await expect(page.locator("[name=menu_name_1]")).toHaveValue("Milo dinosaur");
+	});
+
+	test('updating store name', async ({ page }) => {
+		await page.goto('/storefront_management');
+		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.locator("[name=new_storename]").fill("Fruit Juices");
+		await page.locator("[name=submit]").click();
+
+		try {
+			await page.locator("[name=storename]").selectOption("Fruit Juices");
+		} catch (error) {
+			fail("Option 'Fruit Juices' is not present in the dropdown");
+		}
+	});
+
 });

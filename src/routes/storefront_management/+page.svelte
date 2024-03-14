@@ -9,6 +9,7 @@
     let selectedStorefrontMenu : any = [];
     let selectedStorefrontCoords = [0,0];
     let deleteStorefrontBoolean = false;
+
     console.log("page.svelte script")
     console.log("Menu of selected storefront:");
     console.log(selectedStorefrontMenu);
@@ -31,9 +32,7 @@
         deleteStorefrontBoolean = true;
     }
 
-    let store_name = "";
     let menu = selectedStorefrontMenu;
-
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0});
     }
@@ -68,10 +67,6 @@
 
 {#if form?.storeNameExists}
     <h2 id="error">Store name is already registered. Please choose a different one.</h2>
-{/if}
-
-{#if form?.missing}
-    <h2 id="error">Update failed, have you filled up all fields?</h2>
 {/if}
 
 <form
@@ -125,6 +120,8 @@
                     <input  name="menu_price_{i}"
                             type="number"
                             bind:value={menu_item.price}
+                            step = "0.01"
+                            min= "0"
                             required
                             />
                 </div>

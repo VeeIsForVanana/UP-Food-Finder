@@ -1,10 +1,10 @@
 import { fail } from '@sveltejs/kit';
 import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database';
-import { get } from 'https';
+import type { coordinates } from '$lib/constants';
 
 // sample vendor as owner
 let vendor = vendors[0];
-const NON_MENU = 6; // number of fields in form not for menu
+const NON_MENU = 7; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
@@ -37,10 +37,8 @@ export const actions = {
     updateStorefront: async ({ request }: any) => {
         console.log("page.server.ts actions");
         const formData: FormData = await request.formData();
-        const deleteStorefrontBoolean = formData.get('deleteStorefrontBoolean') === "true";
         const index = Number(formData.get('selectedStorefrontIndex'));
-        console.log("INDEX");
-        console.log(index);
+        const deleteStorefrontBoolean = formData.get('deleteStorefrontBoolean') === "true";
         if (deleteStorefrontBoolean) {
             console.log("DELETING STOREFRONT");
             deleteStorefront(vendor, index);
@@ -68,16 +66,14 @@ export const actions = {
         
         const owner = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
-        const xcoords = formData.get("new_xcoords");
-        const ycoords = formData.get("new_ycoords");
-        const coords : [number, number] = [xcoords ? +xcoords : 0, ycoords ? +ycoords : 0];
+        const coords: coordinates = [+formData.get("new_xcoords")!, +formData.get("new_ycoords")!];
 
-        let menu = [];
+        let menu : any[] = [];
         for (let i = 0; i < menuItemCount; i++) {
             menu = menu.concat(
                 {
                     foodName: formData.get(`menu_name_${i}`),
-                    price: formData.get(`menu_price_${i}`),
+                    price: +formData.get(`menu_price_${i}`)!,
                 }
             );
         }
@@ -91,6 +87,7 @@ export const actions = {
             menu,
             coords
         )
+
         console.log("Storefronts in database:");        
         console.log(getStorefronts());
         console.log("Storefronts of Vendor");
