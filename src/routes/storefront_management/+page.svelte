@@ -65,6 +65,11 @@
 {#if form?.storefrontUpdateSuccess}
     <h2 id="storeUpdated">The storefront was updated successfully.</h2>
 {/if}
+
+{#if form?.storeNameExists}
+    <h2 id="error">Store name is already registered. Please choose a different one.</h2>
+{/if}
+
 {#if form?.missing}
     <h2 id="error">Update failed, have you filled up all fields?</h2>
 {/if}
