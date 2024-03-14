@@ -92,6 +92,7 @@
             </select>
         {/if}
     </div>
+
     <div class="input_div">
         <label for="new_storename">Rename Storefront</label>
         <input class="input" name="new_storename" placeholder="To keep the current name, leave this field blank." type="text"/>
@@ -104,13 +105,15 @@
         <label for="new_ycoords">Update Y-coordinates</label>
         <input class="input" name="new_ycoords" bind:value={selectedStorefrontCoords[1]} type="number" step="0.001" required/>
     </div>
+
     <div class="input_div">
         <h2 id="menu">Menu Items</h2>
         <div class="menu_names">
-            <h3 id="menu_names_header">Name</h3>
+            <label class="label" for="menu_names">Name</label>
             {#each menu as menu_item, i}
                 <div class="input_div">
-                    <input  name="menu_name_{i}"
+                    <input  class="input"
+                            name="menu_name_{i}"
                             type="text"
                             bind:value={menu_item.foodName}
                             required
@@ -118,11 +121,13 @@
                 </div>
             {/each}
         </div>
+
         <div class="menu_prices">
-            <h3 id="menu_prices_header">Price</h3>
+            <label class="label" for="menu_prices">Price</label>
             {#each menu as menu_item, i}
                 <div class="input_div">
-                    <input  name="menu_price_{i}"
+                    <input  class="input"
+                            name="menu_price_{i}"
                             type="number"
                             bind:value={menu_item.price}
                             required
@@ -134,18 +139,20 @@
     
 <input type="hidden" name="selectedStorefrontIndex" bind:value={selectedStorefrontIndex} />
 <input type="hidden" name="deleteStorefrontBoolean" bind:value={deleteStorefrontBoolean} />
+
     <div>
-        <button name="submit">Submit</button>
+        <button name="submit" class="input" id="sf_btn">Submit</button>
     </div>
     <div>
-        <button on:click= {handleDeleteStorefront} name="delete_storefront">Delete Storefront</button>
+        <button on:click= {handleDeleteStorefront} name="delete_storefront" class="input" id="sf_btn">Delete Storefront</button>
     </div>
 </form>
+
 <div>
-    <button on:click={add_menu_item} name="add_menu">Add menu item (can add more after creation)</button>
+    <button on:click={add_menu_item} name="add_menu" class="input" id="sf_btn">Add menu item</button>
 </div>
 <div>
-    <button on:click={remove_menu_item} name="remove_menu">Remove menu item</button>
+    <button on:click={remove_menu_item} name="remove_menu" class="input" id="sf_btn">Remove menu item</button>
 </div>
 <div>
     <a href="/storefront_form">Create New Storefront</a>
@@ -175,7 +182,7 @@
     .menu_prices, .menu_names {
         float: left;
         width: 25%;
-        min-height: 200px;
+        min-height: 500px;
     }
 
     #storeDeleted {

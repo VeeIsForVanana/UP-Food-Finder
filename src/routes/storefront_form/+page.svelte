@@ -48,7 +48,7 @@
     <h2 id="storefront">Storefront Information</h2>
     <div>
         <label class="label" for="storename">Store name</label>
-        <input  class="input w-80"
+        <input  class="input"
                 name="storename"
                 type="text"
                 bind:value={store_name}
@@ -56,7 +56,7 @@
                 />
 
         <label class="label" for="store_x">Store x coordinate</label>
-        <input  class="input w-80"
+        <input  class="input"
                 name="store_x"
                 type="number"
                 step="0.001"
@@ -65,7 +65,7 @@
                 />
 
         <label class="label" for="store_y">Store y coordinate</label>
-        <input  class="input w-80"
+        <input  class="input"
                 name="store_y"
                 type="number"
                 step="0.001"
@@ -75,40 +75,56 @@
     </div>
 
     <h2 id="menu">Menu Items</h2>
-    <div style="width:100%; display: flex;">
-        <div id="menu_items"  style="width:25%; flex:1">
+    <div> <!-- style="width:100%; display: flex;" -->
+        <div class="menu_names"> <!-- style="width:25%; flex:1" -->
             <label class="label" for="menu_names">Name</label>
             {#each menu as menu_item, i}
-                <input  class="input w-60"
-                        name="menu_name_{i}"
-                        type="text"
-                        bind:value={menu_item.foodName}
-                        required
-                        />
+                <div>
+                    <input  class="input w-60"
+                            name="menu_name_{i}"
+                            type="text"
+                            bind:value={menu_item.foodName}
+                            required
+                            />
+                </div>
             {/each}
         </div>
 
-        <div id="menu_prices"  style="width:25%; flex:1">
+        <div class="menu_prices"> <!-- style="width:25%; flex:1" -->
             <label class="label" for="menu_prices">Price</label>
             {#each menu as menu_item, i}
-                <input  class="input w-60"
-                        name="menu_price_{i}"
-                        type="number"
-                        bind:value={menu_item.price}
-                        required
-                        />
+                <div>
+                    <input  class="input w-60"
+                            name="menu_price_{i}"
+                            type="number"
+                            bind:value={menu_item.price}
+                            required
+                            />
+                </div>
             {/each}
-        </div>
-
-        <div id="buttons" style="width:50%; flex: 1;">
-            <button on:click={add_menu_item} class="input" name="add_menu" id="btn" style="width:200px; margin-top:10px">Add</button>
-            <button on:click={remove_menu_item} class="input" name="remove_menu" id="btn" style="width:200px; margin-top:10px">Remove</button>
-            <button class="input" name="submit" id="btn" style="width:200px; margin-top:10px">Submit</button>
-            <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
         </div>
     </div>
 
+        <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
+            <button class="input" name="submit" id="sf_btn">Submit</button>
+        </div>
+    
 </form>
+
+<div>
+    <button on:click={add_menu_item} class="input" name="add_menu" id="sf_btn" >Add menu item</button>
+</div>
+
+<div>
+    <button on:click={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
+</div>
+
+<div>
+    <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
+</div>
+
+
+
     
 
 <div id="map"></div>
@@ -129,14 +145,10 @@
         text-align: right;
     }
 
-    .menu_names {
+    .menu_prices, .menu_names {
         float: left;
         width: 25%;
-    }
-
-    .menu_prices {
-        float: left;
-        width: 25%;
+        min-height: 500px;
     }
 
     #map {
