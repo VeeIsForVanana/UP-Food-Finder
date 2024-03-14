@@ -94,8 +94,8 @@ test.describe('unsuccessful registration of new storefront', () => {
 		await page.locator("[name=menu_price_0]").fill("50");
 
 		await page.locator("[name=add_menu]").click();
-		await page.locator("[name=menu_name_0]").fill("Milo dinosaur");
-		await page.locator("[name=menu_price_0]").fill("150");
+		await page.locator("[name=menu_name_1]").fill("Milo dinosaur");
+		await page.locator("[name=menu_price_1]").fill("150");
 
 		await page.locator("[name=submit]").click();
 
@@ -111,12 +111,12 @@ test.describe('unsuccessful registration of new storefront', () => {
 		await page.locator("[name=menu_price_0]").fill("50");
 
 		await page.locator("[name=add_menu]").click();
-		await page.locator("[name=menu_name_0]").fill("Milo dinosaur");
-		await page.locator("[name=menu_price_0]").fill("150");
+		await page.locator("[name=menu_name_1]").fill("Milo dinosaur");
+		await page.locator("[name=menu_price_1]").fill("150");
 
 		await page.locator("[name=add_menu]").click();
-		await page.locator("[name=menu_name_0]").fill("Strawberry banana");
-		await page.locator("[name=menu_price_0]").fill("80");
+		await page.locator("[name=menu_name_2]").fill("Strawberry banana");
+		await page.locator("[name=menu_price_2]").fill("80");
 
 		await page.locator("[name=submit]").click();
 
