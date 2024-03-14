@@ -6,7 +6,6 @@ name: Node.js CI
 on:
   push:
     branches: [ "main" ]
-    tags: [ "v" ]
   pull_request:
     branches: [ "main" ]
 
@@ -31,10 +30,3 @@ jobs:
     - run: npm run build
     - run: npx playwright install
     - run: npm test
-    - uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: true
-        files: |
-          LICENSE.txt
-          *.jar
