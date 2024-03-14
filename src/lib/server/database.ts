@@ -77,7 +77,13 @@ export let vendors: Vendor[] = [
     )
 ];
 
-let storefronts: Storefront[] = [
+export let storefronts: Storefront[] = [
+    new Storefront(
+        "UpFF Shakes", // storeName
+        vendors[0], // owner
+        [new MenuItem("Mango graham", 50)], // menu
+        [-12432.2, 142.59] // coords
+    )
 
 ];
 
@@ -127,6 +133,10 @@ export function isPhoneNumberExists(phoneNumber: string) {
 
 export function getStorefrontsFromNames(storeNames: string[]) {
     return storefronts.filter(storefront => storeNames.includes(storefront.getStoreName()));
+}
+
+export function isStorefrontNameExists(storeName: string) {
+    return storefronts.some((storefront) => storefront.getStoreName() === storeName);
 }
 
 export function getVendorStorefronts(vendor: Vendor): Storefront[] {

@@ -135,17 +135,17 @@
 <input type="hidden" name="selectedStorefrontIndex" bind:value={selectedStorefrontIndex} />
 <input type="hidden" name="deleteStorefrontBoolean" bind:value={deleteStorefrontBoolean} />
     <div>
-        <button>Submit</button>
+        <button name="submit">Submit</button>
     </div>
     <div>
-        <button on:click= {handleDeleteStorefront}>Delete Storefront</button>
+        <button on:click= {handleDeleteStorefront} name="delete_storefront">Delete Storefront</button>
     </div>
 </form>
 <div>
-    <button on:click={add_menu_item}>Add menu item (can add more after creation)</button>
+    <button on:click={add_menu_item} name="add_menu">Add menu item (can add more after creation)</button>
 </div>
 <div>
-    <button on:click={remove_menu_item}>Remove menu item</button>
+    <button on:click={remove_menu_item} name="remove_menu">Remove menu item</button>
 </div>
 <div>
     <a href="/storefront_form">Create New Storefront</a>

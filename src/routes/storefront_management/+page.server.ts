@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront} from '$lib/server/database';
+import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database';
 import { get } from 'https';
 
 // sample vendor as owner
@@ -56,20 +56,14 @@ export const actions = {
             storeName = String(formData.get("storename"));
         }
 
-        // Error checking - check if the store name is taken
-        let failure = false; // flag for failure (added in case of future error handling)
-        let data: any = { };
-
         // Start of error checking
-        const storeNameExists = getVendorStorefronts(vendor).some(storefront => storefront.getStoreName() === storeName);
-        if (storeNameExists) {
-            failure = true;
-            data.storeNameExists = true;
+
+        storeName.trim(); // remove leading and trailing whitespaces
+        const storefrontExists = await isStorefrontNameExists(storeName);
+        if (storefrontExists && renameStorefront) {
+            return fail(400, { storeNameExists: true });
         } // check if any of the store name is taken
 
-        if (failure && data != null) {
-            return fail(400, data);
-        }
         // End of error checking
         
         const owner = vendor;
