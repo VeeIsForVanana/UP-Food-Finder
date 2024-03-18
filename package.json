@@ -51,6 +51,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@supabase/supabase-js": "^2.39.8",
 		"leaflet": "^1.9.4",
 		"ts-node": "^10.9.2"
 	}
