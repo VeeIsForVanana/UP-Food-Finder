@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { MAPBOX_KEY } from '$env/static/private'
+    import { PUBLIC_MAPBOX_KEY } from '$env/static/public'
     import { onMount, onDestroy } from "svelte";
     import mapboxgl from "mapbox-gl";
 	import { browser } from "$app/environment";
@@ -12,9 +12,15 @@
     lat = 42.213995;
     zoom = 9;
 
+    function updateData() {
+        zoom = map.getZoom();
+        lng = map.getCenter().lng;
+        lat = map.getCenter().lat;
+    }
+
     onMount(() => {
         const initialState = { lng: lng, lat: lat, zoom: zoom };
-        mapboxgl.accessToken = MAPBOX_KEY
+        mapboxgl.accessToken = PUBLIC_MAPBOX_KEY
 
         map = new mapboxgl.Map({
             container: mapContainer,
@@ -22,6 +28,10 @@
             center: [initialState.lng, initialState.lat],
             zoom: initialState.zoom,
         });
+
+        map.on('move', () => {
+            updateData();
+        })
     });
 
     onDestroy(() => {
