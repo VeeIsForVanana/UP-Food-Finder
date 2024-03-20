@@ -4,6 +4,8 @@
     import mapboxgl from "mapbox-gl";
 	import { browser } from "$app/environment";
 
+    export let showSidebar = false;
+
     let map: mapboxgl.Map;
     let mapContainer: HTMLElement;
     let lng: number, lat: number, zoom: number;
@@ -48,6 +50,12 @@
         height: 100%;
     }
 </style>
+
+{#if showSidebar}
+    <div class="sidebar">
+        Longitude: {lng.toFixed(4)} | Latitude: {lat.toFixed(4)} | Zoom: {zoom.toFixed(2)}
+    </div>
+{/if}
 
 <div class="map-wrap">
     <div class="map" bind:this={mapContainer} />
