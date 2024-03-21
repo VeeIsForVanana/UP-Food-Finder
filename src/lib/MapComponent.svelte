@@ -5,14 +5,16 @@
 	import { browser } from "$app/environment";
 
     export let showSidebar = false;
-
+    
     let map: mapboxgl.Map;
     let mapContainer: HTMLElement;
     let lng: number, lat: number, zoom: number;
-
+    
     lng = -71.224518;
     lat = 42.213995;
     zoom = 9;
+
+    export const mapData = {lng: lng, lat: lat, zoom: zoom};
 
     function updateData() {
         zoom = map.getZoom();
