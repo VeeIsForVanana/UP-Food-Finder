@@ -5,25 +5,23 @@
 	import { browser } from "$app/environment";
 
     export let showSidebar = false;
+    export const mapData = {lng: 0, lat: 0, zoom: 0};
     
     let map: mapboxgl.Map;
     let mapContainer: HTMLElement;
-    let lng: number, lat: number, zoom: number;
     
-    lng = -71.224518;
-    lat = 42.213995;
-    zoom = 9;
-
-    export const mapData = {lng: lng, lat: lat, zoom: zoom};
+    mapData.lng = -71.224518;
+    mapData.lat = 42.213995;
+    mapData.zoom = 9;
 
     function updateData() {
-        zoom = map.getZoom();
-        lng = map.getCenter().lng;
-        lat = map.getCenter().lat;
+        mapData.zoom = map.getZoom();
+        mapData.lng = map.getCenter().lng;
+        mapData.lat = map.getCenter().lat;
     }
 
     onMount(() => {
-        const initialState = { lng: lng, lat: lat, zoom: zoom };
+        const initialState = mapData;
         mapboxgl.accessToken = PUBLIC_MAPBOX_KEY
 
         map = new mapboxgl.Map({
@@ -57,7 +55,7 @@
 
 {#if showSidebar}
     <div class="sidebar">
-        Longitude: {lng.toFixed(4)} | Latitude: {lat.toFixed(4)} | Zoom: {zoom.toFixed(2)}
+        Longitude: {mapData.lng.toFixed(4)} | Latitude: {mapData.lat.toFixed(4)} | Zoom: {mapData.zoom.toFixed(2)}
     </div>
 {/if}
 
