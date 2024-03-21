@@ -1,14 +1,16 @@
 <script lang="ts">
     /** @type {import('./$types').PageData} */
 
+	import MapComponent from "$lib/MapComponent.svelte";
+
     export let form: any;
 
     let store_name = "";
     let menu = [
         {foodName:"item 0", price:0},
     ];
-    let store_x_coord: Number;
-    let store_y_coord: Number;
+    
+    $: mapData = {lat: 0, lng: 0, zoom: 0};
 
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0});
@@ -55,12 +57,14 @@
                 required
                 />
 
+        <MapComponent bind:mapData={mapData} />
+
         <label class="label" for="store_x">Store x coordinate</label>
         <input  class="input"
                 name="store_x"
                 type="number"
                 step="0.001"
-                bind:value={store_x_coord}
+                bind:value={mapData.lng}
                 required
                 />
 
@@ -69,7 +73,7 @@
                 name="store_y"
                 type="number"
                 step="0.001"
-                bind:value={store_y_coord}
+                bind:value={mapData.lat}
                 required
                 />
     </div>
