@@ -31,6 +31,11 @@
             zoom: initialState.zoom,
         });
 
+        const centerMarker = document.createElement('div');
+        centerMarker.className = 'marker';
+
+        console.log(new mapboxgl.Marker(centerMarker).setLngLat([mapData.lng, mapData.lat]).addTo(map));
+
         map.on('move', () => {
             updateData();
         })
@@ -49,6 +54,14 @@
         width: 40%;
         height: 40%;
         border: 2px dashed black;
+    }
+    .marker {
+        background-image: url('https://docs.mapbox.com/help/demos/custom-markers-gl-js/mapbox-icon.png');
+        background-size: cover;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
     }
 </style>
 
