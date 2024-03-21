@@ -10,9 +10,9 @@
     let map: mapboxgl.Map;
     let mapContainer: HTMLElement;
     
-    mapData.lng = -71.224518;
-    mapData.lat = 42.213995;
-    mapData.zoom = 9;
+    mapData.lng = 121.063439;
+    mapData.lat = 14.654888;
+    mapData.zoom = 14.75;
 
     function updateData() {
         mapData.zoom = map.getZoom();
