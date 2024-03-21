@@ -48,10 +48,12 @@
 <style>
     .map {
         position: absolute;
-        width: 100%;
-        height: 100%;
+        width: 40%;
+        height: 40%;
+        border: 2px dashed black;
     }
 </style>
+
 
 {#if showSidebar}
     <div class="sidebar">

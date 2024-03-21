@@ -10,7 +10,7 @@
         {foodName:"item 0", price:0},
     ];
     
-    $: mapData = {lat: 0, lng: 0, zoom: 0};
+    let mapData = {lat: 0, lng: 0, zoom: 0};
 
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0});
@@ -48,34 +48,38 @@
     id="storefrontRegistration">
 
     <h2 id="storefront">Storefront Information</h2>
-    <div>
-        <label class="label" for="storename">Store name</label>
-        <input  class="input"
-                name="storename"
-                type="text"
-                bind:value={store_name}
-                required
-                />
+    <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
+        <div>
+            <label class="label" for="storename">Store name</label>
+            <input  class="input"
+                    name="storename"
+                    type="text"
+                    bind:value={store_name}
+                    required
+                    />
+            <label class="label" for="store_x">Store x coordinate</label>
+            <input  class="input"
+                    name="store_x"
+                    type="number"
+                    step="0.001"
+                    bind:value={mapData.lng}
+                    required
+                    />
 
-        <MapComponent bind:mapData={mapData} />
+            <label class="label" for="store_y">Store y coordinate</label>
+            <input  class="input"
+                    name="store_y"
+                    type="number"
+                    step="0.001"
+                    bind:value={mapData.lat}
+                    required
+                    />
+        </div>
+        
+        <div>
+            <MapComponent bind:mapData={mapData}/>
+        </div>
 
-        <label class="label" for="store_x">Store x coordinate</label>
-        <input  class="input"
-                name="store_x"
-                type="number"
-                step="0.001"
-                bind:value={mapData.lng}
-                required
-                />
-
-        <label class="label" for="store_y">Store y coordinate</label>
-        <input  class="input"
-                name="store_y"
-                type="number"
-                step="0.001"
-                bind:value={mapData.lat}
-                required
-                />
     </div>
 
     <h2 id="menu">Menu Items</h2>
