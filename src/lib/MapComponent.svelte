@@ -8,6 +8,7 @@
     export const mapData = {lng: 0, lat: 0, zoom: 0};
     
     let map: mapboxgl.Map;
+    let marker: mapboxgl.Marker;
     let mapContainer: HTMLElement;
     
     mapData.lng = 121.063439;
@@ -31,13 +32,16 @@
             zoom: initialState.zoom,
         });
 
-        const centerMarker = document.createElement('marker');
-
-        new mapboxgl.Marker().setLngLat([mapData.lng, mapData.lat]).addTo(map);
+        marker = new mapboxgl.Marker().setLngLat([mapData.lng, mapData.lat]).addTo(map);
 
         map.on('move', () => {
             updateData();
+            setMarker();
         })
+
+        function setMarker() {
+            marker.setLngLat([mapData.lng, mapData.lat]);
+        }
     });
 
     onDestroy(() => {
