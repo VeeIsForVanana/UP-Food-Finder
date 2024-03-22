@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
-import { type MenuItem, getStorefronts, registerStorefront, getVendorStorefronts, vendors, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database';
+import { getStorefronts, registerStorefront, getVendorStorefronts, vendors, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database';
+import { type MenuItem } from '$lib/server/dataTransferObjects.js';
 import type { coordinates } from '$lib/constants';
 
 // sample vendor as owner
