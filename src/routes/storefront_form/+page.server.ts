@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, registerStorefront, getVendorStorefronts, vendors, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database';
+import { type MenuItem, getStorefronts, registerStorefront, getVendorStorefronts, vendors, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database';
 import type { coordinates } from '$lib/constants';
 
 // sample vendor as owner
@@ -13,7 +13,7 @@ export const actions = {
         const storeCoords : coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
         const owner = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
-        let menu : any[] = [];
+        const menu : MenuItem[] = [];
 
         // Start of error checking
         storeName.trim(); // remove leading and trailing whitespaces
@@ -24,9 +24,9 @@ export const actions = {
         // End of error checking
 
         for (let i = 0; i < menuItemCount; i++) {
-            menu = menu.concat(
+            menu.push(
                 {
-                    foodName: formData.get(`menu_name_${i}`),
+                    foodName: formData.get(`menu_name_${i}`)?.toString() ?? '',
                     price: +formData.get(`menu_price_${i}`)!,
                 }
             );
