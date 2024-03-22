@@ -64,7 +64,7 @@ class Storefront {
 }
 
 
-export let vendors: Vendor[] = [
+export const vendors: Vendor[] = [
     // Sample Vendor for Testing
     new Vendor(
     "upfoodfinder",         // username
@@ -75,7 +75,7 @@ export let vendors: Vendor[] = [
     )
 ];
 
-export let storefronts: Storefront[] = [
+export const storefronts: Storefront[] = [
     new Storefront(
         "UpFF Shakes", // storeName
         vendors[0], // owner
@@ -92,7 +92,7 @@ export function registerVendor(
     securityQuestion: string,
     securityQAnswer: string,
 ) {
-    let newVendor = new Vendor (
+    const newVendor = new Vendor (
         username,
         password,
         phoneNumber,
@@ -114,7 +114,7 @@ export function registerStorefront(
     menu: MenuItem[],
     coords: coordinates
 ) {
-    let newStorefront = new Storefront (
+    const newStorefront = new Storefront (
         storeName,
         owner,
         menu,
