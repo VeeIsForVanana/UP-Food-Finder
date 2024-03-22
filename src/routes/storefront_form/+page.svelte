@@ -2,6 +2,7 @@
     /** @type {import('./$types').PageData} */
 
 	import MapComponent from "$lib/MapComponent.svelte";
+    import Marker from "$lib/Marker.svelte";
 
     export let form: any;
 
@@ -77,7 +78,9 @@
         </div>
         
         <div>
-            <MapComponent bind:mapData={mapData}/>
+            <MapComponent bind:mapData={mapData}>
+                <Marker bind:mapData={mapData}/>
+            </MapComponent>
         </div>
 
     </div>
