@@ -34,7 +34,7 @@ export function load() {
 }
 
 export const actions = {
-    updateStorefront: async ({ request }: any) => {
+    updateStorefront: async ({ request }) => {
         console.log("page.server.ts actions");
         const formData: FormData = await request.formData();
         const index = Number(formData.get('selectedStorefrontIndex'));
