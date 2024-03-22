@@ -66,6 +66,8 @@ export const actions = {
         
         const owner = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
+        const coords: coordinates = [+formData.get("new_xcoords")!, +formData.get("new_ycoords")!];
+        
         const menu: MenuItem[] = [];
         for (let i = 0; i < menuItemCount; i++) {
             menu.push({
