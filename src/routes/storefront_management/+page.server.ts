@@ -1,14 +1,16 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database';
+import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database/storefronts';
+import { vendors } from '$lib/server/database/vendors';
+import { type MenuItem } from '$lib/server/dataTransferObjects.js';
 import type { coordinates } from '$lib/constants';
 
 // sample vendor as owner
-let vendor = vendors[0];
+const vendor = vendors[0];
 const NON_MENU = 7; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
-    let storefronts = getVendorStorefronts(vendor);
+    const storefronts = getVendorStorefronts(vendor);
 
     console.log("page.server.ts load");
     console.log(vendor);
@@ -16,15 +18,15 @@ export function load() {
     console.log("Storefronts in Database");
     console.log(getStorefronts());
 
-    let storefrontsNames = storefronts.map(storefront => storefront.getStoreName());
+    const storefrontsNames = storefronts.map(storefront => storefront.getStoreName());
     console.log("Storefronts owned by Vendor");
     console.log(storefrontsNames);
     
-    let storefrontsMenuItems = getStorefrontsMenuItems(storefronts);
+    const storefrontsMenuItems = getStorefrontsMenuItems(storefronts);
     console.log("Menu items of storefronts owned by Vendor");
     console.log(storefrontsMenuItems);
 
-    let storefrontsCoords = getStorefrontsCoords(storefronts);
+    const storefrontsCoords = getStorefrontsCoords(storefronts);
 
     return {
         storefrontsNames: storefrontsNames,
@@ -34,7 +36,7 @@ export function load() {
 }
 
 export const actions = {
-    updateStorefront: async ({ request }: any) => {
+    updateStorefront: async ({ request }) => {
         console.log("page.server.ts actions");
         const formData: FormData = await request.formData();
         const index = Number(formData.get('selectedStorefrontIndex'));
@@ -67,15 +69,13 @@ export const actions = {
         const owner = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
         const coords: coordinates = [+formData.get("new_xcoords")!, +formData.get("new_ycoords")!];
-
-        let menu : any[] = [];
+        
+        const menu: MenuItem[] = [];
         for (let i = 0; i < menuItemCount; i++) {
-            menu = menu.concat(
-                {
-                    foodName: formData.get(`menu_name_${i}`),
-                    price: +formData.get(`menu_price_${i}`)!,
-                }
-            );
+            menu.push({
+                foodName: formData.get(`menu_name_${i}`)?.toString() ?? '',
+                price: +formData.get(`menu_price_${i}`)!,
+            });
         }
         console.log("MENU");
         console.log(menu);

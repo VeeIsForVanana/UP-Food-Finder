@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getVendors, registerVendor, isPhoneNumberExists, isUsernameExists } from '$lib/server/database';
+import { getVendors, registerVendor, isPhoneNumberExists, isUsernameExists } from '$lib/server/database/vendors';
 
 export const actions = {
     registerVendor: async ({ request }: any) => {
