@@ -3,11 +3,11 @@ import { getStorefronts, registerStorefront, getVendorStorefronts, vendors, addS
 import type { coordinates } from '$lib/constants';
 
 // sample vendor as owner
-let vendor = vendors[0];
+const vendor = vendors[0];
 const NON_MENU = 4; // number of fields in form not for menu
 
 export const actions = {
-    registerStorefront: async ({ request }: any) => {
+    registerStorefront: async ({ request }) => {
         const formData: FormData = await request.formData();
         const storeName = String(formData.get("storename"));
         const storeCoords : coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
