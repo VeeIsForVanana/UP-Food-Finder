@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { MenuItem, getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database';
+import { type MenuItem, getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database';
 import type { coordinates } from '$lib/constants';
 
 // sample vendor as owner
