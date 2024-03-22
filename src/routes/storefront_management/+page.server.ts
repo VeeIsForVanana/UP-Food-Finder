@@ -3,12 +3,12 @@ import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsC
 import type { coordinates } from '$lib/constants';
 
 // sample vendor as owner
-let vendor = vendors[0];
+const vendor = vendors[0];
 const NON_MENU = 7; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
 export function load() {
-    let storefronts = getVendorStorefronts(vendor);
+    const storefronts = getVendorStorefronts(vendor);
 
     console.log("page.server.ts load");
     console.log(vendor);
@@ -16,15 +16,15 @@ export function load() {
     console.log("Storefronts in Database");
     console.log(getStorefronts());
 
-    let storefrontsNames = storefronts.map(storefront => storefront.getStoreName());
+    const storefrontsNames = storefronts.map(storefront => storefront.getStoreName());
     console.log("Storefronts owned by Vendor");
     console.log(storefrontsNames);
     
-    let storefrontsMenuItems = getStorefrontsMenuItems(storefronts);
+    const storefrontsMenuItems = getStorefrontsMenuItems(storefronts);
     console.log("Menu items of storefronts owned by Vendor");
     console.log(storefrontsMenuItems);
 
-    let storefrontsCoords = getStorefrontsCoords(storefronts);
+    const storefrontsCoords = getStorefrontsCoords(storefronts);
 
     return {
         storefrontsNames: storefrontsNames,
