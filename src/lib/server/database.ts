@@ -16,7 +16,7 @@ class Vendor {
     getUsername() {
         return this.username;
     }
-
+    
     getPhoneNumber() {
         return this.phoneNumber;
     }
@@ -38,33 +38,31 @@ class Vendor {
     }
 }
 
-class Storefront {
+export type MenuItem = {
+    foodName: string;
+    price: number;
+}
 
+class Storefront {
+    
     constructor (
         private storeName: string,
         private owner: Vendor,
         private menu: MenuItem[],
         private coords: coordinates,
-    ) {}
-
-    getStoreName() {
-        return this.storeName;
-    }
-    getMenu() {
-        return this.menu;
-    }
-    getCoords() {
-        return this.coords;
-    }
+        ) {}
+        
+        getStoreName() {
+            return this.storeName;
+        }
+        getMenu() {
+            return this.menu;
+        }
+        getCoords() {
+            return this.coords;
+        }
 }
 
-class MenuItem {
-
-    constructor (
-        private foodName: string,
-        private price: number,
-    ) {}
-}
 
 export let vendors: Vendor[] = [
     // Sample Vendor for Testing
