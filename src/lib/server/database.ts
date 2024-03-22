@@ -79,7 +79,7 @@ export let storefronts: Storefront[] = [
     new Storefront(
         "UpFF Shakes", // storeName
         vendors[0], // owner
-        [new MenuItem("Mango graham", 50)], // menu
+        [{ foodName: "Mango Shake", price: 50 }], // menu
         [-12432.2, 142.59] // coords
     )
 
