@@ -2,7 +2,7 @@ import { fail } from '@sveltejs/kit';
 import { getVendors, registerVendor, isPhoneNumberExists, isUsernameExists } from '$lib/server/database';
 
 export const actions = {
-    registerVendor: async ({ request }: any) => {
+    registerVendor: async ({ request }) => {
         // get form data, variables based on page.svelte, input tag, name attribute
         const formData: FormData = await request.formData();
         const username = String(formData.get("username"));
@@ -12,7 +12,7 @@ export const actions = {
         const securityQuestionAnswer = String(formData.get("security_a"));
 
         let failure = false;
-        let data: any = { };
+        const data = { };
 
         // check if any of the necessary fields is missing and return an error if so
         [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
@@ -37,7 +37,7 @@ export const actions = {
         }
 
         // perform additional check on inputs
-        let phoneNumberRegex = new RegExp("^0[0-9]{10}$");
+        const phoneNumberRegex = new RegExp("^0[0-9]{10}$");
         if (!phoneNumberRegex.test(phoneNumber)) {
             failure = true;
             data.phoneError = true;
