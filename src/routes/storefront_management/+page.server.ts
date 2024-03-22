@@ -1,5 +1,6 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database';
+import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database/storefronts';
+import { vendors } from '$lib/server/database/vendors';
 import { type MenuItem } from '$lib/server/dataTransferObjects.js';
 import type { coordinates } from '$lib/constants';
 

@@ -1,18 +1,7 @@
-//storefronts or stored twice, once in the Vendor class and another in the list fo all storefronts.
 import type { coordinates } from '$lib/constants';
-import { Vendor, Storefront, type MenuItem } from './dataTransferObjects';
+import { Vendor, Storefront, type MenuItem } from '$lib/server/dataTransferObjects';
+import { vendors } from '$lib/server/database/vendors';
 
-
-export const vendors: Vendor[] = [
-    // Sample Vendor for Testing
-    new Vendor(
-    "upfoodfinder",         // username
-    "testPassword",     // password
-    "01234567890",       // phoneNumber
-    "What is your mother's maiden name?",     // securityQuestion
-    "testAnswer"        // securityQAnswer
-    )
-];
 
 export const storefronts: Storefront[] = [
     new Storefront(
@@ -21,31 +10,7 @@ export const storefronts: Storefront[] = [
         [{ foodName: "Mango Shake", price: 50 }], // menu
         [-12432.2, 142.59] // coords
     )
-
 ];
-
-export function registerVendor(
-    username: string,
-    password: string,
-    phoneNumber: string,
-    securityQuestion: string,
-    securityQAnswer: string,
-) {
-    const newVendor = new Vendor (
-        username,
-        password,
-        phoneNumber,
-        securityQuestion,
-        securityQAnswer,
-    )
-
-    vendors.push(newVendor);
-}
-
-
-export function isUsernameExists(username: string) {
-    return vendors.some((vendor) => vendor.getUsername() === username);
-}
 
 export function registerStorefront(
     storeName: string,
@@ -53,19 +18,15 @@ export function registerStorefront(
     menu: MenuItem[],
     coords: coordinates
 ) {
-    const newStorefront = new Storefront (
+    const newStorefront = new Storefront(
         storeName,
         owner,
         menu,
-        coords,
-    )
+        coords
+    );
 
     storefronts.push(newStorefront);
     return newStorefront;
-}
-
-export function isPhoneNumberExists(phoneNumber: string) {
-    return vendors.some((vendor) => vendor.getPhoneNumber() === phoneNumber);
 }
 
 export function getStorefrontsFromNames(storeNames: string[]) {
@@ -119,10 +80,6 @@ export function getStorefrontsMenuItems(storefronts: Storefront[]) {
 
 export function getStorefrontsCoords(storefronts: Storefront[]) {
     return storefronts.map(storefront => storefront.getCoords());
-}
-
-export function getVendors() {
-    return structuredClone(vendors);
 }
 
 export function getStorefronts() {
