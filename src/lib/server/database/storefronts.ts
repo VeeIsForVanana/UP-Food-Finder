@@ -1,6 +1,7 @@
 import type { coordinates } from '$lib/constants';
 import { Vendor, Storefront, type MenuItem } from '$lib/server/dataTransferObjects';
 import { vendors } from '$lib/server/database/vendors';
+import { supabase } from '$lib/server/supabaseClient';
 
 
 export const storefronts: Storefront[] = [
@@ -72,14 +73,6 @@ export function updateStorefront(
         console.error("Index out of bounds in updateStorefront");
     }
 
-}
-
-export function getStorefrontsMenuItems(storefronts: Storefront[]) {
-    return storefronts.map(storefront => storefront.getMenu());
-}
-
-export function getStorefrontsCoords(storefronts: Storefront[]) {
-    return storefronts.map(storefront => storefront.getCoords());
 }
 
 export function getStorefronts() {
