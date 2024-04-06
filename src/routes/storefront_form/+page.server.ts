@@ -37,7 +37,7 @@ export const actions = {
 
         addStorefrontToVendor(
             owner,
-            registerStorefront(
+            await registerStorefront(
                 storeName,
                 owner,
                 menu,

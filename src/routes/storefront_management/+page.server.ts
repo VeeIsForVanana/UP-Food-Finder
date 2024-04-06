@@ -9,8 +9,8 @@ const vendor = vendors[0];
 const NON_MENU = 7; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
-export function load() {
-    const storefronts = getVendorStorefronts(vendor);
+export async function load() {
+    const storefronts = await getVendorStorefronts(vendor) ?? [];
 
     console.log("page.server.ts load");
     console.log(vendor);
