@@ -51,7 +51,7 @@
     <title>Storefront Management</title>
 </head>
 
-<h1>Storefront Management</h1>
+<h1 id="title">Storefront Management</h1>
 
 <div class="vendor_name">
     <a href="/vendor_form">testUser</a>

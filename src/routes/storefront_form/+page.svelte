@@ -23,7 +23,7 @@
     <title>Storefront Registration</title>
 </head>
 
-<h1>New storefront registration form</h1>
+<h1 id="title">New storefront registration form</h1>
 
 <div class="vendor_name">
     <a href="/vendor_form">testUser</a>
