@@ -11,7 +11,7 @@
     <title>Storefront Management</title>
 </head>
 
-<h1>Storefront Management</h1>
+<h1 id="title">Storefront Management</h1>
 
 <nav class="list-nav">
 	<!-- (optionally you can provide a label here) -->
