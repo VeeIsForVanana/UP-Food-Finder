@@ -12,14 +12,14 @@ export async function registerStorefront(
 ) {
     const newStorefront = new Storefront(
         storeName,
-        owner,
+        owner.getUsername(),
         menu,
         coords
     );
 
     const response = await supabase
         .from('storefronts')
-        .insert({ store_name: storeName, owner: owner, coords_lat: coords[0], coords_lng: coords[1] })
+        .insert({ store_name: storeName, owner: owner, coords_lat: coords[0], coords_lng: coords[1], menu: menu })
     
     if (response.status != 201) {
         error(response.status as NumericRange<400, 599>, response.statusText);
@@ -50,7 +50,7 @@ export async function isStorefrontNameExists(storeName: string) {
         .select()
         .eq('store_name', storeName);
 
-    if (response.status != 201) {
+    if (response.status > 299) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -65,7 +65,7 @@ export async function getVendorStorefronts(vendor: Vendor) {
         .select()
         .eq('owner', vendor.getUsername());
     
-    if (response.status != 201) {
+    if (response.status > 299) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -74,39 +74,46 @@ export async function getVendorStorefronts(vendor: Vendor) {
 
 export function addStorefrontToVendor(vendor: Vendor, storefront: Storefront) {
     storefront.setOwner(vendor);
-
-
 }
 
-export function deleteStorefront(vendor: Vendor, index: number) {
-    // Remove the storefront from the list of all storefronts
-    storefronts.splice(storefronts.indexOf(vendor.getStorefronts()[index]), 1);
-    // Remove the storefront from Vendor
-    vendor.removeStorefront(index);
+export async function deleteStorefront(storefront: Storefront) {
+    const response = await supabase
+        .from('storefronts')
+        .select()
+        .eq('store_name', storefront.getStoreName());
+    
+    if (response.status > 299) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
 }
 
-export function updateStorefront(
-    index: number, //index of storefront within the vendor's storefronts
+export async function updateStorefront(
+    og_storefront: Storefront,
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
     coords: coordinates
 ) {
-    // Update the storefront at the specified index
-    const updatedStorefront = new Storefront(storeName, owner, menu, coords);
-    storefronts[storefronts.indexOf(owner.getStorefronts()[index])] = updatedStorefront;
-
-    // Update the corresponding storefront in the Vendor object's list of storefronts
-    const vendorStorefronts = owner.getStorefronts();
-    if (index >= 0 && index < vendorStorefronts.length) {
-        vendorStorefronts[index] = updatedStorefront;
-    } else {
-        // Handle the case where the index is out of bounds
-        console.error("Index out of bounds in updateStorefront");
+    
+    const response = await supabase
+        .from('storefronts')
+        .update({ store_name: storeName, owner: owner, coords_lat: coords[0], coords_lng: coords[1], menu: menu })
+        .eq('store_name', og_storefront.getStoreName())
+    
+    if (response.status != 201) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
 }
 
-export function getStorefronts() {
-    return structuredClone(storefronts);
+export async function getStorefronts() {
+    const response = await supabase
+        .from('storefronts')
+        .select()
+    
+    if (response.status != 201) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return response.data;
 }
