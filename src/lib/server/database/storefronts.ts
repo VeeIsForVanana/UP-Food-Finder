@@ -3,6 +3,7 @@ import { Vendor, Storefront, type MenuItem } from '$lib/server/dataTransferObjec
 import { supabase } from '$lib/server/supabaseClient';
 import { error, type NumericRange } from '@sveltejs/kit';
 
+type storefrontData = { store_name: string, owner: string, coords_lat: number, coords_lng: number, menu: MenuItem[] }
 
 export async function registerStorefront(
     storeName: string,
@@ -19,13 +20,27 @@ export async function registerStorefront(
 
     const response = await supabase
         .from('storefronts')
-        .insert({ store_name: storeName, owner: owner, coords_lat: coords[0], coords_lng: coords[1], menu: menu })
+        .insert({ store_name: storeName, owner: owner.getUsername(), coords_lat: coords[0], coords_lng: coords[1], menu: menu })
     
     if (response.status != 201) {
-        error(response.status as NumericRange<400, 599>, response.statusText);
+        console.log(`${response.status} error on request, details: ${response.error?.details} \nand hint: ${response.error?.hint}`)
+        error(response.status as NumericRange<400, 599>, `${response.statusText}`);
     }
 
     return newStorefront;
+}
+
+// this utility handles the conversion of a storefront's data (as it appears in the database) to an actual storefront
+function storefrontDataToStorefront(data: storefrontData | null) {
+    if (data == null) {
+        return null
+    }
+    return new Storefront(
+        data.store_name,
+        data.owner,
+        data.menu,
+        [data.coords_lat, data.coords_lng],
+    )
 }
 
 export async function getStorefrontsFromNames(storeNames: string[]) {
@@ -39,7 +54,7 @@ export async function getStorefrontsFromNames(storeNames: string[]) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
-    return response.data;
+    return response.data?.map(storefrontDataToStorefront);
 
 }
 
@@ -69,7 +84,7 @@ export async function getVendorStorefronts(vendor: Vendor) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
-    return response.data;
+    return response.data?.map(storefrontDataToStorefront);
 }
 
 export function addStorefrontToVendor(vendor: Vendor, storefront: Storefront) {
@@ -79,7 +94,7 @@ export function addStorefrontToVendor(vendor: Vendor, storefront: Storefront) {
 export async function deleteStorefront(storefront: Storefront) {
     const response = await supabase
         .from('storefronts')
-        .select()
+        .delete()
         .eq('store_name', storefront.getStoreName());
     
     if (response.status > 299) {
@@ -100,7 +115,7 @@ export async function updateStorefront(
         .update({ store_name: storeName, owner: owner, coords_lat: coords[0], coords_lng: coords[1], menu: menu })
         .eq('store_name', og_storefront.getStoreName())
     
-    if (response.status != 201) {
+    if (response.status > 299) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -111,9 +126,9 @@ export async function getStorefronts() {
         .from('storefronts')
         .select()
     
-    if (response.status != 201) {
+    if (response.status > 299) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
-    return response.data;
+    return response.data?.map(storefrontDataToStorefront);
 }

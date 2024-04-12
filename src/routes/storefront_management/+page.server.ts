@@ -16,7 +16,7 @@ export async function load() {
     console.log(vendor);
 
     console.log("Storefronts in Database");
-    console.log(getStorefronts());
+    console.log(await getStorefronts());
 
     const storefrontsNames = storefronts.map(storefront => storefront.getStoreName());
     console.log("Storefronts owned by Vendor");
