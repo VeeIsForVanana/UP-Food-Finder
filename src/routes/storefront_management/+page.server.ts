@@ -82,5 +82,9 @@ export const actions = {
         console.log(getVendorStorefronts(vendor));
 
         return { storefrontUpdateSuccess: true };
+    },
+
+    deleteStorefront: async ({ request }) => {
+
     }
 }
