@@ -11,7 +11,7 @@
     <title>Vendor Registration</title>
 </head>
 
-<h1>Create your vendor account</h1>
+<h1 id="title">Create your vendor account</h1>
 
 <!-- result of submitting form, single place for displaying errors and results -->
 {#if form?.registrationSuccess}
