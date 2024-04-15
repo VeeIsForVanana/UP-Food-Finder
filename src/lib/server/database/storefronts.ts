@@ -103,17 +103,20 @@ export async function deleteStorefront(storefront: Storefront) {
 }
 
 export async function updateStorefront(
-    og_storefront: Storefront,
-    storeName: string,
-    owner: Vendor,
-    menu: MenuItem[],
-    coords: coordinates
+    originalStorefrontName: string,
+    newStorefront: Storefront,
 ) {
     
     const response = await supabase
         .from('storefronts')
-        .update({ store_name: storeName, owner: owner, coords_lat: coords[0], coords_lng: coords[1], menu: menu })
-        .eq('store_name', og_storefront.getStoreName())
+        .update({ 
+            store_name: newStorefront.getStoreName(), 
+            owner: newStorefront.getOwner(), 
+            coords_lat: newStorefront.getCoords()[0], 
+            coords_lng: newStorefront.getCoords()[1], 
+            menu: newStorefront.getMenu() 
+        })
+        .eq('store_name', originalStorefrontName)
     
     if (response.status > 299) {
         error(response.status as NumericRange<400, 599>, response.statusText);
