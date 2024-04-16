@@ -6,7 +6,7 @@
 
     console.log(data.securityQuestionsList)
 </script>
-
+<div class = "everything">
 <head>
     <title>Vendor Registration</title>
 </head>
@@ -97,9 +97,11 @@
                 disabled={form?.registrationSuccess}/>
     </form>
 </div>
-
+</div>
 <style>
-
+    .everything {
+        margin: 40px;
+    }
     #registered {
         color: green;
     }
