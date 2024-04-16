@@ -46,7 +46,7 @@
     
 </script>
 
-
+<div class = "everything">
 <head>
     <title>Storefront Management</title>
 </head>
@@ -154,9 +154,12 @@
 <div>
     <a href="/storefront_form">Create New Storefront</a>
 </div>
-
+</div>
 
 <style>
+    .everything {
+        margin: 40px;
+    }
     title {
         top: 5px;
     }
