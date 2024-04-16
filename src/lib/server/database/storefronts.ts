@@ -1,18 +1,10 @@
 import type { coordinates } from '$lib/constants';
 import { Vendor, Storefront, type MenuItem } from '$lib/server/dataTransferObjects';
-import { vendors } from '$lib/server/database/vendors';
+import { supabase } from '$lib/server/supabaseClient';
+import { error, type NumericRange } from '@sveltejs/kit';
 
 
-export const storefronts: Storefront[] = [
-    new Storefront(
-        "UpFF Shakes", // storeName
-        vendors[0], // owner
-        [{ foodName: "Mango Shake", price: 50 }], // menu
-        [-12432.2, 142.59] // coords
-    )
-];
-
-export function registerStorefront(
+export async function registerStorefront(
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
@@ -20,68 +12,108 @@ export function registerStorefront(
 ) {
     const newStorefront = new Storefront(
         storeName,
-        owner,
+        owner.getUsername(),
         menu,
         coords
     );
 
-    storefronts.push(newStorefront);
+    const response = await supabase
+        .from('storefronts')
+        .insert({ store_name: storeName, owner: owner, coords_lat: coords[0], coords_lng: coords[1], menu: menu })
+    
+    if (response.status != 201) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
     return newStorefront;
 }
 
-export function getStorefrontsFromNames(storeNames: string[]) {
-    return storefronts.filter(storefront => storeNames.includes(storefront.getStoreName()));
+export async function getStorefrontsFromNames(storeNames: string[]) {
+
+    const response = await supabase
+        .from('storefronts')
+        .select()
+        .in('store_name', storeNames);
+    
+    if (response.status != 201) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return response.data;
+
 }
 
-export function isStorefrontNameExists(storeName: string) {
-    return storefronts.some((storefront) => storefront.getStoreName() === storeName);
+export async function isStorefrontNameExists(storeName: string) {
+    
+    const response = await supabase
+        .from('storefronts')
+        .select()
+        .eq('store_name', storeName);
+
+    if (response.status > 299) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    // true if the returned data is non-empty else false
+    return response.data == null ? true : false;
+
 }
 
-export function getVendorStorefronts(vendor: Vendor): Storefront[] {
-    return vendor.getStorefronts();
+export async function getVendorStorefronts(vendor: Vendor) {
+    const response = await supabase
+        .from('storefronts')
+        .select()
+        .eq('owner', vendor.getUsername());
+    
+    if (response.status > 299) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return response.data;
 }
 
 export function addStorefrontToVendor(vendor: Vendor, storefront: Storefront) {
-    vendor.addStorefront(storefront);
+    storefront.setOwner(vendor);
 }
 
-export function deleteStorefront(vendor: Vendor, index: number) {
-    // Remove the storefront from the list of all storefronts
-    storefronts.splice(storefronts.indexOf(vendor.getStorefronts()[index]), 1);
-    // Remove the storefront from Vendor
-    vendor.removeStorefront(index);
+export async function deleteStorefront(storefront: Storefront) {
+    const response = await supabase
+        .from('storefronts')
+        .select()
+        .eq('store_name', storefront.getStoreName());
+    
+    if (response.status > 299) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
 }
 
-export function updateStorefront(
-    index: number, //index of storefront within the vendor's storefronts
+export async function updateStorefront(
+    og_storefront: Storefront,
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
     coords: coordinates
 ) {
-    // Update the storefront at the specified index
-    const updatedStorefront = new Storefront(storeName, owner, menu, coords);
-    storefronts[storefronts.indexOf(owner.getStorefronts()[index])] = updatedStorefront;
-
-    // Update the corresponding storefront in the Vendor object's list of storefronts
-    const vendorStorefronts = owner.getStorefronts();
-    if (index >= 0 && index < vendorStorefronts.length) {
-        vendorStorefronts[index] = updatedStorefront;
-    } else {
-        // Handle the case where the index is out of bounds
-        console.error("Index out of bounds in updateStorefront");
+    
+    const response = await supabase
+        .from('storefronts')
+        .update({ store_name: storeName, owner: owner, coords_lat: coords[0], coords_lng: coords[1], menu: menu })
+        .eq('store_name', og_storefront.getStoreName())
+    
+    if (response.status != 201) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
 }
 
-export function getStorefrontsMenuItems(storefronts: Storefront[]) {
-    return storefronts.map(storefront => storefront.getMenu());
-}
+export async function getStorefronts() {
+    const response = await supabase
+        .from('storefronts')
+        .select()
+    
+    if (response.status != 201) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
 
-export function getStorefrontsCoords(storefronts: Storefront[]) {
-    return storefronts.map(storefront => storefront.getCoords());
-}
-
-export function getStorefronts() {
-    return structuredClone(storefronts);
+    return response.data;
 }

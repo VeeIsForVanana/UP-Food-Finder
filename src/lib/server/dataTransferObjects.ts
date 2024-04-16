@@ -1,4 +1,5 @@
 import type { coordinates } from '$lib/constants';
+import { addStorefrontToVendor, getVendorStorefronts } from './database/storefronts';
 
 export class Vendor {
 
@@ -8,7 +9,6 @@ export class Vendor {
         private phoneNumber: string,
         private securityQuestion: string,
         private securityQAnswer: string,
-        private storefronts: Storefront[] = []
     ) { }
 
     getUsername() {
@@ -20,23 +20,11 @@ export class Vendor {
     }
 
     getStorefronts() {
-        return this.storefronts;
+        return getVendorStorefronts(this);
     }
 
     addStorefront(storefront: Storefront) {
-        this.storefronts.push(storefront);
-    }
-
-    removeStorefront(index: number) {
-        if (index >= 0 && index < this.storefronts.length) {
-            this.storefronts.splice(index, 1);
-        }
-    }
-
-    updateStorefront(index: number, updatedStorefront: Storefront) {
-        if (index >= 0 && index < this.storefronts.length) {
-            this.storefronts[index] = updatedStorefront;
-        }
+        return addStorefrontToVendor(this, storefront);
     }
 }
 
@@ -49,7 +37,7 @@ export class Storefront {
 
     constructor(
         private storeName: string,
-        private owner: Vendor,
+        private owner: string,
         private menu: MenuItem[],
         private coords: coordinates
     ) { }
@@ -62,5 +50,13 @@ export class Storefront {
     }
     getCoords() {
         return this.coords;
+    }
+
+    getOwner() {
+        return this.owner;
+    }
+
+    setOwner(newOwner: Vendor) {
+        this.owner = newOwner.getUsername();
     }
 }

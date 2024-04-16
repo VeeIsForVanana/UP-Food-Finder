@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database/storefronts';
+import { getStorefronts, updateStorefront, getVendorStorefronts, deleteStorefront, isStorefrontNameExists } from '$lib/server/database/storefronts';
 import { vendors } from '$lib/server/database/vendors';
 import { type MenuItem } from '$lib/server/dataTransferObjects.js';
 import type { coordinates } from '$lib/constants';
@@ -22,11 +22,11 @@ export function load() {
     console.log("Storefronts owned by Vendor");
     console.log(storefrontsNames);
     
-    const storefrontsMenuItems = getStorefrontsMenuItems(storefronts);
+    const storefrontsMenuItems = storefronts.map(storefront => storefront.getMenu());
     console.log("Menu items of storefronts owned by Vendor");
     console.log(storefrontsMenuItems);
 
-    const storefrontsCoords = getStorefrontsCoords(storefronts);
+    const storefrontsCoords = storefronts.map(storefront => storefront.getCoords());
 
     return {
         storefrontsNames: storefrontsNames,
