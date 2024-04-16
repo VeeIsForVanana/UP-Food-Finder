@@ -4,7 +4,7 @@
     export let name = "default";
     export let description = "default";
 
-    let tabItems = ["Menu", "Reviews", "Testing"];
+    let tabItems = ["Menu", "Reviews"];
     let activeTab = "Menu";
 </script>
 
