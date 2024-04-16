@@ -3,41 +3,44 @@
     import Form from './storefront_details_form.svelte';
     import Box from './components/box.svelte';
 
-    let storefronts = [
-        {name: "Storefront 1", description: "This is the first storefront"},
-        {name: "Storefront 2", description: "This is the second storefront"},
-        {name: "Storefront 3", description: "This is the third storefront"},
-    ];
+    /** @type {import('./$types').PageData} */
+    export let data;
+
+    let storefronts = data.storefronts;
+    console.log(storefronts);
 
     let showModal = false;
     const toggleModal = () => {
         showModal = !showModal;
     }
 
-    let details = {};
+    let storeDetails = {};
     const handleStorefrontClick = (store) => {
         toggleModal();
-        details = store;
+        storeDetails = store;
         console.log("Storefront clicked");
     }
 
 </script>
 
 <Modal {showModal} on:click={toggleModal}>
-    <Form {...details}>
+    <Form {...storeDetails}>
     </Form>
 </Modal>
 
 <div class = "everything">
-    <input class="input" type="text" placeholder="Search" /><br>
+    <form>
+        <input class="input" type="text" placeholder="Search" /><br>
+        <button class="input">Search</button>
+    </form>
 
     <!-- <button class="button" on:click={toggleModal}>Temp button</button> -->
     <h3>Default Recommendation:</h3>
     <div class="storefronts">
-        {#each storefronts as store (store.name) }
+        {#each storefronts as store (store.storeName) }
             <Box on:click={() => handleStorefrontClick(store)}>
-                <h1>{store.name}</h1>
-                <p>{store.description}</p>
+                <h1>{store.storeName}</h1>
+                <p>{store.owner}</p>
             </Box>
         {/each}
     </div>  
