@@ -1,4 +1,6 @@
 import { Vendor } from "$lib/server/dataTransferObjects";
+import { supabase } from '$lib/server/supabaseClient';
+import { error, type NumericRange } from '@sveltejs/kit';
 
 
 export const vendors: Vendor[] = [
@@ -12,7 +14,7 @@ export const vendors: Vendor[] = [
     )
 ];
 
-export function registerVendor(
+export async function registerVendor(
     username: string,
     password: string,
     phoneNumber: string,
@@ -20,25 +22,61 @@ export function registerVendor(
     securityQAnswer: string
 ) {
     const newVendor = new Vendor(
-        username,
-        password,
-        phoneNumber,
-        securityQuestion,
-        securityQAnswer
+        username, password, phoneNumber, securityQuestion, securityQAnswer
     );
 
-    vendors.push(newVendor);
+    const response = await supabase
+        .from('vendors')
+        .insert({
+			username: username,
+			phone_number: phoneNumber,
+			password: password,
+			security_q: securityQuestion,
+			security_qa: securityQAnswer,
+        });
+    
+    if (response.status != 201) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return newVendor;
 }
 
-export function isUsernameExists(username: string) {
-    return vendors.some((vendor) => vendor.getUsername() === username);
+export async function isUsernameExists(username: string) {
+    const response = await supabase
+        .from('vendors')
+        .select()
+        .eq('username', username);
+    
+    if (response.status > 299) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return response.data === null;
 }
 
-export function isPhoneNumberExists(phoneNumber: string) {
-    return vendors.some((vendor) => vendor.getPhoneNumber() === phoneNumber);
+export async function isPhoneNumberExists(phoneNumber: string) {
+    const response = await supabase
+        .from('vendors')
+        .select()
+        .eq('phone_number', phoneNumber);
+    
+    if (response.status > 299) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return response.data === null;
 }
 
-export function getVendors() {
-    return structuredClone(vendors);
+export async function getVendors() {
+    const response = await supabase
+        .from('vendors')
+        .select();
+
+    if (response.status > 299) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return response.data;
 }
 
