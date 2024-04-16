@@ -52,7 +52,7 @@ export async function isUsernameExists(username: string) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
-    return response.data === null;
+    return (response.data !== null && response.data.length > 0);
 }
 
 export async function isPhoneNumberExists(phoneNumber: string) {
@@ -65,7 +65,7 @@ export async function isPhoneNumberExists(phoneNumber: string) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
-    return response.data === null;
+    return (response.data !== null && response.data.length > 0);
 }
 
 export async function getVendors() {
@@ -77,6 +77,6 @@ export async function getVendors() {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
-    return response.data;
+    return response.data ?? [];
 }
 
