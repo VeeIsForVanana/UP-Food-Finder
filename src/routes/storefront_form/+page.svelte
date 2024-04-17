@@ -61,7 +61,7 @@
             <input  class="input"
                     name="store_x"
                     type="number"
-                    step="0.001"
+                    step="0.000001"
                     bind:value={mapData.lng}
                     required
                     />
@@ -70,7 +70,7 @@
             <input  class="input"
                     name="store_y"
                     type="number"
-                    step="0.001"
+                    step="0.000001"
                     bind:value={mapData.lat}
                     required
                     />
