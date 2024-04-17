@@ -1,28 +1,29 @@
-// import { getStorefronts} from '$lib/server/database/storefronts';
+import { getStorefronts} from '$lib/server/database/storefronts';
+import { storefrontToPOJO } from '$lib/server/dataTransferObjects.js';
 let search = ''
 
 /** @type {import('./$types').PageServerLoad} */
-export function load() {
-// export async function load() {
-    // const storefronts = await getStorefronts();
-    let storefronts  = [
-        {
-            storeName: "ABC Mart", owner: "Immanuel",
-            menu: [ { name: "Burger", price: 5.99 }, { name: "Fries", price: 2.49 }, { name: "Soda", price: 1.99 }],
-            coords: { latitude: 37.7749, longitude: -122.4194}
-        },
-        {
-            storeName: "New Mart", owner: "Victor",
-            menu: [{ name: "Ice Cream", price: 5.99 }, { name: "Cake", price: 2.49 }, { name: "Hotdog", price: 1.99 }],
-            coords: { latitude: 37.7749, longitude: -122.4194 }
-        }
-    ]
+// export function load() {
+export async function load() {
+    let storefronts = await getStorefronts() ?? [];
+    // let storefronts  = [
+    //     {
+    //         storeName: "ABC Mart", owner: "Immanuel",
+    //         menu: [ { name: "Burger", price: 5.99 }, { name: "Fries", price: 2.49 }, { name: "Soda", price: 1.99 }],
+    //         coords: { latitude: 37.7749, longitude: -122.4194}
+    //     },
+    //     {
+    //         storeName: "New Mart", owner: "Victor",
+    //         menu: [{ name: "Ice Cream", price: 5.99 }, { name: "Cake", price: 2.49 }, { name: "Hotdog", price: 1.99 }],
+    //         coords: { latitude: 37.7749, longitude: -122.4194 }
+    //     }
+    // ]
     const keys = ['storeName', 'owner', 'menu', 'coords'] as const
     if (search !== ''){
         storefronts = storefronts.filter((store)=>{
             return keys.some((key) => {
                 if (key === 'menu'){
-                    return store.menu.some(item => item.name.toLowerCase().includes(search.toLowerCase()));
+                    return store.menu.some(item => item.foodName.toLowerCase().includes(search.toLowerCase()));
                 } else {
                     return store[key].toString().toLowerCase().includes(search.toLowerCase());
                 }
@@ -31,9 +32,15 @@ export function load() {
         console.log(storefronts)
     }
 
+    storefronts = storefronts?.map(
+        (val, _idx, _arr) => {
+            return storefrontToPOJO(val);
+        }
+    )
+
     if (storefronts) {
         console.log(storefronts);
-        return {storefronts};
+        return { storefronts };
     } else {
         return { status: 404, redirect: '/home_page' };
     }
