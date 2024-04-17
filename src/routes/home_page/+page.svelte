@@ -28,14 +28,14 @@
     </Form>
 </Modal>
 
-<div class = "everything">
+<div class = "ml-10 mr-80 w-screen">
     <form method="POST" action = "?/searchResult">
         <input class="search-input" name = "search" type="text" placeholder="Search" value={form?.search ?? ''}/>
         <button class="search-button" id="btn" style="width: 10%; height: 40px">Search</button>
     </form>
 
     <h3>Default Recommendation:</h3>
-    <div class="storefronts">
+    <div class="grid grid-cols-4 gap-4">
         {#each storefronts ?? [] as store (store.storeName) }
             <Box on:click={() => handleStorefrontClick(store)}>
                 <h2>{store.storeName}</h2>
@@ -46,21 +46,10 @@
 </div>
 
 <style>
-    .everything {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-    .storefronts {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .storefronts h2 {
-        font-size: 20px;
-        color: #333;
-    }
     .search-input {
         width: 80%;
         height: 40px;
+        padding: 10px;
     }
     .search-button {
         background-color: #4CAF50;
