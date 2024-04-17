@@ -48,7 +48,7 @@ export async function isUsernameExists(username: string) {
         .select()
         .eq('username', username);
     
-    if (response.status > 299) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -61,7 +61,7 @@ export async function isPhoneNumberExists(phoneNumber: string) {
         .select()
         .eq('phone_number', phoneNumber);
     
-    if (response.status > 299) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -73,7 +73,7 @@ export async function getVendors() {
         .from('vendors')
         .select();
 
-    if (response.status > 299) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
