@@ -32,8 +32,8 @@
 
 <div class = "everything">
     <form method="POST" action = "?/searchResult">
-        <input class="input" name = "search" type="text" placeholder="Search" value={form?.search ?? ''}/><br>
-        <button class="input">Search</button>
+        <input style="margin-top: 20px; width: 80%" class="input" name = "search" type="text" placeholder="Search" value={form?.search ?? ''}/>
+        <button class="input" id="btn" style="width: 10%; height: 40px">Search</button>
     </form>
 
     <!-- <button class="button" on:click={toggleModal}>Temp button</button> -->
@@ -50,7 +50,8 @@
 
 <style>
     .everything {
-        margin: 20px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
     .storefronts {
         display: flex;
