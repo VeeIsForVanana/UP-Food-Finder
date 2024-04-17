@@ -60,3 +60,14 @@ export class Storefront {
         this.owner = newOwner.getUsername();
     }
 }
+
+type StorefrontPOJO = { storeName: string, owner: string, menu: MenuItem[], coords: coordinates }
+
+export function storefrontToPOJO(storefront: Storefront): StorefrontPOJO {
+    return {
+        'storeName' : storefront.getStoreName(),
+        'owner': storefront.getOwner(),
+        'menu': storefront.getMenu(),
+        'coords': storefront.getCoords()
+    }
+}

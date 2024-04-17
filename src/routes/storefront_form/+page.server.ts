@@ -10,6 +10,8 @@ const NON_MENU = 4; // number of fields in form not for menu
 
 export const actions = {
     registerStorefront: async ({ request }) => {
+        console.log(await getStorefronts())
+
         const formData: FormData = await request.formData();
         const storeName = String(formData.get("storename"));
         const storeCoords : coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
@@ -37,7 +39,7 @@ export const actions = {
 
         addStorefrontToVendor(
             owner,
-            registerStorefront(
+            await registerStorefront(
                 storeName,
                 owner,
                 menu,
