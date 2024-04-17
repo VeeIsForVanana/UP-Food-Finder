@@ -8,12 +8,17 @@ const NON_MENU = 7; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
-    const storefront: Storefront | null = (await getStorefrontsFromNames([ params.name ]) ?? [null])[0];
-    let pojo = null
-    if(storefront != null) pojo = storefrontToPOJO(storefront)
+    const promisedStorefront = getStorefrontsFromNames([ params.name ]).then(
+        (value) => {
+            if (!value) return Error("Storefront not found");
+            const storefront: Storefront | null = value[0] ?? null;
+            if (storefront == null || storefront == undefined) return Error("Storefront not found");
+            return storefrontToPOJO(storefront);
+        }
+    );
 
     return {
-        'storefront': pojo
+        'storefront': await promisedStorefront
     };
 }
 
@@ -69,7 +74,7 @@ export const actions = {
         )
 
         if (renameStorefront) {
-            return redirect(308, `/storefront_management/${storeName}`);
+            return redirect(303, `/storefront_management/${storeName}`);
         }
 
         return { storefrontUpdateSuccess: true };
