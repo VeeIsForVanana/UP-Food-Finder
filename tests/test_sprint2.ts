@@ -4,6 +4,8 @@ import { fail } from 'assert';
 const validPreexistingStorefrontName = "UpFF Shakes";
 const validStorefrontNames = ["Fruit shakes", "Fruit shakes1", "Fruit shakes2", "Fruit shakes3"];
 
+const forceSleep = (time_ms: number) => new Promise((_) => setTimeout(_, time_ms)) ;
+
 test.describe('successful registration of new storefront', () => {
 	test('one menu item', async({ page }) => {
 		await page.goto('/storefront_form');
@@ -208,6 +210,8 @@ test.describe('Successful update of storefront', () => {
 	test('deleting a store', async ({ page }) => {
 		await page.goto(`/storefront_management/${validStorefrontNames[1]}`);
 		await page.locator("[name=delete_storefront]").click();
+
+		forceSleep(500);
 
 		await page.goto('/storefront_management');
 		await expect(page.getByText(`${validStorefrontNames[1]}`)).not.toBeVisible()
