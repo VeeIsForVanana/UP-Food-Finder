@@ -5,6 +5,8 @@
 
     /** @type {import('./$types').PageData} */
     export let data;
+    export let form;
+    console.log(form)
 
     let storefronts = data.storefronts;
     console.log(storefronts);
@@ -29,8 +31,8 @@
 </Modal>
 
 <div class = "everything">
-    <form>
-        <input class="input" type="text" placeholder="Search" /><br>
+    <form method="POST" action = "?/searchResult">
+        <input class="input" name = "search" type="text" placeholder="Search" value={form?.search ?? ''}/><br>
         <button class="input">Search</button>
     </form>
 
