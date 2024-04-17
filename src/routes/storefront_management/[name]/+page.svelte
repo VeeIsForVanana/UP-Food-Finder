@@ -42,8 +42,8 @@
         <a href="/vendor_form">testUser</a>
     </div>
 
-    {#if form?.storefrontDeleteSuccess}
-        <h2 id="storeDeleted">The storefront was successfully deleted.</h2>
+    {#if form?.storefrontDeleteFail}
+        <h2 id="error">The storefront could not be deleted.</h2>
     {/if}
 
     {#if form?.storefrontUpdateSuccess}
@@ -153,10 +153,6 @@
         float: left;
         width: 25%;
         min-height: 500px;
-    }
-
-    #storeDeleted {
-        color: red;
     }
 
     #storeUpdated {

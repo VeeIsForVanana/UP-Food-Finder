@@ -83,11 +83,15 @@ export const actions = {
 
     deleteStorefront: async ({ request }) => {
         const formData: FormData = await request.formData();
-        const oldStorefrontName: string = formData.get('oldStorefrontName') as string;
+        const oldStorefrontName: string = formData.get('selectedStorefrontName') as string;
         const targets: (Storefront | null)[] = await getStorefrontsFromNames([oldStorefrontName]) ?? [];
         
         if(targets[0]) {
             deleteStorefront(targets[0])
+            return redirect(303, '/storefront_management')
+        }
+        else {
+            return fail(400, { storefrontDeleteFail: true, })
         }
     }
 }
