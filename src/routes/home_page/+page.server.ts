@@ -3,43 +3,34 @@ import { storefrontToPOJO } from '$lib/server/dataTransferObjects.js';
 let search = ''
 
 /** @type {import('./$types').PageServerLoad} */
-// export function load() {
-export async function load() {
-    let storefronts = await getStorefronts() ?? [];
-    // let storefronts  = [
-    //     {
-    //         storeName: "ABC Mart", owner: "Immanuel",
-    //         menu: [ { name: "Burger", price: 5.99 }, { name: "Fries", price: 2.49 }, { name: "Soda", price: 1.99 }],
-    //         coords: { latitude: 37.7749, longitude: -122.4194}
-    //     },
-    //     {
-    //         storeName: "New Mart", owner: "Victor",
-    //         menu: [{ name: "Ice Cream", price: 5.99 }, { name: "Cake", price: 2.49 }, { name: "Hotdog", price: 1.99 }],
-    //         coords: { latitude: 37.7749, longitude: -122.4194 }
-    //     }
-    // ]
+
+function filterStores(storefronts: Array<any> , search: String) {
     const keys = ['storeName', 'owner', 'menu', 'coords'] as const
-    if (search !== ''){
-        storefronts = storefronts.filter((store)=>{
+    if (search !== '') {
+        storefronts = storefronts.filter((store) => {
+            if (!store) {
+                return false;
+            }
             return keys.some((key) => {
-                if (key === 'menu'){
-                    return store.menu.some(item => item.foodName.toLowerCase().includes(search.toLowerCase()));
+                if (key === 'menu') {
+                    return store.menu.some((item: { foodName: string }) => item.foodName.toLowerCase().includes(search.toLowerCase()));
                 } else {
-                    return store[key].toString().toLowerCase().includes(search.toLowerCase());
+                    return store[key] ? store[key].toString().toLowerCase().includes(search.toLowerCase()): false;
                 }
             })
         })
-        console.log(storefronts)
     }
+    return storefronts;
+}
 
-    storefronts = storefronts?.map(
-        (val, _idx, _arr) => {
-            return storefrontToPOJO(val);
-        }
-    )
+export async function load() {
+    const storefrontRes = await getStorefronts() ?? [];
+    let storefronts = storefrontRes.map(storefront => ({ ...storefront })); //convert to POJO
+    console.log('Stores :' , storefronts);
+
+    storefronts = filterStores(storefronts, search);
 
     if (storefronts) {
-        console.log(storefronts);
         return { storefronts };
     } else {
         return { status: 404, redirect: '/home_page' };
@@ -47,21 +38,9 @@ export async function load() {
 }
 
 export const actions = {
-    searchResult: async ({ request }) => {
+    searchResult: async ({ request }: { request: Request }) => {
         const formData = await request.formData();
-        search = formData.get('search');
-        return {search};
+        search = formData.get('search')?.toString() || '';
+        return { search };
     }
 }
-// export async function post({ request }) {
-//     const formData = await request.formData();
-//     const search = formData.get('search');
-
-//     const newStorefront = {
-//         storeName: storeName, owner: owner, menu: menu, coords: coords
-//     }
-//     return {
-//         status: 201,
-//         body: newStorefront
-//     }
-// }

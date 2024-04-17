@@ -4,7 +4,7 @@
     export let storeName = "default name";
     export let owner = "default owner";
     export let menu = [];
-    export let coords = {latitude: 0, longitude: 0};
+    // export let coords = {latitude: 0, longitude: 0};
 
     let tabItems = ["Menu", "Reviews"];
     let activeTab = "Menu";
@@ -40,8 +40,6 @@
         gap: 0px; 
     }
     .menu_items {
-        /* display: flex;
-        flex-direction: column; */
         margin-left: 50px;
         margin-right: 50px;
     }
