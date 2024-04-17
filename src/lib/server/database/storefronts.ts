@@ -70,7 +70,7 @@ export async function isStorefrontNameExists(storeName: string) {
     }
 
     // true if the returned data is non-empty else false
-    return response.data == null ? true : false;
+    return response.data?.length == 0 ? false : true;
 
 }
 
@@ -117,11 +117,13 @@ export async function updateStorefront(
             menu: newStorefront.getMenu() 
         })
         .eq('store_name', originalStorefrontName)
+        .select()
     
     if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
+    return response.data;
 }
 
 export async function getStorefronts() {

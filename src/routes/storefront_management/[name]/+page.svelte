@@ -33,94 +33,100 @@
     <title>Storefront Management</title>
 </head>
 
-<h1>Storefront Management: <span class="text-primary-700">{storefront.storeName}</span></h1>
+{#await data.storefront}
+    <h1>Loading ...</h1>
+{:then storefront} 
+    <h1>Storefront Management: <span class="text-primary-700">{storefront.storeName}</span></h1>
 
-<div class="vendor_name">
-    <a href="/vendor_form">testUser</a>
-</div>
-
-{#if form?.storefrontDeleteSuccess}
-    <h2 id="storeDeleted">The storefront was successfully deleted.</h2>
-{/if}
-
-{#if form?.storefrontUpdateSuccess}
-    <h2 id="storeUpdated">The storefront was updated successfully.</h2>
-{/if}
-
-{#if form?.storeNameExists}
-    <h2 id="error">Store name is already registered. Please choose a different one.</h2>
-{/if}
-
-<form
-    method="post"
-    action="?/updateStorefront"
-    id="storefrontManagement">
-
-    <div class="input_div">
-        <label for="new_storename">Rename Storefront</label>
-        <input class="input" name="new_storename" placeholder="To keep the current name, leave this field blank." type="text"/>
-    </div>
-    <div class="input_div">
-        <label for="new_xcoords">Update X-coordinates</label>
-        <input class="input" name="new_xcoords" bind:value={storefrontCoords[0]} type="number" step="0.001" required/>
-    </div>
-    <div class="input_div">
-        <label for="new_ycoords">Update Y-coordinates</label>
-        <input class="input" name="new_ycoords" bind:value={storefrontCoords[1]} type="number" step="0.001" required/>
+    <div class="vendor_name">
+        <a href="/vendor_form">testUser</a>
     </div>
 
-    <div class="input_div">
-        <h2 id="menu">Menu Items</h2>
-        <div class="menu_names">
-            <label class="label" for="menu_names">Name</label>
-            {#each menu as menu_item, i}
-                <div class="input_div">
-                    <input  class="input"
-                            name="menu_name_{i}"
-                            type="text"
-                            bind:value={menu_item.foodName}
-                            required
-                            />
-                </div>
-            {/each}
+    {#if form?.storefrontDeleteFail}
+        <h2 id="error">The storefront could not be deleted.</h2>
+    {/if}
+
+    {#if form?.storefrontUpdateSuccess}
+        <h2 id="storeUpdated">The storefront was updated successfully.</h2>
+    {/if}
+
+    {#if form?.storeNameExists}
+        <h2 id="error">Store name is already registered. Please choose a different one.</h2>
+    {/if}
+
+    <form
+        method="post"
+        action="?/updateStorefront"
+        id="storefrontManagement">
+
+        <div class="input_div">
+            <label for="new_storename">Rename Storefront</label>
+            <input class="input" name="new_storename" placeholder="To keep the current name, leave this field blank." type="text"/>
+        </div>
+        <div class="input_div">
+            <label for="new_xcoords">Update X-coordinates</label>
+            <input class="input" name="new_xcoords" bind:value={storefrontCoords[0]} type="number" step="0.001" required/>
+        </div>
+        <div class="input_div">
+            <label for="new_ycoords">Update Y-coordinates</label>
+            <input class="input" name="new_ycoords" bind:value={storefrontCoords[1]} type="number" step="0.001" required/>
         </div>
 
-        <div class="menu_prices">
-            <label class="label" for="menu_prices">Price</label>
-            {#each menu as menu_item, i}
-                <div class="input_div">
-                    <input  class="input"
-                            name="menu_price_{i}"
-                            type="number"
-                            bind:value={menu_item.price}
-                            step = "0.01"
-                            min= "0"
-                            required
-                            />
-                </div>
-            {/each}
+        <div class="input_div">
+            <h2 id="menu">Menu Items</h2>
+            <div class="menu_names">
+                <label class="label" for="menu_names">Name</label>
+                {#each menu as menu_item, i}
+                    <div class="input_div">
+                        <input  class="input"
+                                name="menu_name_{i}"
+                                type="text"
+                                bind:value={menu_item.foodName}
+                                required
+                                />
+                    </div>
+                {/each}
+            </div>
+
+            <div class="menu_prices">
+                <label class="label" for="menu_prices">Price</label>
+                {#each menu as menu_item, i}
+                    <div class="input_div">
+                        <input  class="input"
+                                name="menu_price_{i}"
+                                type="number"
+                                bind:value={menu_item.price}
+                                step = "0.01"
+                                min= "0"
+                                required
+                                />
+                    </div>
+                {/each}
+            </div>
         </div>
-    </div>
 
-<input type="hidden" name="selectedStorefrontOwner" bind:value={storefrontOwner} />
+        <input type="hidden" name="selectedStorefrontOwner" bind:value={storefrontOwner} />
+        <input type="hidden" name="selectedStorefrontName" bind:value={storefrontName} />
+
+        <div>
+            <button name="submit" class="input" id="sf_btn">Submit</button>
+        </div>
+        <div>
+            <button formaction="?/deleteStorefront" name="delete_storefront" class="input" id="sf_btn">Delete Storefront</button>
+        </div>
+    </form>
 
     <div>
-        <button name="submit" class="input" id="sf_btn">Submit</button>
+        <button on:click={add_menu_item} name="add_menu" class="input" id="sf_btn">Add menu item</button>
     </div>
     <div>
-        <button formaction="?/deleteStorefront" name="delete_storefront" class="input" id="sf_btn">Delete Storefront</button>
+        <button on:click={remove_menu_item} name="remove_menu" class="input" id="sf_btn">Remove menu item</button>
     </div>
-</form>
+    <div>
+        <a href="/storefront_form">Create New Storefront</a>
+    </div>
+{/await}
 
-<div>
-    <button on:click={add_menu_item} name="add_menu" class="input" id="sf_btn">Add menu item</button>
-</div>
-<div>
-    <button on:click={remove_menu_item} name="remove_menu" class="input" id="sf_btn">Remove menu item</button>
-</div>
-<div>
-    <a href="/storefront_form">Create New Storefront</a>
-</div>
 
 
 <style>
@@ -147,10 +153,6 @@
         float: left;
         width: 25%;
         min-height: 500px;
-    }
-
-    #storeDeleted {
-        color: red;
     }
 
     #storeUpdated {

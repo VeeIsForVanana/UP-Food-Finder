@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { updateStorefront, deleteStorefront, isStorefrontNameExists, getStorefrontsFromNames } from '$lib/server/database/storefronts';
 import { type MenuItem, Storefront, storefrontToPOJO } from '$lib/server/dataTransferObjects.js';
 import type { coordinates } from '$lib/constants';
@@ -8,12 +8,17 @@ const NON_MENU = 7; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ params }) {
-    const storefront: Storefront | null = (await getStorefrontsFromNames([ params.name ]) ?? [null])[0];
-    let pojo = null
-    if(storefront != null) pojo = storefrontToPOJO(storefront)
+    const promisedStorefront = getStorefrontsFromNames([ params.name ]).then(
+        (value) => {
+            if (!value) return Error("Storefront not found");
+            const storefront: Storefront | null = value[0] ?? null;
+            if (storefront == null || storefront == undefined) return Error("Storefront not found");
+            return storefrontToPOJO(storefront);
+        }
+    );
 
     return {
-        'storefront': pojo
+        'storefront': await promisedStorefront
     };
 }
 
@@ -63,11 +68,13 @@ export const actions = {
             coords
         ) 
         
-        if (!isStorefrontNameExists(updatedStorefront.getStoreName())) {
-            updateStorefront(
-                oldStorefrontName,
-                updatedStorefront
-            )
+        await updateStorefront(
+            oldStorefrontName,
+            updatedStorefront
+        )
+
+        if (renameStorefront) {
+            return redirect(303, `/storefront_management/${storeName}`);
         }
 
         return { storefrontUpdateSuccess: true };
@@ -76,11 +83,15 @@ export const actions = {
 
     deleteStorefront: async ({ request }) => {
         const formData: FormData = await request.formData();
-        const oldStorefrontName: string = formData.get('oldStorefrontName') as string;
+        const oldStorefrontName: string = formData.get('selectedStorefrontName') as string;
         const targets: (Storefront | null)[] = await getStorefrontsFromNames([oldStorefrontName]) ?? [];
         
         if(targets[0]) {
             deleteStorefront(targets[0])
+            return redirect(303, '/storefront_management')
+        }
+        else {
+            return fail(400, { storefrontDeleteFail: true, })
         }
     }
 }
