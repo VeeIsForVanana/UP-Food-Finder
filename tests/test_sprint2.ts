@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import { a } from 'vitest/dist/suite-xGC-mxBC.js';
 import { fail } from 'assert';
 
 test.describe('successful registration of new storefront', () => {
@@ -220,3 +219,6 @@ test.describe('Successful update of storefront', () => {
 		await expect(page.getByText("The storefront was successfully deleted.")).toBeVisible();
 	});
 });
+
+// delete storefronts
+// delete vendor
