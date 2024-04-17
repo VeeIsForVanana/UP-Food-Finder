@@ -34,7 +34,7 @@ export const actions = {
             storeName = String(formData.get("new_storename"));
         }
         else {
-            storeName = String(formData.get("storename"));
+            storeName = String(formData.get("selectedStorefrontName"));
         }
 
         // Start of error checking
@@ -58,8 +58,6 @@ export const actions = {
                 price: +formData.get(`menu_price_${i}`)!,
             });
         }
-        console.log("MENU");
-        console.log(menu);
 
         const updatedStorefront = new Storefront(
             storeName,

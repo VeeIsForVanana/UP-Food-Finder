@@ -118,6 +118,8 @@ export async function updateStorefront(
         })
         .eq('store_name', originalStorefrontName)
         .select()
+
+    console.log(response)
     
     if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
