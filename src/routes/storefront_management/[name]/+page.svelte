@@ -102,7 +102,8 @@
         </div>
     </div>
 
-<input type="hidden" name="selectedStorefrontOwner" bind:value={storefrontOwner} />
+    <input type="hidden" name="selectedStorefrontOwner" bind:value={storefrontOwner} />
+    <input type="hidden" name="selectedStorefrontName" bind:value={storefrontName} />
 
     <div>
         <button name="submit" class="input" id="sf_btn">Submit</button>

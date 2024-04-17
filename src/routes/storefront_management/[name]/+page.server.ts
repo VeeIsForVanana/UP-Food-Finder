@@ -1,4 +1,4 @@
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { updateStorefront, deleteStorefront, isStorefrontNameExists, getStorefrontsFromNames } from '$lib/server/database/storefronts';
 import { type MenuItem, Storefront, storefrontToPOJO } from '$lib/server/dataTransferObjects.js';
 import type { coordinates } from '$lib/constants';
@@ -63,11 +63,13 @@ export const actions = {
             coords
         ) 
         
-        if (!isStorefrontNameExists(updatedStorefront.getStoreName())) {
-            updateStorefront(
-                oldStorefrontName,
-                updatedStorefront
-            )
+        await updateStorefront(
+            oldStorefrontName,
+            updatedStorefront
+        )
+
+        if (renameStorefront) {
+            return redirect(308, `/storefront_management/${storeName}`);
         }
 
         return { storefrontUpdateSuccess: true };
