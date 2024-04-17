@@ -17,8 +17,8 @@
 
     function updateData() {
         mapData.zoom = map.getZoom();
-        mapData.lng = map.getCenter().lng;
-        mapData.lat = map.getCenter().lat;
+        mapData.lng = map.getCenter().lng.toFixed(6);
+        mapData.lat = map.getCenter().lat.toFixed(6);
     }
 
     onMount(() => {
