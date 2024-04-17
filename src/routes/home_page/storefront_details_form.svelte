@@ -20,7 +20,11 @@
             {#each menu as item, i}
                 <div class="menu_items">
                     
+<<<<<<< HEAD
                     <p> {i+1} {item.foodName}</p>
+=======
+                    <p> {i+1} {item.name}</p>
+>>>>>>> cf0a840665520afb01aed7c949e5f013d0ee0e9a
                     <p> {item.price}</p>
                     
                 </div>
