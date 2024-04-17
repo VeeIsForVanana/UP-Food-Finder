@@ -128,8 +128,7 @@ test.describe('unsuccessful registration of new storefront', () => {
 
 test.describe('unsuccessful update of storefront', () => {
 	test('store name already exists (no item change)', async({ page }) => {
-		await page.goto('/storefront_management');
-		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.goto(`/storefront_management/${validStorefrontNames[1]}`);
 		await page.locator("[name=new_storename]").fill("Fruit shakes");
 		await page.locator("[name=submit]").click();
 
@@ -137,8 +136,7 @@ test.describe('unsuccessful update of storefront', () => {
 	});
 	
 	test('store name already exists (with 1 item change attempt)', async({ page }) => {
-		await page.goto('/storefront_management');
-		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.goto(`/storefront_management/${validStorefrontNames[2]}`);
 		await page.locator("[name=new_storename]").fill("Fruit shakes");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
 		await page.locator("[name=menu_price_0]").fill("50");
@@ -148,8 +146,7 @@ test.describe('unsuccessful update of storefront', () => {
 	}); // BOTH changes should NOT push through
 	
 	test('store name already exists (with 2 item change attempt)', async({ page }) => {
-		await page.goto('/storefront_management');
-		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.goto(`/storefront_management/${validStorefrontNames[3]}`);
 		await page.locator("[name=new_storename]").fill("Fruit shakes");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
 		await page.locator("[name=menu_price_0]").fill("50");
@@ -165,24 +162,20 @@ test.describe('unsuccessful update of storefront', () => {
 
 test.describe('Successful update of storefront', () => {
 	test('removing a menu item', async ({ page }) => {
-		await page.goto('/storefront_management');
-		await page.locator("[name=storename]").selectOption("Fruit shakes3");
+		await page.goto(`/storefront_management/${validStorefrontNames[3]}`);
 		await page.locator("[name=remove_menu]").click();
 		await page.locator("[name=submit]").click();
-		await page.locator("[name=storename]").selectOption("Fruit shakes3");
 
 		await expect(page.getByText("Strawberry banana")).toBeHidden();
 	});
 
 	test('updating menu item and coordinates', async ({ page }) => {
-		await page.goto('/storefront_management');
-		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.goto(`/storefront_management/${validStorefrontNames[0]}`);
 		await page.locator("[name=new_xcoords]").fill("789");
 		await page.locator("[name=new_ycoords]").fill("-987");
 		await page.locator("[name=menu_name_0]").fill("Strawberry banana");
 		await page.locator("[name=menu_price_0]").fill("80");
 		await page.locator("[name=submit]").click();
-		await page.locator("[name=storename]").selectOption("Fruit shakes");
 
 		await expect(page.locator("[name=new_xcoords]")).toHaveValue("789");
 		await expect(page.locator("[name=new_ycoords]")).toHaveValue("-987");
@@ -190,35 +183,33 @@ test.describe('Successful update of storefront', () => {
 	});
 
 	test('adding a menu item', async ({ page }) => {
-		await page.goto('/storefront_management');
-		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.goto(`/storefront_management/${validStorefrontNames[0]}`);
 		await page.locator("[name=add_menu]").click();
 		await page.locator("[name=menu_name_1]").fill("Milo dinosaur");
 		await page.locator("[name=menu_price_1]").fill("150");
 		await page.locator("[name=submit]").click();
-		await page.locator("[name=storename]").selectOption("Fruit shakes");
 
 		await expect(page.locator("[name=menu_name_1]")).toHaveValue("Milo dinosaur");
 	});
 
 	test('updating store name', async ({ page }) => {
-		await page.goto('/storefront_management');
-		await page.locator("[name=storename]").selectOption("Fruit shakes");
+		await page.goto(`/storefront_management/${validStorefrontNames[0]}`);
 		await page.locator("[name=new_storename]").fill("Fruit Juices");
 		await page.locator("[name=submit]").click();
 
 		try {
-			await page.locator("[name=storename]").selectOption("Fruit Juices");
+			await page.goto(`/storefront_management`)
+			await expect(page.getByText("Fruit Juices")).toBeVisible();
 		} catch (error) {
-			fail("Option 'Fruit Juices' is not present in the dropdown");
+			fail("'Fruit Juices' is not present in the store management page");
 		}
 	});
 	
 	test('deleting a store', async ({ page }) => {
-		await page.goto('/storefront_management');
-		await page.locator("[name=storename]").selectOption("Fruit shakes1");
+		await page.goto(`/storefront_management/${validStorefrontNames[1]}`);
 		await page.locator("[name=delete_storefront]").click();
 
-		await expect(page.getByText("The storefront was successfully deleted.")).toBeVisible();
+		await page.goto('/storefront_management');
+		await expect(page.getByText(`${validStorefrontNames[1]}`)).not.toBeVisible()
 	});
 });
