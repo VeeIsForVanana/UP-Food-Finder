@@ -22,7 +22,7 @@ export async function registerStorefront(
         .from('storefronts')
         .insert({ store_name: storeName, owner: owner.getUsername(), coords_lat: coords[0], coords_lng: coords[1], menu: menu })
     
-    if (response.status != 201) {
+    if (response.status > 399) {
         console.log(`${response.status} error on request, details: ${response.error?.details} \nand hint: ${response.error?.hint}`)
         error(response.status as NumericRange<400, 599>, `${response.statusText}`);
     }
@@ -50,7 +50,7 @@ export async function getStorefrontsFromNames(storeNames: string[]) {
         .select()
         .in('store_name', storeNames);
     
-    if (response.status != 201) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -65,7 +65,7 @@ export async function isStorefrontNameExists(storeName: string) {
         .select()
         .eq('store_name', storeName);
 
-    if (response.status > 299) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -80,7 +80,7 @@ export async function getVendorStorefronts(vendor: Vendor) {
         .select()
         .eq('owner', vendor.getUsername());
     
-    if (response.status > 299) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -97,7 +97,7 @@ export async function deleteStorefront(storefront: Storefront) {
         .delete()
         .eq('store_name', storefront.getStoreName());
     
-    if (response.status > 299) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 }
@@ -118,7 +118,7 @@ export async function updateStorefront(
         })
         .eq('store_name', originalStorefrontName)
     
-    if (response.status > 299) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
@@ -129,7 +129,7 @@ export async function getStorefronts() {
         .from('storefronts')
         .select()
     
-    if (response.status > 299) {
+    if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 
