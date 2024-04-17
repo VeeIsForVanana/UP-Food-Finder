@@ -6,7 +6,6 @@
     
 </script>
 
-
 <head>
     <title>Storefront Management</title>
 </head>

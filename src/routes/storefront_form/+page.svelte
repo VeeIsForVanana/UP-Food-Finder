@@ -21,6 +21,8 @@
 
 </script>
 
+<div class = "everything">
+
 <head>
     <title>Storefront Registration</title>
 </head>
@@ -132,14 +134,16 @@
 <div>
     <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
 </div>
-
-
-
     
 
 <div id="map"></div>
 
+</div>
+
 <style>
+    .everything {
+        margin: 40px;
+    }
     title {
         top: 5px;
     }
