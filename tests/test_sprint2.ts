@@ -1,11 +1,13 @@
 import { expect, test } from '@playwright/test';
-import { a } from 'vitest/dist/suite-xGC-mxBC.js';
 import { fail } from 'assert';
+
+const validPreexistingStorefrontName = "UpFF Shakes";
+const validStorefrontNames = ["Fruit shakes", "Fruit shakes1", "Fruit shakes2", "Fruit shakes3"];
 
 test.describe('successful registration of new storefront', () => {
 	test('one menu item', async({ page }) => {
 		await page.goto('/storefront_form');
-		await page.locator("[name=storename]").fill("Fruit shakes");
+		await page.locator("[name=storename]").fill(`${validStorefrontNames[0]}`);
 		await page.locator("[name=store_x]").fill("123.45");
 		await page.locator("[name=store_y]").fill("-876.90");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
@@ -17,7 +19,7 @@ test.describe('successful registration of new storefront', () => {
 
 	test('two menu items', async({ page }) => {
 		await page.goto('/storefront_form');
-		await page.locator("[name=storename]").fill("Fruit shakes1");
+		await page.locator("[name=storename]").fill(`${validStorefrontNames[1]}`);
 		await page.locator("[name=store_x]").fill("123.45");
 		await page.locator("[name=store_y]").fill("-876.90");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
@@ -34,7 +36,7 @@ test.describe('successful registration of new storefront', () => {
 
 	test('add and remove menu item', async({ page }) => {
 		await page.goto('/storefront_form');
-		await page.locator("[name=storename]").fill("Fruit shakes2");
+		await page.locator("[name=storename]").fill(`${validStorefrontNames[2]}`);
 		await page.locator("[name=store_x]").fill("123.45");
 		await page.locator("[name=store_y]").fill("-876.90");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
@@ -52,7 +54,7 @@ test.describe('successful registration of new storefront', () => {
 
 	test('three menu items', async({ page }) => {
 		await page.goto('/storefront_form');
-		await page.locator("[name=storename]").fill("Fruit shakes3");
+		await page.locator("[name=storename]").fill(`${validStorefrontNames[3]}`);
 		await page.locator("[name=store_x]").fill("123.45");
 		await page.locator("[name=store_y]").fill("-876.90");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
@@ -75,7 +77,7 @@ test.describe('successful registration of new storefront', () => {
 test.describe('unsuccessful registration of new storefront', () => {
 	test('store name already exists (one item)', async({ page }) => {
 		await page.goto('/storefront_form');
-		await page.locator("[name=storename]").fill("Fruit shakes");
+		await page.locator("[name=storename]").fill(`${validStorefrontNames[0]}`);
 		await page.locator("[name=store_x]").fill("123.45");
 		await page.locator("[name=store_y]").fill("-876.90");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
@@ -87,7 +89,7 @@ test.describe('unsuccessful registration of new storefront', () => {
 
 	test('store name already exists (two items)', async({ page }) => {
 		await page.goto('/storefront_form');
-		await page.locator("[name=storename]").fill("UpFF Shakes");
+		await page.locator("[name=storename]").fill(`${validPreexistingStorefrontName}`);
 		await page.locator("[name=store_x]").fill("-12432.2");
 		await page.locator("[name=store_y]").fill("142.59");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
@@ -104,7 +106,7 @@ test.describe('unsuccessful registration of new storefront', () => {
 
 	test('store name already exists (three items)', async({ page }) => {
 		await page.goto('/storefront_form');
-		await page.locator("[name=storename]").fill("UpFF Shakes");
+		await page.locator("[name=storename]").fill(`${validPreexistingStorefrontName}`);
 		await page.locator("[name=store_x]").fill("-12432.2");
 		await page.locator("[name=store_y]").fill("142.59");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
