@@ -53,9 +53,9 @@
 
 <style>
     .map {
-        position: absolute;
-        width: 40%;
-        height: 40%;
+        position: relative;
+        width: 600px;
+        height: 300px;
         border: 2px dashed black;
     }
 </style>
