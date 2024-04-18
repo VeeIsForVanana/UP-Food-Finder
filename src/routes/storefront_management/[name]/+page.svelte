@@ -75,11 +75,11 @@
                 </div>
                 <div class="input_div">
                     <label for="new_xcoords">Update X-coordinates</label>
-                    <input class="input" name="new_xcoords" bind:value={mapData.lng} type="number" step="0.001" required/>
+                    <input class="input" name="new_xcoords" bind:value={mapData.lng} type="number" step="0.000001" required/>
                 </div>
                 <div class="input_div">
                     <label for="new_ycoords">Update Y-coordinates</label>
-                    <input class="input" name="new_ycoords" bind:value={mapData.lat} type="number" step="0.001" required/>
+                    <input class="input" name="new_ycoords" bind:value={mapData.lat} type="number" step="0.000001" required/>
                 </div>
             </div>
 
