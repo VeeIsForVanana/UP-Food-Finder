@@ -134,9 +134,6 @@
 <div>
     <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
 </div>
-    
-
-<div id="map"></div>
 
 </div>
 
@@ -163,10 +160,6 @@
         float: left;
         width: 25%;
         min-height: 500px;
-    }
-
-    #map {
-        height: 180px;
     }
 
     #storeRegistered {
