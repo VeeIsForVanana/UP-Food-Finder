@@ -1,4 +1,5 @@
 <script lang="ts">
+    import MapComponent from "$lib/MapComponent.svelte";
 	import type { coordinates } from "$lib/constants";
 
     /** @type {import('./$types').PageData} */
@@ -16,6 +17,12 @@
     let storefrontName: string = storefront.storeName;
     let storefrontMenu : any[] = storefront.menu;
     let storefrontCoords: coordinates = storefront.coords;
+    
+    let mapData = {
+        lat: storefrontCoords[1],
+        lng: storefrontCoords[0],
+        zoom: 0
+    }
 
     let menu = storefrontMenu;
 
@@ -59,17 +66,27 @@
         action="?/updateStorefront"
         id="storefrontManagement">
 
-        <div class="input_div">
-            <label for="new_storename">Rename Storefront</label>
-            <input class="input" name="new_storename" placeholder="To keep the current name, leave this field blank." type="text"/>
-        </div>
-        <div class="input_div">
-            <label for="new_xcoords">Update X-coordinates</label>
-            <input class="input" name="new_xcoords" bind:value={storefrontCoords[0]} type="number" step="0.001" required/>
-        </div>
-        <div class="input_div">
-            <label for="new_ycoords">Update Y-coordinates</label>
-            <input class="input" name="new_ycoords" bind:value={storefrontCoords[1]} type="number" step="0.001" required/>
+        <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
+
+            <div>
+                <div class="input_div">
+                    <label for="new_storename">Rename Storefront</label>
+                    <input class="input" name="new_storename" placeholder="To keep the current name, leave this field blank." type="text"/>
+                </div>
+                <div class="input_div">
+                    <label for="new_xcoords">Update X-coordinates</label>
+                    <input class="input" name="new_xcoords" bind:value={mapData.lng} type="number" step="0.001" required/>
+                </div>
+                <div class="input_div">
+                    <label for="new_ycoords">Update Y-coordinates</label>
+                    <input class="input" name="new_ycoords" bind:value={mapData.lat} type="number" step="0.001" required/>
+                </div>
+            </div>
+
+            <div>
+                <MapComponent initialLng={mapData.lng} initialLat={mapData.lat} bind:mapData={mapData}/>
+            </div>
+
         </div>
 
         <div class="input_div">
