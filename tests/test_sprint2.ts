@@ -131,6 +131,7 @@ test.describe('unsuccessful registration of new storefront', () => {
 test.describe('unsuccessful update of storefront', () => {
 	test('store name already exists (no item change)', async({ page }) => {
 		await page.goto(`/storefront_management/${validStorefrontNames[1]}`);
+		forceSleep(500);
 		await page.locator("[name=new_storename]").fill("Fruit shakes");
 		await page.locator("[name=submit]").click();
 
@@ -139,6 +140,7 @@ test.describe('unsuccessful update of storefront', () => {
 	
 	test('store name already exists (with 1 item change attempt)', async({ page }) => {
 		await page.goto(`/storefront_management/${validStorefrontNames[2]}`);
+		forceSleep(500);
 		await page.locator("[name=new_storename]").fill("Fruit shakes");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
 		await page.locator("[name=menu_price_0]").fill("50");
@@ -149,6 +151,7 @@ test.describe('unsuccessful update of storefront', () => {
 	
 	test('store name already exists (with 2 item change attempt)', async({ page }) => {
 		await page.goto(`/storefront_management/${validStorefrontNames[3]}`);
+		forceSleep(500);
 		await page.locator("[name=new_storename]").fill("Fruit shakes");
 		await page.locator("[name=menu_name_0]").fill("Mango graham");
 		await page.locator("[name=menu_price_0]").fill("50");
@@ -165,6 +168,7 @@ test.describe('unsuccessful update of storefront', () => {
 test.describe('Successful update of storefront', () => {
 	test('removing a menu item', async ({ page }) => {
 		await page.goto(`/storefront_management/${validStorefrontNames[3]}`);
+		forceSleep(500);
 		await page.locator("[name=remove_menu]").click();
 		await page.locator("[name=submit]").click();
 
@@ -173,6 +177,7 @@ test.describe('Successful update of storefront', () => {
 
 	test('updating menu item and coordinates', async ({ page }) => {
 		await page.goto(`/storefront_management/${validStorefrontNames[0]}`);
+		forceSleep(500);
 		await page.locator("[name=new_xcoords]").fill("789");
 		await page.locator("[name=new_ycoords]").fill("-987");
 		await page.locator("[name=menu_name_0]").fill("Strawberry banana");
@@ -186,6 +191,7 @@ test.describe('Successful update of storefront', () => {
 
 	test('adding a menu item', async ({ page }) => {
 		await page.goto(`/storefront_management/${validStorefrontNames[0]}`);
+		forceSleep(500);
 		await page.locator("[name=add_menu]").click();
 		await page.locator("[name=menu_name_1]").fill("Milo dinosaur");
 		await page.locator("[name=menu_price_1]").fill("150");
@@ -196,6 +202,7 @@ test.describe('Successful update of storefront', () => {
 
 	test('updating store name', async ({ page }) => {
 		await page.goto(`/storefront_management/${validStorefrontNames[0]}`);
+		forceSleep(500);
 		await page.locator("[name=new_storename]").fill("Fruit Juices");
 		await page.locator("[name=submit]").click();
 
