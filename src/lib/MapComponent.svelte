@@ -5,15 +5,20 @@
 	import { browser } from "$app/environment";
 
     export let showSidebar = false;
-    export const mapData = {lng: 0, lat: 0, zoom: 0};
+    
+    export let initialLng = 121.063439;
+    export let initialLat = 14.654888;
+    export let initialZoom = 14.75;
+
+    export const mapData = {lng: initialLng, lat: initialLat, zoom: initialZoom};
     
     let map: mapboxgl.Map;
     let marker: mapboxgl.Marker;
     let mapContainer: HTMLElement;
     
-    mapData.lng = 121.063439;
-    mapData.lat = 14.654888;
-    mapData.zoom = 14.75;
+    mapData.lng = initialLng;
+    mapData.lat = initialLat;
+    mapData.zoom = initialZoom;
 
     function updateData() {
         mapData.zoom = map.getZoom();
