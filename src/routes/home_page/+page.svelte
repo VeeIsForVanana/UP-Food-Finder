@@ -8,7 +8,8 @@
     export let data;
     export let form;
 
-    let storefronts = data.storefronts;
+    let storefronts;
+    $: storefronts = form?.storefronts || data.storefronts;
 
     let showModal = false;
     const toggleModal = () => {
@@ -31,7 +32,7 @@
 <div class = "ml-10 mr-80 w-screen">
     <form method="POST" action = "?/searchResult">
         <input class="search-input" name = "search" type="text" placeholder="Search" value={form?.search ?? ''}/>
-        <button class="search-button" id="btn" style="width: 10%; height: 40px">Search</button>
+        <button class="search-button" name = "search_button" style="width: 10%; height: 40px">Search</button>
     </form>
 
     <h3>Default Recommendation:</h3>
