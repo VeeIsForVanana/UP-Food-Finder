@@ -1,98 +1,24 @@
-import { fail } from '@sveltejs/kit';
-import { getStorefronts, updateStorefront, getVendorStorefronts, getStorefrontsCoords, vendors, getStorefrontsMenuItems, deleteStorefront, isStorefrontNameExists } from '$lib/server/database';
-import type { coordinates } from '$lib/constants';
-
-// sample vendor as owner
-let vendor = vendors[0];
-const NON_MENU = 7; // number of fields in form not for menu
+import { getVendorStorefronts } from '$lib/server/database/storefronts';
+import { Vendor, Storefront } from '$lib/server/dataTransferObjects.js';
 
 /** @type {import('./$types').PageLoad} */
-export function load() {
-    let storefronts = getVendorStorefronts(vendor);
+export async function load() {
+    const vendor = new Vendor(
+        "upfoodfinder",
+        "password",
+        "01234567890",
+        "idk",
+        "doesn't matter",
+    );
 
-    console.log("page.server.ts load");
-    console.log(vendor);
-
-    console.log("Storefronts in Database");
-    console.log(getStorefronts());
-
-    let storefrontsNames = storefronts.map(storefront => storefront.getStoreName());
-    console.log("Storefronts owned by Vendor");
-    console.log(storefrontsNames);
-    
-    let storefrontsMenuItems = getStorefrontsMenuItems(storefronts);
-    console.log("Menu items of storefronts owned by Vendor");
-    console.log(storefrontsMenuItems);
-
-    let storefrontsCoords = getStorefrontsCoords(storefronts);
+    const rawStorefronts: (Storefront | null)[] = await getVendorStorefronts(vendor) ?? [];
+    const storefronts = rawStorefronts
+        .filter((storefront): storefront is Storefront => storefront !== null)
+        .map((storefront) => {
+            return storefront.getStoreName()
+        });
 
     return {
-        storefrontsNames: storefrontsNames,
-        storefrontsMenuItems: storefrontsMenuItems,
-        storefrontsCoords: storefrontsCoords
+        storefronts: storefronts
     };
-}
-
-export const actions = {
-    updateStorefront: async ({ request }: any) => {
-        console.log("page.server.ts actions");
-        const formData: FormData = await request.formData();
-        const index = Number(formData.get('selectedStorefrontIndex'));
-        const deleteStorefrontBoolean = formData.get('deleteStorefrontBoolean') === "true";
-        if (deleteStorefrontBoolean) {
-            console.log("DELETING STOREFRONT");
-            deleteStorefront(vendor, index);
-            return { storefrontDeleteSuccess: true }; 
-        }
-
-        const renameStorefront = String(formData.get('new_storename'));
-        let storeName;
-        if (renameStorefront) {
-            storeName = String(formData.get("new_storename"));
-        }
-        else {
-            storeName = String(formData.get("storename"));
-        }
-
-        // Start of error checking
-
-        storeName.trim(); // remove leading and trailing whitespaces
-        const storefrontExists = await isStorefrontNameExists(storeName);
-        if (storefrontExists && renameStorefront) {
-            return fail(400, { storeNameExists: true });
-        } // check if any of the store name is taken
-
-        // End of error checking
-        
-        const owner = vendor;
-        const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
-        const coords: coordinates = [+formData.get("new_xcoords")!, +formData.get("new_ycoords")!];
-
-        let menu : any[] = [];
-        for (let i = 0; i < menuItemCount; i++) {
-            menu = menu.concat(
-                {
-                    foodName: formData.get(`menu_name_${i}`),
-                    price: +formData.get(`menu_price_${i}`)!,
-                }
-            );
-        }
-        console.log("MENU");
-        console.log(menu);
-
-        updateStorefront(
-            index,
-            storeName,
-            owner,
-            menu,
-            coords
-        )
-
-        console.log("Storefronts in database:");        
-        console.log(getStorefronts());
-        console.log("Storefronts of Vendor");
-        console.log(getVendorStorefronts(vendor));
-
-        return { storefrontUpdateSuccess: true };
-    }
 }

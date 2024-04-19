@@ -3,6 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body { @apply h-full overflow-hidden; }
+
 :root [data-theme='skeleton'] {
     --background-image: none !important;
 
@@ -109,6 +111,10 @@
     label {
         display: block;
         margin-top: 30px;
+    }
+
+    #title {
+        padding-top: 48px;
     }
 
     #btn {
