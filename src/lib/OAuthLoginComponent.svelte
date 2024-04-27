@@ -1,5 +1,7 @@
 <script lang="ts">
 	export let redirectLink: string = "/";
+    export let loggedInUser: null | string = null;
+    export let loaded = false;
     import { supabase } from "./supabaseClient";
 
     console.log(redirectLink)
@@ -15,7 +17,9 @@
 
     const currentUser = async () => {
         const {data, error} = await supabase.auth.getUser()
-        return data.user == null ? null : data.user.email
+        loggedInUser = data.user?.email ?? null
+        loaded = true
+        return loggedInUser
     }
 </script>
 

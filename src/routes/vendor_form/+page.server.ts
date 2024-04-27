@@ -5,6 +5,7 @@ export const actions = {
     registerVendor: async ({ request }) => {
         // get form data, variables based on page.svelte, input tag, name attribute
         const formData: FormData = await request.formData();
+        const user = String(formData.get("user"))
         const username = String(formData.get("username"));
         const password = String(formData.get("password"));
         const phoneNumber = String(formData.get("phone_number"));
@@ -13,6 +14,12 @@ export const actions = {
 
         let failure = false;
         const returnData = { };
+
+        // check if the user is logged in
+        if (user === 'null') {
+            failure = true;
+            returnData.userError = true;
+        }
 
         // check if any of the necessary fields is missing and return an error if so
         [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
