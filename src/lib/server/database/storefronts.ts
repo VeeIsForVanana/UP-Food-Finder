@@ -1,6 +1,6 @@
 import type { coordinates } from '$lib/constants';
 import { Vendor, Storefront, type MenuItem } from '$lib/server/dataTransferObjects';
-import { supabase } from '$lib/server/supabaseClient';
+import { supabase } from '$lib/supabaseClient';
 import { error, type NumericRange } from '@sveltejs/kit';
 
 type storefrontData = { store_name: string, owner: string, coords_lat: number, coords_lng: number, menu: MenuItem[] }

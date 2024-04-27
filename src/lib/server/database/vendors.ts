@@ -1,5 +1,5 @@
 import { Vendor } from "$lib/server/dataTransferObjects";
-import { supabase } from '$lib/server/supabaseClient';
+import { supabase } from '$lib/supabaseClient';
 import { error, type NumericRange } from '@sveltejs/kit';
 
 

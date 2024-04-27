@@ -12,13 +12,13 @@ export const actions = {
         const securityQuestionAnswer = String(formData.get("security_a"));
 
         let failure = false;
-        const data = { };
+        const returnData = { };
 
         // check if any of the necessary fields is missing and return an error if so
         [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
             if (elem === 'null' || !elem) {
                 failure = true;
-                data.missing = true;
+                returnData.missing = true;
             }
         });
         
@@ -26,33 +26,33 @@ export const actions = {
         const usernameExists = await isUsernameExists(username);
         if (usernameExists) {
             failure = true;
-            data.usernameExists = true;
+            returnData.usernameExists = true;
         }
 
         // Check if phone number already exists in the database
         const phoneNumberExists = await isPhoneNumberExists(phoneNumber);
         if (phoneNumberExists) {
             failure = true;
-            data.phoneNumberExists = true;
+            returnData.phoneNumberExists = true;
         }
 
         // perform additional check on inputs
         const phoneNumberRegex = new RegExp("^0[0-9]{10}$");
         if (!phoneNumberRegex.test(phoneNumber)) {
             failure = true;
-            data.phoneError = true;
+            returnData.phoneError = true;
         }
         
         // check if the password is too short or too long
         if (password.length < 8 || password.length > 32) {
             failure = true;
-            data.passwordError = true;
+            returnData.passwordError = true;
         }
         
-        if(failure && data != null) {
-            return fail(400, data);
+        if(failure && returnData != null) {
+            return fail(400, returnData);
         }
-
+        
         // successful registration
         registerVendor(
             username,

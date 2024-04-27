@@ -1,6 +1,8 @@
 <script lang="ts">
     /** @type {import('./$types').PageData} */
 
+	import OAuthLoginComponent from "$lib/OAuthLoginComponent.svelte";
+
     export let form: any;
     export let data: any;
 
@@ -96,6 +98,8 @@
                 type="submit"
                 disabled={form?.registrationSuccess}/>
     </form>
+
+    <OAuthLoginComponent> </OAuthLoginComponent>
 </div>
 </div>
 <style>
