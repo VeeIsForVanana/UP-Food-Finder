@@ -99,7 +99,7 @@
                 disabled={form?.registrationSuccess}/>
     </form>
 
-    <OAuthLoginComponent> </OAuthLoginComponent>
+    <OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form"/>
 </div>
 </div>
 <style>

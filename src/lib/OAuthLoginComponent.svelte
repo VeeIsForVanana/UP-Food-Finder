@@ -1,11 +1,15 @@
 <script lang="ts">
-	import { supabase } from "./supabaseClient";
-    import { Icon } from "svelte-icons-pack";
-    import { BsGoogle } from "svelte-icons-pack/bs";
+	export let redirectLink: string = "/";
+    import { supabase } from "./supabaseClient";
+
+    console.log(redirectLink)
 
     const loginWithGoogle = () => {
         supabase.auth.signInWithOAuth({
             provider: 'google',
+            options: {
+                redirectTo: redirectLink,
+            }
         })
     }
 
@@ -27,9 +31,3 @@
         {/if} 
     {/await}
 </div>
-
-<style>
-    .inline-icon {
-        display: inline;
-    }
-</style>
