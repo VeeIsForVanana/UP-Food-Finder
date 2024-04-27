@@ -3,6 +3,7 @@ import { Vendor, Storefront } from '$lib/server/dataTransferObjects.js';
 
 /** @type {import('./$types').PageLoad} */
 export async function load() {
+
     const vendor = new Vendor(
         "upfoodfinder",
         "password",
