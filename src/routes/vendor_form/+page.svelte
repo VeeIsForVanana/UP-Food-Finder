@@ -8,7 +8,7 @@
     let user: null | string = null;
     let isUserLoaded = false;
 
-    console.log(data.securityQuestionsList)
+    // console.log(data.securityQuestionsList)
 </script>
 <div class = "everything">
 <head>

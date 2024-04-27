@@ -4,8 +4,6 @@
     export let loaded = false;
     import { supabase } from "./supabaseClient";
 
-    console.log(redirectLink)
-
     const loginWithGoogle = () => {
         supabase.auth.signInWithOAuth({
             provider: 'google',
