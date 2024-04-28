@@ -16,6 +16,7 @@ export const vendors: Vendor[] = [
 
 export async function registerVendor(
     username: string,
+    user_uid: string,
     password: string,
     phoneNumber: string,
     securityQuestion: string,
@@ -29,6 +30,7 @@ export async function registerVendor(
         .from('vendors')
         .insert({
 			username: username,
+            user_uid: user_uid,
 			phone_number: phoneNumber,
 			password: password,
 			security_q: securityQuestion,
