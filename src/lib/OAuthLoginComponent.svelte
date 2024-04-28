@@ -2,7 +2,7 @@
 	export let redirectLink: string = "/";
     export let loggedInUID: null | string = null;
     export let loaded = false;
-    import { supabase } from "./supabaseClient";
+    export let supabase = null;
 
     const loginWithGoogle = () => {
         supabase.auth.signInWithOAuth({

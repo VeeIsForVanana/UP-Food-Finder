@@ -44,7 +44,7 @@
     <h2 id="error">Please don't forget to log in!</h2>
 {/if}
 
-<OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUID={user} bind:loaded={isUserLoaded}/>
+<OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUID={user} bind:loaded={isUserLoaded} bind:supabase={data.supabase}/>
 
 <div>
     <form method="post" action="?/registerVendor" id="vendorRegistration">
