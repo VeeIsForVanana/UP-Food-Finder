@@ -44,11 +44,11 @@
     <h2 id="error">Please don't forget to log in!</h2>
 {/if}
 
-<OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUser={user} bind:loaded={isUserLoaded}/>
+<OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUID={user} bind:loaded={isUserLoaded}/>
 
 <div>
     <form method="post" action="?/registerVendor" id="vendorRegistration">
-        <fieldset disabled={user == null}>
+        <fieldset disabled={user == null || !isUserLoaded}>
             <label class="label" for="username">Username</label>
             <input  class="input"
                     name="username"
@@ -91,7 +91,7 @@
                 </select>
             {/if}
 
-            <input hidden bind:value={user}/>
+            <input hidden name="user" bind:value={user}/>
 
             <label class="label" for="security_a">Security Question Answer</label>
             <input  class="input"

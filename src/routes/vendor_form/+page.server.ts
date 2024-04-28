@@ -63,6 +63,7 @@ export const actions = {
         // successful registration
         registerVendor(
             username,
+            user,
             password,
             phoneNumber,
             securityQuestion,
