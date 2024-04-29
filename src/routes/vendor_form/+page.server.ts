@@ -1,5 +1,13 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { registerVendor, isPhoneNumberExists, isUsernameExists, getVendors } from '$lib/server/database/vendors';
+import { registerVendor, isPhoneNumberExists, isUsernameExists, getUserVendor } from '$lib/server/database/vendors';
+
+export async function load({ locals: {supabase} }) {
+    const userVendor = (await getUserVendor(supabase))[0] ?? null;
+
+    console.log(userVendor)
+
+    return {'userVendor': userVendor}
+}
 
 export const actions = {
     registerVendor: async ({ request, locals: { safeGetSession, supabase } }) => {
