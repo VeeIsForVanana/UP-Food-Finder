@@ -79,15 +79,13 @@ export async function isPhoneNumberExists(
     return (response.data !== null && response.data.length > 0);
 }
 
+// get all vendors in the system
 export async function getVendors(
     supabase: SupabaseClient
 ) {
     const response = await supabase
         .from('taken_vendors')
         .select();
-
-    console.log("What the fuck")
-    console.log(`Response: ${response.data}`)
 
     if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
@@ -96,3 +94,17 @@ export async function getVendors(
     return response.data ?? [];
 }
 
+// get the sole user (if it exists) associated to a given user
+export async function getUserVendor(
+    supabase: SupabaseClient
+) {
+    const response = await supabase
+        .from('vendors')
+        .select();
+
+    if (response.status > 399) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return response.data ?? [];
+}
