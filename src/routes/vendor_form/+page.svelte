@@ -48,6 +48,9 @@
 
 {#if (form?.userError || user == null) && isUserLoaded}
     <h2 id="error">Please don't forget to log in!</h2>
+{/if}
+
+{#if user == null}
     <OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUID={user} bind:loaded={isUserLoaded} bind:supabase={data.supabase}/>
 {/if}
 
