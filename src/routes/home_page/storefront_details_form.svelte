@@ -40,9 +40,9 @@
 
 <style>
     .menu {
-        display: grid;
+        /* display: grid;
         grid-template-columns: repeat(2, 1fr); 
-        gap: 0px; 
+        gap: 0px; */
     }
     .menu_items {
         margin-left: 50px;
