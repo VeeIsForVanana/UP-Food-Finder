@@ -1,5 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { getStorefronts, registerStorefront, getVendorStorefronts, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database/storefronts';
+import { getLoggedInVendor } from '$lib/server/database/vendors';
+import { supabase } from '$lib/supabaseClient';
 import { type MenuItem } from '$lib/server/dataTransferObjects';
 import type { coordinates } from '$lib/constants';
 
@@ -12,7 +14,7 @@ export const actions = {
         const formData: FormData = await request.formData();
         const storeName = String(formData.get("storename"));
         const storeCoords : coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
-        const owner = vendor;
+        const owner = await getLoggedInVendor(supabase);
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
         const menu : MenuItem[] = [];
 
