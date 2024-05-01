@@ -5,10 +5,7 @@ export class Vendor {
 
     constructor(
         private username: string,
-        private password: string,
         private phoneNumber: string,
-        private securityQuestion: string,
-        private securityQAnswer: string,
     ) { }
 
     getUsername() {

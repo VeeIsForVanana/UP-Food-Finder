@@ -17,8 +17,6 @@ export const actions = {
         const username = String(formData.get("username"));
         const password = String(formData.get("password"));
         const phoneNumber = String(formData.get("phone_number"));
-        const securityQuestion = String(formData.get("security_q"));
-        const securityQuestionAnswer = String(formData.get("security_a"));
 
         let failure = false;
         const returnData = { };
@@ -36,7 +34,7 @@ export const actions = {
         }
         
         // check if any of the necessary fields is missing and return an error if so
-        [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
+        [username, phoneNumber].forEach((elem) => {
             if (elem === 'null' || !elem) {
                 failure = true;
                 returnData.missing = true;
@@ -64,12 +62,6 @@ export const actions = {
             returnData.phoneError = true;
         }
         
-        // check if the password is too short or too long
-        if (password.length < 8 || password.length > 32) {
-            failure = true;
-            returnData.passwordError = true;
-        }
-        
         if(failure && returnData != null) {
             return fail(400, returnData);
         }
@@ -78,10 +70,7 @@ export const actions = {
         registerVendor(
             username,
             user,
-            password,
             phoneNumber,
-            securityQuestion,
-            securityQuestionAnswer,
             supabase
         )
 
