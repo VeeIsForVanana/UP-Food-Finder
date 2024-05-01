@@ -1,22 +1,25 @@
 import { fail } from '@sveltejs/kit';
 import { getStorefronts, registerStorefront, getVendorStorefronts, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database/storefronts';
 import { getLoggedInVendor } from '$lib/server/database/vendors';
-import { supabase } from '$lib/supabaseClient';
 import { type MenuItem } from '$lib/server/dataTransferObjects';
 import type { coordinates } from '$lib/constants';
 
 const NON_MENU = 4; // number of fields in form not for menu
 
 export const actions = {
-    registerStorefront: async ({ request }) => {
+    registerStorefront: async ({ request, locals}) => {
         console.log(await getStorefronts())
+        const { supabase } = locals;
+        const vendor = await getLoggedInVendor(supabase);
 
         const formData: FormData = await request.formData();
         const storeName = String(formData.get("storename"));
         const storeCoords : coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
-        const owner = await getLoggedInVendor(supabase);
+        const owner = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
         const menu : MenuItem[] = [];
+
+        console.log("owner: ", owner);
 
         // Start of error checking
         storeName.trim(); // remove leading and trailing whitespaces
