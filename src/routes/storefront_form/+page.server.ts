@@ -19,8 +19,6 @@ export const actions = {
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
         const menu : MenuItem[] = [];
 
-        console.log("owner: ", owner);
-
         // Start of error checking
         storeName.trim(); // remove leading and trailing whitespaces
         const storefrontExists = await isStorefrontNameExists(storeName);
