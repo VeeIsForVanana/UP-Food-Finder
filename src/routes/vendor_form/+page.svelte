@@ -11,7 +11,7 @@
     let isUserLoaded = false;
     let isUserVendored = data.userVendor != null
 
-    let vendorData = data.userVendor ?? {username: null, password: null, phone_number: null, security_q: null, security_qa: null}
+    let vendorData = data.userVendor ?? {username: null, password: null, phone_number: null}
 
 </script>
 
@@ -70,14 +70,6 @@
                     bind:value={vendorData.username}
                     required/>
 
-            <label class="label" for="password">Password</label>
-            <input  class="input" 
-                    name="password"
-                    id="password"
-                    type="password"
-                    bind:value={vendorData.password}
-                    required/>
-
             <label class="label" for="phone_number">Phone Number</label>
             <!-- requires format 0XXXXXXXXXX -->
             <input  class="input"
@@ -89,34 +81,7 @@
                     bind:value={vendorData.phone_number}
                     required/>
 
-            <label class="label" for="security_q">Security Question</label>
-            <!-- no fixed security questions, let user type their own -->
-            {#if data.securityQuestionsList.length == 0}
-                <input  class="input"
-                        name="security_q"
-                        id="security_q"
-                        type="text"
-                        bind:value={vendorData.security_q}
-                        required/>
-            
-            <!-- display each security question in list -->
-            {:else}
-                <select class="select" name="security_q" form="vendorRegistration" required>
-                    {#each data.securityQuestionsList as securityQuestion}
-                        <option value={securityQuestion}> {@html securityQuestion} </option> 
-                    {/each}
-                </select>
-            {/if}
-
             <input hidden name="user" bind:value={user}/>
-
-            <label class="label" for="security_a">Security Question Answer</label>
-            <input  class="input"
-                    name="security_a"
-                    id="security_a"
-                    type="text"
-                    bind:value={vendorData.security_qa}
-                    required/>
 
             <input  class="input"
                     style=" background-color: rgb(var(--color-secondary-500));
