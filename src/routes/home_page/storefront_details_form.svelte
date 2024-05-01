@@ -1,5 +1,6 @@
 <script>
     import Tabs from './components/tabs.svelte';
+    import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 
     export let storeName = "default name";
     export let owner = "default owner";
@@ -17,14 +18,18 @@
     <Tabs {tabItems} {activeTab} on:changeTab={e => activeTab = e.detail}/>
     {#if activeTab === "Menu"}
         <div class="menu">
-            {#each menu as item, i}
-                <div class="menu_items">
-                    
-                    <p> {i+1} {item.foodName}</p>
-                    <p> {item.price}</p>
-                    
-                </div>
-            {/each}
+            <Accordion>
+                {#each menu as item, i}
+                    <div class="menu_items">
+                        <AccordionItem>
+                            <svelte:fragment slot="summary"> <div class="summary-content"><p> {item.foodName}</p>
+                                                            <p> {item.price}</p> </div> </svelte:fragment>
+                            <svelte:fragment slot="content">Health Info Here</svelte:fragment>
+
+                        </AccordionItem>
+                    </div>
+                {/each}
+            </Accordion>
         </div>
     {:else if activeTab === "Reviews"}
         <p>reviews here</p>
@@ -43,7 +48,7 @@
         margin-left: 50px;
         margin-right: 50px;
     }
-    .menu > div {
+    .summary-content {
         display: flex;
         justify-content: space-between; 
         margin-bottom: 0px; 
