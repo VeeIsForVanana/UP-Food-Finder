@@ -20,8 +20,6 @@ export async function registerVendor(
 			phone_number: phoneNumber,
         });
     
-    console.log(response)
-    
     if (response.status != 201) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
