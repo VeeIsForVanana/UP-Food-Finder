@@ -17,14 +17,21 @@
     <p>Owner: {owner}</p>
     <Tabs {tabItems} {activeTab} on:changeTab={e => activeTab = e.detail}/>
     {#if activeTab === "Menu"}
-        <div class="menu">
+        <div class="menu" style="overflow-y: scroll; max-height: 300px;">
             <Accordion>
                 {#each menu as item, i}
                     <div class="menu_items">
                         <AccordionItem>
                             <svelte:fragment slot="summary"> <div class="summary-content"><p> {item.foodName}</p>
                                                             <p> {item.price}</p> </div> </svelte:fragment>
-                            <svelte:fragment slot="content">Health Info Here</svelte:fragment>
+                            <svelte:fragment slot="content">
+                                <div class="menu-item-details">
+                                    <p>Calories: {item.calories}</p>
+                                    <p>Fat: {item.fat}</p>
+                                    <p>Protein: {item.protein}</p>
+                                    <p>Carbs: {item.carbs}</p>
+                                </div>
+                            </svelte:fragment>
 
                         </AccordionItem>
                     </div>
