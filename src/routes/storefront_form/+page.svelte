@@ -19,8 +19,9 @@
         menu = menu.slice(0, menu.length-1);
     }
 
-    const update_map = () => {
-        updateMap();
+    let updateMap;
+    function update_map_display() {
+        updateMap(mapData.lng, mapData.lat);
     }
 
 </script>
@@ -69,7 +70,7 @@
                     type="number"
                     step="0.000001"
                     bind:value={mapData.lng}
-                    on:change={update_map}
+                    on:change={update_map_display}
                     required
                     />
 
@@ -79,13 +80,15 @@
                     type="number"
                     step="0.000001"
                     bind:value={mapData.lat}
-                    on:change={update_map}
+                    on:change={update_map_display}
                     required
                     />
         </div>
         
         <div>
-            <MapComponent bind:mapData={mapData} />
+            <MapComponent bind:mapData={mapData}
+                          bind:updateMap={updateMap}
+                />
         </div>
 
     </div>

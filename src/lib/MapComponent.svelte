@@ -26,8 +26,8 @@
         mapData.lat = map.getCenter().lat.toFixed(6);
     }
 
-    export function updateMap() {
-        console.log("updated map");
+    export const updateMap = (lng, lat) => {
+        map.jumpTo({center: [lng, lat],});
     }
 
     onMount(() => {
