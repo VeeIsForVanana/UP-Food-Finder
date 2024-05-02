@@ -20,8 +20,6 @@ export async function registerVendor(
 			phone_number: phoneNumber,
         });
     
-    console.log(response)
-    
     if (response.status != 201) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
@@ -89,4 +87,24 @@ export async function getUserVendor(
     }
 
     return response.data ?? [];
+}
+
+export async function getLoggedInVendor(supabase: SupabaseClient) {
+
+    let loggedInUID: null | string = null;
+    const {data, userError} = await supabase.auth.getUser()
+    loggedInUID = data.user?.id ?? null
+
+    const { data: vendor, vendorError } = await supabase
+        .from('vendors')
+        .select()
+        .eq('user_uid', loggedInUID)
+        .single(); // Assuming there's only one vendor per user ID, returns null otherwise
+
+    // If error, we might need to guarantee that logged in users are forced to create a vendor account
+
+    return new Vendor(
+            vendor.username,
+            vendor.phone_number
+        );
 }
