@@ -23,7 +23,7 @@
                     <div class="menu_items">
                         <AccordionItem>
                             <svelte:fragment slot="summary"> <div class="summary-content"><p> {item.foodName}</p>
-                                                            <p> {item.price}</p> </div> </svelte:fragment>
+                                                            <p>Php {item.price}</p> </div> </svelte:fragment>
                             <svelte:fragment slot="content">
                                 <div class="menu-item-details">
                                     <p>Calories: {item.calories}</p>
