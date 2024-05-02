@@ -2,12 +2,20 @@
 	import { AppShell } from '@skeletonlabs/skeleton'
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import '../app.pcss';
+	import UpperBarLoginComponent from '$lib/UpperBarLoginComponent.svelte';
+
+	export let data;
+
+	let { supabase } = data;
 </script>
 
 
 
 <AppShell>
-	<svelte:fragment slot="header"><AppBar background="bg-surface-50 text-primary-500"><h4 class="h4"><a href="/">UP Food Finder</a></h4></AppBar></svelte:fragment>
+	<svelte:fragment slot="header"><AppBar gridColumns="grid-cols-2" background="bg-surface-50 text-primary-500" slotTrail="place-content-end">
+		<h4 class="h4"><a href="/">UP Food Finder</a></h4>
+		<svelte:fragment slot="trail"><UpperBarLoginComponent supabase={supabase}/></svelte:fragment>
+	</AppBar></svelte:fragment>
 	<!-- (sidebarLeft) -->
 	<!-- (sidebarRight) -->
 	<!-- (pageHeader) -->

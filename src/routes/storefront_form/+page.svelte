@@ -8,7 +8,7 @@
     let store_name = "";
     let menu = [
         {foodName:"item 0", price:0},
-    ];
+    ];  
     
     let mapData = {lat: 0, lng: 0, zoom: 0};
 

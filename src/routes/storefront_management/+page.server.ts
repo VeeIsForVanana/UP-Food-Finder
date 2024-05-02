@@ -8,8 +8,6 @@ export async function load() {
         "upfoodfinder",
         "password",
         "01234567890",
-        "idk",
-        "doesn't matter",
     );
 
     const rawStorefronts: (Storefront | null)[] = await getVendorStorefronts(vendor) ?? [];

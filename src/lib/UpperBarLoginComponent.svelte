@@ -13,6 +13,11 @@
         })
     }
 
+    const logoutOfGoogle = () => {
+        supabase.auth.signOut()
+        redirect(302, redirectLink);
+    }
+
     const currentUser = async () => {
         const {data, error} = await supabase.auth.getUser()
         loggedInUID = data.user?.id ?? null
@@ -21,15 +26,15 @@
     }
 </script>
 
-<div>
+<div class="justify-self-end">
     {#await currentUser()}
         <p>Loading user details, stand by...</p>
     {:then user}
         {#if user == null}
-            <h3 class="h3">Login with a Third Party Service</h3>
             <button on:click={loginWithGoogle}>Login with Google</button>
         {:else}
-            <h3 class="h3">You are currently logged in as {user}</h3>
+            <h6 class="h6">You are currently logged in as {user}</h6>
+            <button on:click={logoutOfGoogle}>Logout</button>
         {/if} 
     {/await}
 </div>
