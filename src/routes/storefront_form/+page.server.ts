@@ -29,10 +29,10 @@ export const actions = {
                 {
                     foodName: formData.get(`menu_name_${i}`)?.toString() ?? '',
                     price: +formData.get(`menu_price_${i}`)!,
-                    calories: 0,     // temp. health info
-                    fat: 0,         // temp. health info
-                    protein: 0,     // temp. health info
-                    carbs: 0,       // temp. health info
+                    calories: +formData.get(`menu_calories_${i}`)!,     
+                    fat: +formData.get(`menu_fat_${i}`)!,         
+                    protein: +formData.get(`menu_protein_${i}`)!,     
+                    carbs: +formData.get(`menu_carbs_${i}`)!,       
                 }   
             );
         }
