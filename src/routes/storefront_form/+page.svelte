@@ -2,8 +2,10 @@
     /** @type {import('./$types').PageData} */
 
 	import MapComponent from "$lib/MapComponent.svelte";
+	import OAuthLoginComponent from "$lib/OAuthLoginComponent.svelte";
 
     export let form: any;
+    export let data: any;
 
     let store_name = "";
     let menu = [
@@ -18,6 +20,13 @@
     function remove_menu_item() {
         menu = menu.slice(0, menu.length-1);
     }
+
+    let user: null | string = null;
+
+    let isUserLoaded = false;
+    let isUserVendored = data.userVendor != null
+
+    let vendorData = data.userVendor ?? {username: null, password: null, phone_number: null}
 
 </script>
 
@@ -44,11 +53,21 @@
     <h2 id="error">Store name is already registered. Please choose a different one.</h2>
 {/if}
 
+{#if (form?.userError || user == null) && isUserLoaded}
+    <h2 id="error">Please don't forget to log in!</h2>
+{/if}
+
+{#if user == null}
+    <OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUID={user} bind:loaded={isUserLoaded} bind:supabase={data.supabase}/>
+{/if}
+
 <form
     method="post"
     action="?/registerStorefront"
     id="storefrontRegistration">
 
+    <!-- weird behavior with isUserVendored here -->
+    <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
     <h2 id="storefront">Storefront Information</h2>
     <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
         <div>
@@ -157,6 +176,7 @@
         <button class="input" name="submit" id="sf_btn">Submit</button>
     </div>
     
+    </fieldset>
 </form>
 
 <div>
