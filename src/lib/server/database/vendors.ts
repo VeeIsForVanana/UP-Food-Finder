@@ -2,43 +2,23 @@ import { Vendor } from "$lib/server/dataTransferObjects";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { error, type NumericRange } from '@sveltejs/kit';
 
-
-export const vendors: Vendor[] = [
-    // Sample Vendor for Testing
-    new Vendor(
-        "upfoodfinder", // username
-        "testPassword", // password
-        "01234567890", // phoneNumber
-        "What is your mother's maiden name?", // securityQuestion
-        "testAnswer" // securityQAnswer
-    )
-];
-
 export async function registerVendor(
     username: string,
     user_uid: string,
-    password: string,
     phoneNumber: string,
-    securityQuestion: string,
-    securityQAnswer: string,
     supabase: SupabaseClient
 ) {
     const newVendor = new Vendor(
-        username, password, phoneNumber, securityQuestion, securityQAnswer
+        username, phoneNumber 
     );
 
     const response = await supabase
-        .from('taken_vendors')
+        .from('vendors')
         .insert({
 			username: username,
             user_uid: user_uid,
 			phone_number: phoneNumber,
-			password: password,
-			security_q: securityQuestion,
-			security_qa: securityQAnswer,
         });
-    
-    console.log(response)
     
     if (response.status != 201) {
         error(response.status as NumericRange<400, 599>, response.statusText);
@@ -107,4 +87,24 @@ export async function getUserVendor(
     }
 
     return response.data ?? [];
+}
+
+export async function getLoggedInVendor(supabase: SupabaseClient) {
+
+    let loggedInUID: null | string = null;
+    const {data, userError} = await supabase.auth.getUser()
+    loggedInUID = data.user?.id ?? null
+
+    const { data: vendor, vendorError } = await supabase
+        .from('vendors')
+        .select()
+        .eq('user_uid', loggedInUID)
+        .single(); // Assuming there's only one vendor per user ID, returns null otherwise
+
+    // If error, we might need to guarantee that logged in users are forced to create a vendor account
+
+    return new Vendor(
+            vendor.username,
+            vendor.phone_number
+        );
 }

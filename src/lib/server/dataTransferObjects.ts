@@ -1,14 +1,11 @@
 import type { coordinates } from '$lib/constants';
-import { addStorefrontToVendor, getVendorStorefronts } from './database/storefronts';
+import { addStorefrontToVendor } from './database/storefronts';
 
 export class Vendor {
 
     constructor(
         private username: string,
-        private password: string,
         private phoneNumber: string,
-        private securityQuestion: string,
-        private securityQAnswer: string,
     ) { }
 
     getUsername() {
@@ -17,10 +14,6 @@ export class Vendor {
 
     getPhoneNumber() {
         return this.phoneNumber;
-    }
-
-    getStorefronts() {
-        return getVendorStorefronts(this);
     }
 
     addStorefront(storefront: Storefront) {
