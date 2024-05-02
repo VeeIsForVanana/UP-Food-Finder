@@ -13,7 +13,7 @@
     let mapData = {lat: 0, lng: 0, zoom: 0};
 
     function add_menu_item() {
-        menu = menu.concat({foodName:`item ${menu.length}`, price:0});
+        menu = menu.concat({foodName:`item ${menu.length}`, price:0, calories:0, fat:0, protein:0, carbs:0});
     }
     function remove_menu_item() {
         menu = menu.slice(0, menu.length-1);
@@ -88,7 +88,7 @@
     <div class="menu_item_details" style="display: grid-template-columns:repeat(1) ">
         {#each menu as menu_item, i}
             <div class="item" style="display: grid; grid-template-columns: repeat(6, 1fr);">
-                <div>
+                <div class="menu_names">
                     <label class="label" for="menu_names">Name</label>
                     <input  class="input w-60"
                             name="menu_name_{i}"
@@ -97,7 +97,7 @@
                             required
                             />
                 </div>
-                <div>
+                <div class="menu_prices">
                     <label class="label" for="menu_prices">Price</label>
                     <input  class="input w-60"
                             name="menu_price_{i}"
@@ -108,13 +108,13 @@
                             required
                             />
                 </div>
-                <div>
+                <!-- The code below is what's causing the bug -->
+                <!-- <div>
                     <label class="label" for="menu_calories">Calories</label>
                     <input  class="input w-40"
                             name="menu_calories_{i}"
                             type="number"
                             bind:value={menu_item.calories}
-                            step="0.01"
                             min="0"
                             required
                             />
@@ -125,7 +125,6 @@
                             name="menu_fat_{i}"
                             type="number"
                             bind:value={menu_item.fat}
-                            step="0.01"
                             min="0"
                             required
                             />
@@ -136,7 +135,6 @@
                             name="menu_protein_{i}"
                             type="number"
                             bind:value={menu_item.protein}
-                            step="0.01"
                             min="0"
                             required
                             />
@@ -147,16 +145,15 @@
                             name="menu_carbs_{i}"
                             type="number"
                             bind:value={menu_item.carbs}
-                            step="0.01"
                             min="0"
                             required
                             />
-                </div>
+                </div> -->
             </div>
         {/each}
     </div>
 
-    <div id="buttons" style="width: 100%;">
+    <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
         <button class="input" name="submit" id="sf_btn">Submit</button>
     </div>
     
@@ -167,7 +164,7 @@
 </div>
 
 <div>
-    <button on:click={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
+    <button on:click={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item</button>
 </div>
 
 <div>
@@ -198,7 +195,7 @@
     .menu_prices, .menu_names {
         float: left;
         width: 25%;
-        min-height: 500px;
+        min-height: 50px;
     }
 
     #storeRegistered {
