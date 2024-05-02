@@ -7,8 +7,9 @@ import type { coordinates } from '$lib/constants';
 const NON_MENU = 7; // number of fields in form not for menu
 
 /** @type {import('./$types').PageLoad} */
-export async function load({ params }) {
-    const promisedStorefront = getStorefrontsFromNames([ params.name ]).then(
+export async function load({params, locals}) {
+    const { supabase } = locals;
+    const promisedStorefront = getStorefrontsFromNames([ params.name ], supabase).then(
         (value) => {
             if (!value) return Error("Storefront not found");
             const storefront: Storefront | null = value[0] ?? null;
@@ -23,7 +24,8 @@ export async function load({ params }) {
 }
 
 export const actions = {
-    updateStorefront: async ({ request }) => {
+    updateStorefront: async ({ request, locals }) => {
+        const { supabase } = locals;
         console.log("page.server.ts actions");
         const formData: FormData = await request.formData();
         const oldStorefrontName: string = formData.get('selectedStorefrontName') as string;
@@ -40,7 +42,7 @@ export const actions = {
         // Start of error checking
 
         storeName.trim(); // remove leading and trailing whitespaces
-        const storefrontExists = await isStorefrontNameExists(storeName);
+        const storefrontExists = await isStorefrontNameExists(storeName, supabase);
         if (storefrontExists && renameStorefront) {
             return fail(400, { storeNameExists: true });
         } // check if any of the store name is taken
@@ -68,7 +70,8 @@ export const actions = {
         
         await updateStorefront(
             oldStorefrontName,
-            updatedStorefront
+            updatedStorefront,
+            supabase
         )
 
         if (renameStorefront) {
@@ -79,13 +82,14 @@ export const actions = {
     }, 
 
 
-    deleteStorefront: async ({ request }) => {
+    deleteStorefront: async ({ request, locals }) => {
+        const { supabase } = locals;
         const formData: FormData = await request.formData();
         const oldStorefrontName: string = formData.get('selectedStorefrontName') as string;
-        const targets: (Storefront | null)[] = await getStorefrontsFromNames([oldStorefrontName]) ?? [];
+        const targets: (Storefront | null)[] = await getStorefrontsFromNames([oldStorefrontName], supabase) ?? [];
         
         if(targets[0]) {
-            deleteStorefront(targets[0])
+            deleteStorefront(targets[0], supabase)
             return redirect(303, '/storefront_management')
         }
         else {

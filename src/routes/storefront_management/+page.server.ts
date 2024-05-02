@@ -7,7 +7,7 @@ export async function load({ locals: {supabase} }) {
     
     const vendor : Vendor = await getLoggedInVendor(supabase);
     
-    const rawStorefronts: (Storefront | null)[] = await getVendorStorefronts(vendor) ?? [];
+    const rawStorefronts: (Storefront | null)[] = await getVendorStorefronts(vendor, supabase) ?? [];
     const storefronts = rawStorefronts
         .filter((storefront): storefront is Storefront => storefront !== null)
         .map((storefront) => {
