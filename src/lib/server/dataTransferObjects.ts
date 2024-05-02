@@ -1,5 +1,5 @@
 import type { coordinates } from '$lib/constants';
-import { addStorefrontToVendor, getVendorStorefronts } from './database/storefronts';
+import { addStorefrontToVendor } from './database/storefronts';
 
 export class Vendor {
 
@@ -14,10 +14,6 @@ export class Vendor {
 
     getPhoneNumber() {
         return this.phoneNumber;
-    }
-
-    getStorefronts() {
-        return getVendorStorefronts(this);
     }
 
     addStorefront(storefront: Storefront) {

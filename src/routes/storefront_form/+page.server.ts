@@ -8,8 +8,8 @@ const NON_MENU = 4; // number of fields in form not for menu
 
 export const actions = {
     registerStorefront: async ({ request, locals}) => {
-        console.log(await getStorefronts())
         const { supabase } = locals;
+        console.log(await getStorefronts(supabase))
         const vendor = await getLoggedInVendor(supabase);
 
         const formData: FormData = await request.formData();
@@ -21,7 +21,7 @@ export const actions = {
 
         // Start of error checking
         storeName.trim(); // remove leading and trailing whitespaces
-        const storefrontExists = await isStorefrontNameExists(storeName);
+        const storefrontExists = await isStorefrontNameExists(storeName, supabase);
         if (storefrontExists) {
             return fail(400, { storeNameExists: true });
         } // check if any of the store name is taken
@@ -43,14 +43,15 @@ export const actions = {
                 storeName,
                 owner,
                 menu,
-                storeCoords
+                storeCoords,
+                supabase
             )
         );
 
-        console.log(getStorefronts());
+        console.log(getStorefronts(supabase));
         console.log("Storefronts in database END");
         console.log("Storefronts owned by Vendor:");
-        console.log(getVendorStorefronts(vendor));
+        console.log(getVendorStorefronts(vendor, supabase));
         console.log("Storefronts owned by Vendor END");
 
         return { storeRegistrationSuccess: true };

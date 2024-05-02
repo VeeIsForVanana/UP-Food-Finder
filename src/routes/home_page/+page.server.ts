@@ -1,8 +1,9 @@
 import { getStorefronts} from '$lib/server/database/storefronts';
+import type { Storefront } from '$lib/server/dataTransferObjects';
 
 /** @type {import('./$types').PageServerLoad} */
 
-function filterStores(storefronts: Array<any> , search: String) {
+function filterStores(storefronts: Array<Storefront> , search: string) {
     const keys = ['storeName', 'owner', 'menu'] as const
     storefronts = storefronts.filter((store) => {
         if (!store) {
@@ -19,16 +20,17 @@ function filterStores(storefronts: Array<any> , search: String) {
     return storefronts;
 }
 
-export async function load() {
-    const storefrontRes = await getStorefronts() ?? [];
-    let storefronts = storefrontRes.map(storefront => ({ ...storefront })); //convert to POJO
+export async function load({locals: { supabase }}) {
+    const storefrontRes = await getStorefronts(supabase) ?? [];
+    const storefronts = storefrontRes.map(storefront => ({ ...storefront })); //convert to POJO
 
     return { storefronts };
 }
 
 export const actions = {
-    searchResult: async ({ request }: { request: Request }) => {
-        const storefrontRes = await getStorefronts() ?? [];
+    searchResult: async ({ request, locals }) => {
+        const { supabase } = locals;
+        const storefrontRes = await getStorefronts(supabase) ?? [];
         let storefronts = storefrontRes.map(storefront => ({ ...storefront }));
 
         const formData = await request.formData();
