@@ -26,6 +26,10 @@
         mapData.lat = map.getCenter().lat.toFixed(6);
     }
 
+    export const updateMap = (lng, lat) => {
+        map.jumpTo({center: [lng, lat],});
+    }
+
     onMount(() => {
         const initialState = mapData;
         mapboxgl.accessToken = PUBLIC_MAPBOX_KEY
