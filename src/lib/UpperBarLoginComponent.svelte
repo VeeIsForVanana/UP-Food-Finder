@@ -13,6 +13,11 @@
         })
     }
 
+    const logoutOfGoogle = () => {
+        supabase.auth.signOut()
+        redirect(302, redirectLink);
+    }
+
     const currentUser = async () => {
         const {data, error} = await supabase.auth.getUser()
         loggedInUID = data.user?.id ?? null
@@ -29,6 +34,7 @@
             <button on:click={loginWithGoogle}>Login with Google</button>
         {:else}
             <h6 class="h6">You are currently logged in as {user}</h6>
+            <button on:click={logoutOfGoogle}>Logout</button>
         {/if} 
     {/await}
 </div>
