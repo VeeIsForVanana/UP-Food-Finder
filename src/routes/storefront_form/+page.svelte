@@ -7,7 +7,7 @@
 
     let store_name = "";
     let menu = [
-        {foodName:"item 0", price:0},
+        {foodName:"item 0", price:0, calories:0, fat:0, protein:0, carbs:0},
     ];  
     
     let mapData = {lat: 0, lng: 0, zoom: 0};
@@ -85,11 +85,11 @@
     </div>
 
     <h2 id="menu">Menu Items</h2>
-    <div> <!-- style="width:100%; display: flex;" -->
-        <div class="menu_names"> <!-- style="width:25%; flex:1" -->
-            <label class="label" for="menu_names">Name</label>
-            {#each menu as menu_item, i}
+    <div class="menu_item_details" style="display: grid-template-columns:repeat(1) ">
+        {#each menu as menu_item, i}
+            <div class="item" style="display: grid; grid-template-columns: repeat(6, 1fr);">
                 <div>
+                    <label class="label" for="menu_names">Name</label>
                     <input  class="input w-60"
                             name="menu_name_{i}"
                             type="text"
@@ -97,29 +97,68 @@
                             required
                             />
                 </div>
-            {/each}
-        </div>
-
-        <div class="menu_prices"> <!-- style="width:25%; flex:1" -->
-            <label class="label" for="menu_prices">Price</label>
-            {#each menu as menu_item, i}
                 <div>
+                    <label class="label" for="menu_prices">Price</label>
                     <input  class="input w-60"
                             name="menu_price_{i}"
                             type="number"
                             bind:value={menu_item.price}
-                            step = "0.01"
-                            min = "0"
+                            step="0.01"
+                            min="0"
                             required
                             />
                 </div>
-            {/each}
-        </div>
+                <div>
+                    <label class="label" for="menu_calories">Calories</label>
+                    <input  class="input w-40"
+                            name="menu_calories_{i}"
+                            type="number"
+                            bind:value={menu_item.calories}
+                            step="0.01"
+                            min="0"
+                            required
+                            />
+                </div>
+                <div>
+                    <label class="label" for="menu_fat">Fat</label>
+                    <input  class="input w-40"
+                            name="menu_fat_{i}"
+                            type="number"
+                            bind:value={menu_item.fat}
+                            step="0.01"
+                            min="0"
+                            required
+                            />
+                </div>
+                <div>
+                    <label class="label" for="menu_protein">Protein</label>
+                    <input  class="input w-40"
+                            name="menu_protein_{i}"
+                            type="number"
+                            bind:value={menu_item.protein}
+                            step="0.01"
+                            min="0"
+                            required
+                            />
+                </div>
+                <div>
+                    <label class="label" for="menu_carbs">Carbs</label>
+                    <input  class="input w-40"
+                            name="menu_carbs_{i}"
+                            type="number"
+                            bind:value={menu_item.carbs}
+                            step="0.01"
+                            min="0"
+                            required
+                            />
+                </div>
+            </div>
+        {/each}
     </div>
 
-        <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
-            <button class="input" name="submit" id="sf_btn">Submit</button>
-        </div>
+    <div id="buttons" style="width: 100%;">
+        <button class="input" name="submit" id="sf_btn">Submit</button>
+    </div>
     
 </form>
 
