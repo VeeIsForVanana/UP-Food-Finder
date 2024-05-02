@@ -1,5 +1,5 @@
 import { Vendor } from "$lib/server/dataTransferObjects";
-import { supabase } from '$lib/supabaseClient';
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { error, type NumericRange } from '@sveltejs/kit';
 
 
@@ -16,24 +16,29 @@ export const vendors: Vendor[] = [
 
 export async function registerVendor(
     username: string,
+    user_uid: string,
     password: string,
     phoneNumber: string,
     securityQuestion: string,
-    securityQAnswer: string
+    securityQAnswer: string,
+    supabase: SupabaseClient
 ) {
     const newVendor = new Vendor(
         username, password, phoneNumber, securityQuestion, securityQAnswer
     );
 
     const response = await supabase
-        .from('vendors')
+        .from('taken_vendors')
         .insert({
 			username: username,
+            user_uid: user_uid,
 			phone_number: phoneNumber,
 			password: password,
 			security_q: securityQuestion,
 			security_qa: securityQAnswer,
         });
+    
+    console.log(response)
     
     if (response.status != 201) {
         error(response.status as NumericRange<400, 599>, response.statusText);
@@ -42,9 +47,12 @@ export async function registerVendor(
     return newVendor;
 }
 
-export async function isUsernameExists(username: string) {
+export async function isUsernameExists(
+    username: string,
+    supabase: SupabaseClient
+) {
     const response = await supabase
-        .from('vendors')
+        .from('taken_vendors')
         .select()
         .eq('username', username);
     
@@ -55,9 +63,12 @@ export async function isUsernameExists(username: string) {
     return (response.data !== null && response.data.length > 0);
 }
 
-export async function isPhoneNumberExists(phoneNumber: string) {
+export async function isPhoneNumberExists(
+    phoneNumber: string,
+    supabase: SupabaseClient
+) {
     const response = await supabase
-        .from('vendors')
+        .from('taken_vendors')
         .select()
         .eq('phone_number', phoneNumber);
     
@@ -68,7 +79,25 @@ export async function isPhoneNumberExists(phoneNumber: string) {
     return (response.data !== null && response.data.length > 0);
 }
 
-export async function getVendors() {
+// get all vendors in the system
+export async function getVendors(
+    supabase: SupabaseClient
+) {
+    const response = await supabase
+        .from('taken_vendors')
+        .select();
+
+    if (response.status > 399) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    return response.data ?? [];
+}
+
+// get the sole user (if it exists) associated to a given user
+export async function getUserVendor(
+    supabase: SupabaseClient
+) {
     const response = await supabase
         .from('vendors')
         .select();
@@ -79,4 +108,3 @@ export async function getVendors() {
 
     return response.data ?? [];
 }
-

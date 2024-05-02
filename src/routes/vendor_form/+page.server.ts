@@ -1,10 +1,19 @@
-import { fail } from '@sveltejs/kit';
-import { getVendors, registerVendor, isPhoneNumberExists, isUsernameExists } from '$lib/server/database/vendors';
+import { fail, redirect } from '@sveltejs/kit';
+import { registerVendor, isPhoneNumberExists, isUsernameExists, getUserVendor } from '$lib/server/database/vendors';
+
+export async function load({ locals: {supabase} }) {
+    const userVendor = (await getUserVendor(supabase))[0] ?? null;
+
+    console.log(userVendor)
+
+    return {'userVendor': userVendor}
+}
 
 export const actions = {
-    registerVendor: async ({ request }) => {
+    registerVendor: async ({ request, locals: { safeGetSession, supabase } }) => {
         // get form data, variables based on page.svelte, input tag, name attribute
         const formData: FormData = await request.formData();
+        const user = String(formData.get("user"))
         const username = String(formData.get("username"));
         const password = String(formData.get("password"));
         const phoneNumber = String(formData.get("phone_number"));
@@ -14,6 +23,18 @@ export const actions = {
         let failure = false;
         const returnData = { };
 
+        const { session } = await safeGetSession()
+
+        if (!session) {
+            throw redirect(303, '/')
+        }
+        
+        // check if the user is logged in
+        if (user === 'null') {
+            failure = true;
+            returnData.userError = true;
+        }
+        
         // check if any of the necessary fields is missing and return an error if so
         [username, password, phoneNumber, securityQuestion, securityQuestionAnswer].forEach((elem) => {
             if (elem === 'null' || !elem) {
@@ -23,19 +44,19 @@ export const actions = {
         });
         
         // Check if username already exists in the database
-        const usernameExists = await isUsernameExists(username);
+        const usernameExists = await isUsernameExists(username, supabase);
         if (usernameExists) {
             failure = true;
             returnData.usernameExists = true;
         }
 
         // Check if phone number already exists in the database
-        const phoneNumberExists = await isPhoneNumberExists(phoneNumber);
+        const phoneNumberExists = await isPhoneNumberExists(phoneNumber, supabase);
         if (phoneNumberExists) {
             failure = true;
             returnData.phoneNumberExists = true;
         }
-
+        
         // perform additional check on inputs
         const phoneNumberRegex = new RegExp("^0[0-9]{10}$");
         if (!phoneNumberRegex.test(phoneNumber)) {
@@ -56,13 +77,13 @@ export const actions = {
         // successful registration
         registerVendor(
             username,
+            user,
             password,
             phoneNumber,
             securityQuestion,
             securityQuestionAnswer,
-        );
-
-        console.log(getVendors());
+            supabase
+        )
 
         return { registrationSuccess: true };
     }
