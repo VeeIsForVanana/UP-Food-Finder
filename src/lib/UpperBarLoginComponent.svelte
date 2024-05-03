@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
 	import { redirect } from "@sveltejs/kit";
 
 	export let redirectLink: string = "/";
@@ -15,10 +16,10 @@
         })
     }
 
-    const logoutOfGoogle = () => {
+    const logoutOfGoogle = async () => {
         supabase.auth.signOut();
-        loggedInUID = null
-        redirect(303, "/home_page");
+        loggedInUID = null;
+        await goto("/");
     }
 
     const currentUser = async () => {
