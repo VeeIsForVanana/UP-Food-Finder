@@ -73,125 +73,136 @@
 
     <!-- weird behavior with isUserVendored here -->
     <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
-    <h2 id="storefront">Storefront Information</h2>
-    <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
-        <div>
-            <label class="label" for="storename">Store name</label>
-            <input  class="input"
-                    name="storename"
-                    type="text"
-                    bind:value={store_name}
-                    required
-                    />
-            <label class="label" for="store_x">Store x coordinate</label>
-            <input  class="input"
-                    name="store_x"
-                    type="number"
-                    step="0.000001"
-                    bind:value={mapData.lng}
-                    on:change={update_map_display}
-                    required
-                    />
+        <h2 id="storefront">Storefront Information</h2>
+        <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
+            <div>
+                <label class="label" for="storename">Store name</label>
+                <input  class="input"
+                        name="storename"
+                        type="text"
+                        bind:value={store_name}
+                        required
+                        />
+                <label class="label" for="store_x">Store x coordinate</label>
+                <input  class="input"
+                        name="store_x"
+                        type="number"
+                        step="0.000001"
+                        bind:value={mapData.lng}
+                        on:change={update_map_display}
+                        required
+                        />
 
-            <label class="label" for="store_y">Store y coordinate</label>
-            <input  class="input"
-                    name="store_y"
-                    type="number"
-                    step="0.000001"
-                    bind:value={mapData.lat}
-                    on:change={update_map_display}
-                    required
-                    />
-            </div>
-    </div>
+                <label class="label" for="store_y">Store y coordinate</label>
+                <input  class="input"
+                        name="store_y"
+                        type="number"
+                        step="0.000001"
+                        bind:value={mapData.lat}
+                        on:change={update_map_display}
+                        required
+                        />
+                </div>
 
-    <h2 id="menu">Menu Items</h2>
-    <div class="menu_item_details" style="display: grid-template-columns:repeat(1) ">
-        {#each menu as menu_item, i}
-            <div class="item" style="display: grid; grid-template-columns: repeat(6, 1fr);">
-                <div class="menu_names">
-                    <label class="label" for="menu_names">Name</label>
-                    <input  class="input w-60"
-                            name="menu_name_{i}"
-                            type="text"
-                            bind:value={menu_item.foodName}
-                            required
-                            />
-                </div>
-                <div class="menu_prices">
-                    <label class="label" for="menu_prices">Price</label>
-                    <input  class="input w-60"
-                            name="menu_price_{i}"
-                            type="number"
-                            bind:value={menu_item.price}
-                            step="0.01"
-                            min="0"
-                            required
-                            />
-                </div>
-                <!-- The code below is what's causing the bug -->
-                <!-- <div>
-                    <label class="label" for="menu_calories">Calories</label>
-                    <input  class="input w-40"
-                            name="menu_calories_{i}"
-                            type="number"
-                            bind:value={menu_item.calories}
-                            min="0"
-                            required
-                            />
-                </div>
                 <div>
-                    <label class="label" for="menu_fat">Fat</label>
-                    <input  class="input w-40"
-                            name="menu_fat_{i}"
-                            type="number"
-                            bind:value={menu_item.fat}
-                            min="0"
-                            required
-                            />
+                    <MapComponent bind:mapData={mapData}
+                                  bind:updateMap={updateMap}
+                        />
                 </div>
-                <div>
-                    <label class="label" for="menu_protein">Protein</label>
-                    <input  class="input w-40"
-                            name="menu_protein_{i}"
-                            type="number"
-                            bind:value={menu_item.protein}
-                            min="0"
-                            required
-                            />
-                </div>
-                <div>
-                    <label class="label" for="menu_carbs">Carbs</label>
-                    <input  class="input w-40"
-                            name="menu_carbs_{i}"
-                            type="number"
-                            bind:value={menu_item.carbs}
-                            min="0"
-                            required
-                            />
-                </div> -->
-            </div>
-        {/each}
-    </div>
 
-    <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
-        <button class="input" name="submit" id="sf_btn">Submit</button>
-    </div>
-      
-    <div>
-        <button on:click|preventDefault={add_menu_item} class="input" name="add_menu" id="sf_btn" >Add menu item</button>
-    </div>
-
-    <div>
-        <button on:click|preventDefault={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
-    </div>
-    
-    </fieldset>
-</form>
-
-        <div>
-            <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
         </div>
+
+        <h2 id="menu">Menu Items</h2>
+        <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
+            <div class="menu_item_details" style="display: grid-template-columns:repeat(1) ">
+                {#each menu as menu_item, i}
+                    <div class="item" style="display: grid; grid-template-columns: repeat(6, 1fr);">
+                        <div class="menu_names">
+                            <label class="label" for="menu_names">Name</label>
+                            <input  class="input w-60"
+                                    name="menu_name_{i}"
+                                    type="text"
+                                    bind:value={menu_item.foodName}
+                                    required
+                                    />
+                        </div>
+                        <div class="menu_prices">
+                            <label class="label" for="menu_prices">Price</label>
+                            <input  class="input w-60"
+                                    name="menu_price_{i}"
+                                    type="number"
+                                    bind:value={menu_item.price}
+                                    step="0.01"
+                                    min="0"
+                                    required
+                                    />
+                        </div>
+                        <!-- The code below is what's causing the bug -->
+                        <!-- <div>
+                            <label class="label" for="menu_calories">Calories</label>
+                            <input  class="input w-40"
+                                    name="menu_calories_{i}"
+                                    type="number"
+                                    bind:value={menu_item.calories}
+                                    min="0"
+                                    required
+                                    />
+                        </div>
+                        <div>
+                            <label class="label" for="menu_fat">Fat</label>
+                            <input  class="input w-40"
+                                    name="menu_fat_{i}"
+                                    type="number"
+                                    bind:value={menu_item.fat}
+                                    min="0"
+                                    required
+                                    />
+                        </div>
+                        <div>
+                            <label class="label" for="menu_protein">Protein</label>
+                            <input  class="input w-40"
+                                    name="menu_protein_{i}"
+                                    type="number"
+                                    bind:value={menu_item.protein}
+                                    min="0"
+                                    required
+                                    />
+                        </div>
+                        <div>
+                            <label class="label" for="menu_carbs">Carbs</label>
+                            <input  class="input w-40"
+                                    name="menu_carbs_{i}"
+                                    type="number"
+                                    bind:value={menu_item.carbs}
+                                    min="0"
+                                    required
+                                    />
+                        </div> -->
+                    </div>
+                {/each}
+            </div>
+
+            <div>
+
+                <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
+                    <button class="input" name="submit" id="sf_btn">Submit</button>
+                </div>
+                
+                <div>
+                    <button on:click|preventDefault={add_menu_item} class="input" name="add_menu" id="sf_btn" >Add menu item</button>
+                </div>
+
+                <div>
+                    <button on:click|preventDefault={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
+                </div>
+
+                <div>
+                    <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
+                </div>
+
+            </div>
+        </div>
+        
     </fieldset>
 </form>
 
