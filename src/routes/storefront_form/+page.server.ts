@@ -38,7 +38,11 @@ export const actions = {
                 {
                     foodName: formData.get(`menu_name_${i}`)?.toString() ?? '',
                     price: +formData.get(`menu_price_${i}`)!,
-                }
+                    calories: +formData.get(`menu_calories_${i}`)!,     
+                    fat: +formData.get(`menu_fat_${i}`)!,         
+                    protein: +formData.get(`menu_protein_${i}`)!,     
+                    carbs: +formData.get(`menu_carbs_${i}`)!,       
+                }   
             );
         }
         console.log(menu);

@@ -24,6 +24,11 @@ export class Vendor {
 export type MenuItem = {
     foodName: string;
     price: number;
+    calories: number;        // health info
+    fat: number;            // health info
+    protein: number;        // health info
+    carbs: number;          // health info
+
 };
 
 export class Storefront {
