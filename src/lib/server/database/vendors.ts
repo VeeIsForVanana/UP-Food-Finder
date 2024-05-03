@@ -103,8 +103,8 @@ export async function getLoggedInVendor(supabase: SupabaseClient) {
 
     // If error, we might need to guarantee that logged in users are forced to create a vendor account
 
-    return new Vendor(
+    return vendor != null ? new Vendor(
             vendor.username,
             vendor.phone_number
-        );
+        ) : null;
 }

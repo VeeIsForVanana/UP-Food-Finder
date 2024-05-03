@@ -4,6 +4,9 @@
     import MapComponent from "$lib/MapComponent.svelte";
 
     export let form: any;
+    export let data;
+
+    let { supabase } = data;
 
     let store_name = "";
     let menu = [
@@ -49,100 +52,104 @@
     <h2 id="error">Store name is already registered. Please choose a different one.</h2>
 {/if}
 
+{#if data.disabled}
+    <h2 id="error">Please log in before creating a new storefront</h2>
+{/if}
+
 <form
     method="post"
     action="?/registerStorefront"
     id="storefrontRegistration">
+    <fieldset disabled={data.disabled}>
 
-    <h2 id="storefront">Storefront Information</h2>
-    <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
-        <div>
-            <label class="label" for="storename">Store name</label>
-            <input  class="input"
-                    name="storename"
-                    type="text"
-                    bind:value={store_name}
-                    required
+        <h2 id="storefront">Storefront Information</h2>
+        <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
+            <div>
+                <label class="label" for="storename">Store name</label>
+                <input  class="input"
+                        name="storename"
+                        type="text"
+                        bind:value={store_name}
+                        required
+                        />
+                <label class="label" for="store_x">Store x coordinate</label>
+                <input  class="input"
+                        name="store_x"
+                        type="number"
+                        step="0.000001"
+                        bind:value={mapData.lng}
+                        on:change={update_map_display}
+                        required
+                        />
+
+                <label class="label" for="store_y">Store y coordinate</label>
+                <input  class="input"
+                        name="store_y"
+                        type="number"
+                        step="0.000001"
+                        bind:value={mapData.lat}
+                        on:change={update_map_display}
+                        required
+                        />
+            </div>
+            
+            <div>
+                <MapComponent bind:mapData={mapData}
+                            bind:updateMap={updateMap}
                     />
-            <label class="label" for="store_x">Store x coordinate</label>
-            <input  class="input"
-                    name="store_x"
-                    type="number"
-                    step="0.000001"
-                    bind:value={mapData.lng}
-                    on:change={update_map_display}
-                    required
-                    />
+            </div>
 
-            <label class="label" for="store_y">Store y coordinate</label>
-            <input  class="input"
-                    name="store_y"
-                    type="number"
-                    step="0.000001"
-                    bind:value={mapData.lat}
-                    on:change={update_map_display}
-                    required
-                    />
-        </div>
-        
-        <div>
-            <MapComponent bind:mapData={mapData}
-                          bind:updateMap={updateMap}
-                />
         </div>
 
-    </div>
+        <h2 id="menu">Menu Items</h2>
+        <div> <!-- style="width:100%; display: flex;" -->
+            <div class="menu_names"> <!-- style="width:25%; flex:1" -->
+                <label class="label" for="menu_names">Name</label>
+                {#each menu as menu_item, i}
+                    <div>
+                        <input  class="input w-60"
+                                name="menu_name_{i}"
+                                type="text"
+                                bind:value={menu_item.foodName}
+                                required
+                                />
+                    </div>
+                {/each}
+            </div>
 
-    <h2 id="menu">Menu Items</h2>
-    <div> <!-- style="width:100%; display: flex;" -->
-        <div class="menu_names"> <!-- style="width:25%; flex:1" -->
-            <label class="label" for="menu_names">Name</label>
-            {#each menu as menu_item, i}
-                <div>
-                    <input  class="input w-60"
-                            name="menu_name_{i}"
-                            type="text"
-                            bind:value={menu_item.foodName}
-                            required
-                            />
-                </div>
-            {/each}
+            <div class="menu_prices"> <!-- style="width:25%; flex:1" -->
+                <label class="label" for="menu_prices">Price</label>
+                {#each menu as menu_item, i}
+                    <div>
+                        <input  class="input w-60"
+                                name="menu_price_{i}"
+                                type="number"
+                                bind:value={menu_item.price}
+                                step = "0.01"
+                                min = "0"
+                                required
+                                />
+                    </div>
+                {/each}
+            </div>
         </div>
-
-        <div class="menu_prices"> <!-- style="width:25%; flex:1" -->
-            <label class="label" for="menu_prices">Price</label>
-            {#each menu as menu_item, i}
-                <div>
-                    <input  class="input w-60"
-                            name="menu_price_{i}"
-                            type="number"
-                            bind:value={menu_item.price}
-                            step = "0.01"
-                            min = "0"
-                            required
-                            />
-                </div>
-            {/each}
-        </div>
-    </div>
 
         <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
             <button class="input" name="submit" id="sf_btn">Submit</button>
         </div>
-    
+        <div>
+            <button on:click|preventDefault={add_menu_item} class="input" name="add_menu" id="sf_btn" >Add menu item</button>
+        </div>
+        
+        <div>
+            <button on:click|preventDefault={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
+        </div>
+
+        <div>
+            <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
+        </div>
+    </fieldset>
 </form>
-
-<div>
-    <button on:click={add_menu_item} class="input" name="add_menu" id="sf_btn" >Add menu item</button>
-</div>
-
-<div>
-    <button on:click={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
-</div>
-
-<div>
-    <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
-</div>
 
 </div>
 
