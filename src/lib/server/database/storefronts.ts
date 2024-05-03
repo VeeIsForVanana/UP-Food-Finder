@@ -1,7 +1,7 @@
 import type { coordinates } from '$lib/constants';
 import { Vendor, Storefront, type MenuItem } from '$lib/server/dataTransferObjects';
-import { supabase } from '$lib/server/supabaseClient';
 import { error, type NumericRange } from '@sveltejs/kit';
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 type storefrontData = { store_name: string, owner: string, coords_lat: number, coords_lng: number, menu: MenuItem[] }
 
@@ -9,7 +9,8 @@ export async function registerStorefront(
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
-    coords: coordinates
+    coords: coordinates,
+    supabase: SupabaseClient
 ) {
     const newStorefront = new Storefront(
         storeName,
@@ -43,7 +44,7 @@ function storefrontDataToStorefront(data: storefrontData | null) {
     )
 }
 
-export async function getStorefrontsFromNames(storeNames: string[]) {
+export async function getStorefrontsFromNames(storeNames: string[], supabase: SupabaseClient) {
 
     const response = await supabase
         .from('storefronts')
@@ -58,7 +59,7 @@ export async function getStorefrontsFromNames(storeNames: string[]) {
 
 }
 
-export async function isStorefrontNameExists(storeName: string) {
+export async function isStorefrontNameExists(storeName: string, supabase: SupabaseClient) {
     
     const response = await supabase
         .from('storefronts')
@@ -74,7 +75,7 @@ export async function isStorefrontNameExists(storeName: string) {
 
 }
 
-export async function getVendorStorefronts(vendor: Vendor) {
+export async function getVendorStorefronts(vendor: Vendor, supabase: SupabaseClient) {
     const response = await supabase
         .from('storefronts')
         .select()
@@ -91,7 +92,7 @@ export function addStorefrontToVendor(vendor: Vendor, storefront: Storefront) {
     storefront.setOwner(vendor);
 }
 
-export async function deleteStorefront(storefront: Storefront) {
+export async function deleteStorefront(storefront: Storefront, supabase: SupabaseClient) {
     const response = await supabase
         .from('storefronts')
         .delete()
@@ -105,6 +106,7 @@ export async function deleteStorefront(storefront: Storefront) {
 export async function updateStorefront(
     originalStorefrontName: string,
     newStorefront: Storefront,
+    supabase: SupabaseClient
 ) {
     
     const response = await supabase
@@ -128,9 +130,9 @@ export async function updateStorefront(
     return response.data;
 }
 
-export async function getStorefronts() {
+export async function getStorefronts(supabase: SupabaseClient) {
     const response = await supabase
-        .from('storefronts')
+        .from('view_storefronts')
         .select()
     
     if (response.status > 399) {

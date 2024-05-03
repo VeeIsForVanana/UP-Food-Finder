@@ -51,6 +51,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@supabase/ssr": "^0.3.0",
 		"@supabase/supabase-js": "^2.39.8",
 		"leaflet": "^1.9.4",
 		"mapbox-gl": "^3.2.0",

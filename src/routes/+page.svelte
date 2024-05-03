@@ -12,6 +12,9 @@
     <div>
         <a href="/home_page">Sprint 3: Home Page</a>
     </div>
+    <div>
+        <a href="/storefront_management">Sprint 4: Storefront Management</a>
+    </div>
 </div>
 
 <style>
