@@ -1,28 +1,33 @@
 <script lang="ts">
     /** @type {import('./$types').PageData} */
 
-    import MapComponent from "$lib/MapComponent.svelte";
+	import MapComponent from "$lib/MapComponent.svelte";
+	import OAuthLoginComponent from "$lib/OAuthLoginComponent.svelte";
 
     export let form: any;
+    export let data: any;
 
     let store_name = "";
     let menu = [
-        {foodName:"item 0", price:0},
+        {foodName:"item 0", price:0, calories:0, fat:0, protein:0, carbs:0},
     ];  
     
     let mapData = {lat: 0, lng: 0, zoom: 0};
 
     function add_menu_item() {
-        menu = menu.concat({foodName:`item ${menu.length}`, price:0});
+        menu = menu.concat({foodName:`item ${menu.length}`, price:0, calories:0, fat:0, protein:0, carbs:0});
     }
     function remove_menu_item() {
         menu = menu.slice(0, menu.length-1);
     }
 
-    let updateMap;
-    function update_map_display() {
-        updateMap(mapData.lng, mapData.lat);
-    }
+
+    let user: null | string = null;
+
+    let isUserLoaded = false;
+    let isUserVendored = data.userVendor != null
+
+    let vendorData = data.userVendor ?? {username: null, password: null, phone_number: null}
 
 </script>
 
@@ -49,11 +54,21 @@
     <h2 id="error">Store name is already registered. Please choose a different one.</h2>
 {/if}
 
+{#if (form?.userError || user == null) && isUserLoaded}
+    <h2 id="error">Please don't forget to log in!</h2>
+{/if}
+
+{#if user == null}
+    <OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUID={user} bind:loaded={isUserLoaded} bind:supabase={data.supabase}/>
+{/if}
+
 <form
     method="post"
     action="?/registerStorefront"
     id="storefrontRegistration">
 
+    <!-- weird behavior with isUserVendored here -->
+    <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
     <h2 id="storefront">Storefront Information</h2>
     <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
         <div>
@@ -94,11 +109,11 @@
     </div>
 
     <h2 id="menu">Menu Items</h2>
-    <div> <!-- style="width:100%; display: flex;" -->
-        <div class="menu_names"> <!-- style="width:25%; flex:1" -->
-            <label class="label" for="menu_names">Name</label>
-            {#each menu as menu_item, i}
-                <div>
+    <div class="menu_item_details" style="display: grid-template-columns:repeat(1) ">
+        {#each menu as menu_item, i}
+            <div class="item" style="display: grid; grid-template-columns: repeat(6, 1fr);">
+                <div class="menu_names">
+                    <label class="label" for="menu_names">Name</label>
                     <input  class="input w-60"
                             name="menu_name_{i}"
                             type="text"
@@ -106,30 +121,67 @@
                             required
                             />
                 </div>
-            {/each}
-        </div>
-
-        <div class="menu_prices"> <!-- style="width:25%; flex:1" -->
-            <label class="label" for="menu_prices">Price</label>
-            {#each menu as menu_item, i}
-                <div>
+                <div class="menu_prices">
+                    <label class="label" for="menu_prices">Price</label>
                     <input  class="input w-60"
                             name="menu_price_{i}"
                             type="number"
                             bind:value={menu_item.price}
-                            step = "0.01"
-                            min = "0"
+                            step="0.01"
+                            min="0"
                             required
                             />
                 </div>
-            {/each}
-        </div>
+                <!-- The code below is what's causing the bug -->
+                <!-- <div>
+                    <label class="label" for="menu_calories">Calories</label>
+                    <input  class="input w-40"
+                            name="menu_calories_{i}"
+                            type="number"
+                            bind:value={menu_item.calories}
+                            min="0"
+                            required
+                            />
+                </div>
+                <div>
+                    <label class="label" for="menu_fat">Fat</label>
+                    <input  class="input w-40"
+                            name="menu_fat_{i}"
+                            type="number"
+                            bind:value={menu_item.fat}
+                            min="0"
+                            required
+                            />
+                </div>
+                <div>
+                    <label class="label" for="menu_protein">Protein</label>
+                    <input  class="input w-40"
+                            name="menu_protein_{i}"
+                            type="number"
+                            bind:value={menu_item.protein}
+                            min="0"
+                            required
+                            />
+                </div>
+                <div>
+                    <label class="label" for="menu_carbs">Carbs</label>
+                    <input  class="input w-40"
+                            name="menu_carbs_{i}"
+                            type="number"
+                            bind:value={menu_item.carbs}
+                            min="0"
+                            required
+                            />
+                </div> -->
+            </div>
+        {/each}
     </div>
 
-        <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
-            <button class="input" name="submit" id="sf_btn">Submit</button>
-        </div>
+    <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
+        <button class="input" name="submit" id="sf_btn">Submit</button>
+    </div>
     
+    </fieldset>
 </form>
 
 <div>
@@ -137,7 +189,7 @@
 </div>
 
 <div>
-    <button on:click={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
+    <button on:click={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item</button>
 </div>
 
 <div>
@@ -168,7 +220,7 @@
     .menu_prices, .menu_names {
         float: left;
         width: 25%;
-        min-height: 500px;
+        min-height: 50px;
     }
 
     #storeRegistered {
