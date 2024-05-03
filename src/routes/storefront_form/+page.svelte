@@ -13,6 +13,10 @@
     ];  
     
     let mapData = {lat: 0, lng: 0, zoom: 0};
+    let updateMap;
+    function update_map_display() {
+        updateMap(mapData.lng, mapData.lat);
+    }
 
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0, calories:0, fat:0, protein:0, carbs:0});
