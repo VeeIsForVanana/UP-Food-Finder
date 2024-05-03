@@ -6,6 +6,12 @@ import type { coordinates } from '$lib/constants';
 
 const NON_MENU = 4; // number of fields in form not for menu
 
+export async function load({ locals: { supabase } }) {
+    const disabled = await getLoggedInVendor(supabase) ==  null
+    
+    return { disabled: disabled }
+}
+
 export const actions = {
     registerStorefront: async ({ request, locals}) => {
         const { supabase } = locals;

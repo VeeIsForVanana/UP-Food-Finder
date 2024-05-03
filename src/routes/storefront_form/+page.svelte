@@ -102,14 +102,7 @@
                     on:change={update_map_display}
                     required
                     />
-        </div>
-        
-        <div>
-            <MapComponent bind:mapData={mapData}
-                          bind:updateMap={updateMap}
-                />
-        </div>
-
+            </div>
     </div>
 
     <h2 id="menu">Menu Items</h2>
@@ -184,21 +177,23 @@
     <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
         <button class="input" name="submit" id="sf_btn">Submit</button>
     </div>
+      
+    <div>
+        <button on:click|preventDefault={add_menu_item} class="input" name="add_menu" id="sf_btn" >Add menu item</button>
+    </div>
+
+    <div>
+        <button on:click|preventDefault={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
+    </div>
     
     </fieldset>
 </form>
 
-<div>
-    <button on:click={add_menu_item} class="input" name="add_menu" id="sf_btn" >Add menu item</button>
-</div>
-
-<div>
-    <button on:click={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item</button>
-</div>
-
-<div>
-    <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
-</div>
+        <div>
+            <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
+        </div>
+    </fieldset>
+</form>
 
 </div>
 
