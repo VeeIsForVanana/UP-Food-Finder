@@ -24,6 +24,12 @@
         zoom: 0
     }
 
+    let updateMap;
+    function update_map_display() {
+        updateMap(mapData.lng, mapData.lat);
+    }
+
+
     let menu = storefrontMenu;
 
     function add_menu_item() {
@@ -75,16 +81,21 @@
                 </div>
                 <div class="input_div">
                     <label for="new_xcoords">Update X-coordinates</label>
-                    <input class="input" name="new_xcoords" bind:value={mapData.lng} type="number" step="0.000001" required/>
+                    <input class="input" name="new_xcoords" bind:value={mapData.lng} on:change={update_map_display} type="number" step="0.000001" required/>
                 </div>
                 <div class="input_div">
                     <label for="new_ycoords">Update Y-coordinates</label>
-                    <input class="input" name="new_ycoords" bind:value={mapData.lat} type="number" step="0.000001" required/>
+                    <input class="input" name="new_ycoords" bind:value={mapData.lat} on:change={update_map_display} type="number" step="0.000001" required/>
                 </div>
             </div>
 
             <div>
-                <MapComponent initialLng={mapData.lng} initialLat={mapData.lat} bind:mapData={mapData}/>
+                <MapComponent
+                    initialLng={mapData.lng}
+                    initialLat={mapData.lat}
+                    bind:mapData={mapData}
+                    bind:updateMap={updateMap}
+                    />
             </div>
 
         </div>

@@ -21,6 +21,7 @@
         menu = menu.slice(0, menu.length-1);
     }
 
+
     let user: null | string = null;
 
     let isUserLoaded = false;
@@ -84,6 +85,7 @@
                     type="number"
                     step="0.000001"
                     bind:value={mapData.lng}
+                    on:change={update_map_display}
                     required
                     />
 
@@ -93,12 +95,15 @@
                     type="number"
                     step="0.000001"
                     bind:value={mapData.lat}
+                    on:change={update_map_display}
                     required
                     />
         </div>
         
         <div>
-            <MapComponent bind:mapData={mapData} />
+            <MapComponent bind:mapData={mapData}
+                          bind:updateMap={updateMap}
+                />
         </div>
 
     </div>
