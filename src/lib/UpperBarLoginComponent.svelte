@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { redirect } from "@sveltejs/kit";
+
 	export let redirectLink: string = "/";
     export let loggedInUID: null | string = null;
     export let loaded = false;
@@ -14,8 +16,9 @@
     }
 
     const logoutOfGoogle = () => {
-        supabase.auth.signOut()
-        redirect(302, redirectLink);
+        supabase.auth.signOut();
+        loggedInUID = null
+        redirect(303, "/home_page");
     }
 
     const currentUser = async () => {
@@ -27,14 +30,16 @@
 </script>
 
 <div class="justify-self-end">
-    {#await currentUser()}
-        <p>Loading user details, stand by...</p>
-    {:then user}
-        {#if user == null}
-            <button on:click={loginWithGoogle}>Login with Google</button>
-        {:else}
-            <h6 class="h6">You are currently logged in as {user}</h6>
-            <button on:click={logoutOfGoogle}>Logout</button>
-        {/if} 
-    {/await}
+    {#key loggedInUID}
+        {#await currentUser()}
+            <p>Loading user details, stand by...</p>
+        {:then user}
+            {#if user == null}
+                <button on:click={loginWithGoogle}>Login with Google</button>
+            {:else}
+                <h6 class="h6">You are currently logged in as {user} (<button class="underline" on:click={logoutOfGoogle}>Sign Out</button>)</h6>
+                
+            {/if} 
+        {/await}
+    {/key}
 </div>
