@@ -1,4 +1,3 @@
-import type { coordinates } from '$lib/constants';
 import { addStorefrontToVendor } from './database/storefronts';
 
 export class Vendor {
@@ -68,4 +67,5 @@ export function storefrontToPOJO(storefront: Storefront): StorefrontPOJO {
         'menu': storefront.getMenu(),
         'coords': storefront.getCoords()
     }
-}
+}export type coordinates = readonly [number, number];
+

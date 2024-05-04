@@ -1,8 +1,7 @@
 <script lang="ts">
     import MapComponent from "$lib/MapComponent.svelte";
-	import type { coordinates } from "$lib/constants";
-
-    /** @type {import('./$types').PageData} */
+	import typimport type { coordinates } from "../+page";
+type {import('./$types').PageData} */
 
     export let form: any;
     export let data: any;

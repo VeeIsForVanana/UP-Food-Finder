@@ -1,4 +1,4 @@
-import type { coordinates } from '$lib/constants';
+import type { coordinates } from "../dataTransferObjects";
 import { Vendor, Storefront, type MenuItem } from '$lib/server/dataTransferObjects';
 import { error, type NumericRange } from '@sveltejs/kit';
 import type { SupabaseClient } from "@supabase/supabase-js";

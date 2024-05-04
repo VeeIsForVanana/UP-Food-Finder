@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { updateStorefront, deleteStorefront, isStorefrontNameExists, getStorefrontsFromNames } from '$lib/server/database/storefronts';
 import { type MenuItem, Storefront, storefrontToPOJO } from '$lib/server/dataTransferObjects.js';
-import type { coordinates } from '$lib/constants';
+import type { coordinates } from "$lib/server/dataTransferObjects";
 
 // sample vendor as owner
 const NON_MENU = 7; // number of fields in form not for menu
