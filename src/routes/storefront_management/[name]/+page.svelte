@@ -1,6 +1,6 @@
 <script lang="ts">
     import MapComponent from "$lib/MapComponent.svelte";
-	import type { coordinates } from "$lib/constants";
+	import type { coordinates } from "$lib/dataTransferObjects.ts";
 
     /** @type {import('./$types').PageData} */
 

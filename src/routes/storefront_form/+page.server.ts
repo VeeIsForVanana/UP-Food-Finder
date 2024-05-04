@@ -1,8 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { getStorefronts, registerStorefront, getVendorStorefronts, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database/storefronts';
 import { getLoggedInVendor } from '$lib/server/database/vendors';
-import { type MenuItem } from '$lib/server/dataTransferObjects';
-import type { coordinates } from "$lib/server/dataTransferObjects";
+import { type MenuItem, type coordinates } from '$lib/dataTransferObjects';
 
 const NON_MENU = 4; // number of fields in form not for menu
 

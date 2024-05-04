@@ -1,4 +1,4 @@
-import { addStorefrontToVendor } from './database/storefronts';
+import { addStorefrontToVendor } from './server/database/storefronts';
 
 export class Vendor {
 

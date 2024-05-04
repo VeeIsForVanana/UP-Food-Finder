@@ -1,4 +1,4 @@
-import { Vendor } from "$lib/server/dataTransferObjects";
+import { Vendor } from "$lib/dataTransferObjects";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { error, type NumericRange } from '@sveltejs/kit';
 
