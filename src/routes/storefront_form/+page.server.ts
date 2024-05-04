@@ -1,7 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import { getStorefronts, registerStorefront, getVendorStorefronts, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database/storefronts';
 import { getLoggedInVendor } from '$lib/server/database/vendors';
-import { type MenuItem, type coordinates } from '$lib/dataTransferObjects';
+import { Vendor, type MenuItem, type coordinates } from '$lib/dataTransferObjects';
 
 const NON_MENU = 4; // number of fields in form not for menu
 
@@ -16,11 +16,14 @@ export const actions = {
         const { supabase } = locals;
         console.log(await getStorefronts(supabase))
         const vendor = await getLoggedInVendor(supabase);
+        if (vendor == null) {
+            return fail(401, {text: "This action is not authorized"})
+        }
 
         const formData: FormData = await request.formData();
         const storeName = String(formData.get("storename"));
         const storeCoords : coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
-        const owner = vendor;
+        const owner: Vendor = vendor;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
         const menu : MenuItem[] = [];
 
