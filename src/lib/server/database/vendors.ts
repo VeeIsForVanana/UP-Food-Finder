@@ -92,16 +92,19 @@ export async function getUserVendor(
 export async function getLoggedInVendor(supabase: SupabaseClient) {
 
     let loggedInUID: null | string = null;
-    const {data, userError} = await supabase.auth.getUser()
+    const {data} = await supabase.auth.getUser()
     loggedInUID = data.user?.id ?? null
 
-    const { data: vendor, vendorError } = await supabase
+    const { data: vendor, status, statusText } = await supabase
         .from('vendors')
         .select()
         .eq('user_uid', loggedInUID)
         .single(); // Assuming there's only one vendor per user ID, returns null otherwise
 
     // If error, we might need to guarantee that logged in users are forced to create a vendor account
+    if (status > 399) {
+        error(status as NumericRange<400, 599>, statusText)
+    }
 
     return vendor != null ? new Vendor(
             vendor.username,
