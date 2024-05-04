@@ -58,6 +58,10 @@ export const actions = {
             menu.push({
                 foodName: formData.get(`menu_name_${i}`)?.toString() ?? '',
                 price: +formData.get(`menu_price_${i}`)!,
+                calories: 0,
+                fat: 0,
+                protein: 0,
+                carbs: 0
             });
         }
 
