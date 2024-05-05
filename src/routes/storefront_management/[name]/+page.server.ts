@@ -51,7 +51,7 @@ export const actions = {
         
         const owner = formData.get('selectedStorefrontOwner') as string;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
-        const coords: coordinates = [+formData.get("new_xcoords")!, +formData.get("new_ycoords")!];
+        const coords: coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
         
         const menu: MenuItem[] = [];
         for (let i = 0; i < menuItemCount; i++) {
