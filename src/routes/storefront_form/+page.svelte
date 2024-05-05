@@ -64,7 +64,8 @@
 <form
     method="post"
     action="?/registerStorefront"
-    id="storefrontRegistration">
+    id="storefrontRegistration"
+    class="w-full">
 
     <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
         <h2 id="storefront">Storefront Information</h2>
