@@ -1,5 +1,5 @@
 import { fail } from '@sveltejs/kit';
-import { getStorefronts, registerStorefront, getVendorStorefronts, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database/storefronts';
+import { getStorefronts, registerStorefront, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database/storefronts';
 import { getLoggedInVendor } from '$lib/server/database/vendors';
 import { Vendor, type MenuItem, type coordinates } from '$lib/dataTransferObjects';
 
@@ -27,13 +27,18 @@ export const actions = {
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
         const menu : MenuItem[] = [];
 
-        // Start of error checking
         storeName.trim(); // remove leading and trailing whitespaces
+        
+        // Start of error checking
+        
         const storefrontExists = await isStorefrontNameExists(storeName, supabase);
         if (storefrontExists) {
             return fail(400, { storeNameExists: true });
         } // check if any of the store name is taken
+        
         // End of error checking
+
+        // Retrieve and build formData
 
         for (let i = 0; i < menuItemCount; i++) {
             menu.push(
@@ -47,7 +52,6 @@ export const actions = {
                 }   
             );
         }
-        console.log(menu);
 
         addStorefrontToVendor(
             owner,
@@ -59,12 +63,6 @@ export const actions = {
                 supabase
             )
         );
-
-        console.log(getStorefronts(supabase));
-        console.log("Storefronts in database END");
-        console.log("Storefronts owned by Vendor:");
-        console.log(getVendorStorefronts(vendor, supabase));
-        console.log("Storefronts owned by Vendor END");
 
         return { storeRegistrationSuccess: true };
     }
