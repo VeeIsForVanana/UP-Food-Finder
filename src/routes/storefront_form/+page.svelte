@@ -4,22 +4,12 @@
 	import MapComponent from "$lib/MapComponent.svelte";
 	import OAuthLoginComponent from "$lib/OAuthLoginComponent.svelte";
 	import LocationSelectorComponent from "$lib/formComponents/LocationSelectorComponent.svelte";
+	import MenuBuilderComponent from "$lib/formComponents/MenuBuilderComponent.svelte";
 	
     export let form: any;
     export let data: any;
 
     let store_name = "";
-    let menu = [
-        {foodName:"item 0", price:0, calories:0, fat:0, protein:0, carbs:0},
-    ];  
-
-    function add_menu_item() {
-        menu = menu.concat({foodName:`item ${menu.length}`, price:0, calories:0, fat:0, protein:0, carbs:0});
-    }
-    function remove_menu_item() {
-        menu = menu.slice(0, menu.length-1);
-    }
-
 
     let user: null | string = null;
 
@@ -68,9 +58,9 @@
     class="w-full">
 
     <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
-        <h2 id="storefront">Storefront Information</h2>
         <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
             <div>
+                <h2 id="storefront">Storefront Information</h2>
                 <label class="label" for="storename">Store name</label>
                 <input  class="input"
                         name="storename"
@@ -79,60 +69,12 @@
                         required
                         />
                 <LocationSelectorComponent />
-
             </div>
-        </div>
-
-        <h2 id="menu">Menu Items</h2>
-        <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
-            <div class="menu_item_details" style="display: grid-template-columns:repeat(1) ">
-                {#each menu as menu_item, i}
-                    <div class="item" style="display: grid; grid-template-columns: repeat(6, 1fr);">
-                        <div class="menu_names">
-                            <label class="label" for="menu_names">Name</label>
-                            <input  class="input w-60"
-                                    name="menu_name_{i}"
-                                    type="text"
-                                    bind:value={menu_item.foodName}
-                                    required
-                                    />
-                        </div>
-                        <div class="menu_prices">
-                            <label class="label" for="menu_prices">Price</label>
-                            <input  class="input w-60"
-                                    name="menu_price_{i}"
-                                    type="number"
-                                    bind:value={menu_item.price}
-                                    step="0.01"
-                                    min="0"
-                                    required
-                                    />
-                        </div>
-                    </div>
-                {/each}
-            </div>
-
             <div>
-
-                <div id="buttons"> <!-- style="width:50%; flex: 1;" -->
-                    <button class="input" name="submit" id="sf_btn">Submit</button>
-                </div>
-                
-                <div>
-                    <button on:click|preventDefault={add_menu_item} class="input" name="add_menu" id="sf_btn" >Add menu item</button>
-                </div>
-
-                <div>
-                    <button on:click|preventDefault={remove_menu_item} class="input" name="remove_menu" id="sf_btn">Remove menu item   </button>
-                </div>
-
-                <div>
-                    <p> <a href="/storefront_management">(temp) Storefront Management</a> </p>
-                </div>
-
+                <MenuBuilderComponent />
             </div>
         </div>
-        
+        <button class="input" name="submit" id="sf_btn">Submit</button>
     </fieldset>
 </form>
 
