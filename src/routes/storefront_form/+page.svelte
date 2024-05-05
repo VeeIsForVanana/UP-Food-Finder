@@ -102,14 +102,13 @@
                         on:change={update_map_display}
                         required
                         />
-                </div>
+            </div>
 
-                <div>
-                    <MapComponent bind:mapData={mapData}
-                                  bind:updateMap={updateMap}
-                        />
-                </div>
-
+            <div>
+                <MapComponent bind:mapData={mapData}
+                                bind:updateMap={updateMap}
+                    />
+            </div>
         </div>
 
         <h2 id="menu">Menu Items</h2>
