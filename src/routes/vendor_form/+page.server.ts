@@ -64,13 +64,22 @@ export const actions = {
             return fail(returnData.status, returnData);
         }
         
-        // successful registration
-        registerVendor(
-            username,
-            user,
-            phoneNumber,
-            supabase
-        )
+        try {
+            // successful registration
+            registerVendor(
+                username,
+                user,
+                phoneNumber,
+                supabase
+            );
+        } catch (error) {
+            return fail(
+                500, {
+                    status: 500,
+                    statusText: "Something went wrong while sending data to the database, please try again later!"
+                }
+            );
+        }
 
         return returnData;
     }
