@@ -1,8 +1,5 @@
 <script lang="ts">
-    /** @type {import('./$types').PageData} */
-
-	import MapComponent from "$lib/MapComponent.svelte";
-	import OAuthLoginComponent from "$lib/OAuthLoginComponent.svelte";
+    import OAuthLoginComponent from "$lib/OAuthLoginComponent.svelte";
 	import LocationSelectorComponent from "$lib/formComponents/LocationSelectorComponent.svelte";
 	import MenuBuilderComponent from "$lib/formComponents/MenuBuilderComponent.svelte";
 	
