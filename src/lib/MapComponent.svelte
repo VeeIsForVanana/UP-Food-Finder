@@ -24,7 +24,7 @@
         mapData.lat = map.getCenter().lat.toFixed(6);
     }
 
-    export const updateMap = (lng, lat) => {
+    export const updateMap = (lng: number, lat: number) => {
         map.jumpTo({center: [lng, lat],});
     }
 
