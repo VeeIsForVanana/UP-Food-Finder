@@ -8,7 +8,7 @@ const NON_MENU = 4; // number of fields in form not for menu
 export async function load({ locals: { supabase } }) {
     const disabled = await getLoggedInVendor(supabase) ==  null
     
-    return { disabled: disabled }
+    return { disabled }
 }
 
 export const actions = {
@@ -17,7 +17,7 @@ export const actions = {
         console.log(await getStorefronts(supabase))
         const vendor = await getLoggedInVendor(supabase);
         if (vendor == null) {
-            return fail(401, {text: "This action is not authorized"})
+            return fail(401, {status: 401, statusText: "This action is not authorized"})
         }
 
         const formData: FormData = await request.formData();
@@ -33,7 +33,7 @@ export const actions = {
         
         const storefrontExists = await isStorefrontNameExists(storeName, supabase);
         if (storefrontExists) {
-            return fail(400, { storeNameExists: true });
+            return fail(409, { status: 409, statusText: "Store name is already registered. Please choose a different one." });
         } // check if any of the store name is taken
         
         // End of error checking
@@ -64,6 +64,6 @@ export const actions = {
             )
         );
 
-        return { storeRegistrationSuccess: true };
+        return { status: 200, statusText: "Congratulations, you registered a new storefront." };
     }
 }

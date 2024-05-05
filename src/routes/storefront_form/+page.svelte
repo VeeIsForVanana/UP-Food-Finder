@@ -29,15 +29,8 @@
     <a href="/vendor_form">testUser</a>
 </div>
 
-{#if form?.storeRegistrationSuccess}
-    <h2 id="storeRegistered">Congratulations, you registered a new storefront.</h2>
-{/if}
-{#if form?.missing}
-    <h2 id="error">Registration failed, have you filled up all fields?</h2>
-{/if}
-
-{#if form?.storeNameExists}
-    <h2 id="error">Store name is already registered. Please choose a different one.</h2>
+{#if form != null}
+    <h2 id={form?.status == 200 ? "registered" : "error"}>{form?.statusText}</h2>
 {/if}
 
 {#if (form?.userError || user == null) && isUserLoaded}

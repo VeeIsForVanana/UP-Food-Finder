@@ -11,11 +11,11 @@
     }
 </script>
 
-<h2 id="menu">Menu Items</h2>
+<h2>Menu Items</h2>
 <div class="grid gap-10 w-full columns-7xl">
-    <div class="menu_item_details" style="display: grid-template-columns:repeat(1) ">
+    <div style="display: grid-template-columns:repeat(1) ">
         {#each menu as menu_item, i}
-            <div class="item" style="display: grid; grid-template-columns: repeat(6, 1fr);">
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr);">
                 <div class="menu_names">
                     <label class="label" for="menu_names">Name</label>
                     <input  class="input w-60"
