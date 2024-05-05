@@ -3,7 +3,8 @@
 
 	import MapComponent from "$lib/MapComponent.svelte";
 	import OAuthLoginComponent from "$lib/OAuthLoginComponent.svelte";
-
+	import LocationSelectorComponent from "$lib/formComponents/LocationSelectorComponent.svelte";
+	
     export let form: any;
     export let data: any;
 
@@ -11,12 +12,6 @@
     let menu = [
         {foodName:"item 0", price:0, calories:0, fat:0, protein:0, carbs:0},
     ];  
-    
-    let mapData = {lat: 0, lng: 0, zoom: 0};
-    let updateMap;
-    function update_map_display() {
-        updateMap(mapData.lng, mapData.lat);
-    }
 
     function add_menu_item() {
         menu = menu.concat({foodName:`item ${menu.length}`, price:0, calories:0, fat:0, protein:0, carbs:0});
@@ -82,31 +77,8 @@
                         bind:value={store_name}
                         required
                         />
-                <label class="label" for="store_x">Store x coordinate</label>
-                <input  class="input"
-                        name="store_x"
-                        type="number"
-                        step="0.000001"
-                        bind:value={mapData.lng}
-                        on:change={update_map_display}
-                        required
-                        />
+                <LocationSelectorComponent />
 
-                <label class="label" for="store_y">Store y coordinate</label>
-                <input  class="input"
-                        name="store_y"
-                        type="number"
-                        step="0.000001"
-                        bind:value={mapData.lat}
-                        on:change={update_map_display}
-                        required
-                        />
-            </div>
-
-            <div>
-                <MapComponent bind:mapData={mapData}
-                                bind:updateMap={updateMap}
-                    />
             </div>
         </div>
 

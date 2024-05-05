@@ -1,6 +1,7 @@
 <script lang="ts">
     import MapComponent from "$lib/MapComponent.svelte";
 	import type { coordinates } from "$lib/dataTransferObjects.ts";
+	import LocationSelectorComponent from "$lib/formComponents/LocationSelectorComponent.svelte";
 
     /** @type {import('./$types').PageData} */
 
@@ -79,23 +80,8 @@
                     <label for="new_storename">Rename Storefront</label>
                     <input class="input" name="new_storename" placeholder="To keep the current name, leave this field blank." type="text"/>
                 </div>
-                <div class="input_div">
-                    <label for="new_xcoords">Update X-coordinates</label>
-                    <input class="input" name="new_xcoords" bind:value={mapData.lng} on:change={update_map_display} type="number" step="0.000001" required/>
-                </div>
-                <div class="input_div">
-                    <label for="new_ycoords">Update Y-coordinates</label>
-                    <input class="input" name="new_ycoords" bind:value={mapData.lat} on:change={update_map_display} type="number" step="0.000001" required/>
-                </div>
-            </div>
-
-            <div>
-                <MapComponent
-                    initialLng={mapData.lng}
-                    initialLat={mapData.lat}
-                    bind:mapData={mapData}
-                    bind:updateMap={updateMap}
-                    />
+                
+                <LocationSelectorComponent isExternalMapData={true} mapData={mapData}/>
             </div>
 
         </div>
