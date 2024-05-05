@@ -17,63 +17,59 @@
 
 </script>
 
-<div class = "everything">
 
 <head>
     <title>Storefront Registration</title>
 </head>
 
-<h1 id="title">New storefront registration form</h1>
+<div class = "m-10">
+    <h1 id="title">New storefront registration form</h1>
 
-<div class="vendor_name">
-    <a href="/vendor_form">testUser</a>
-</div>
+    <div class="vendor_name">
+        <a href="/vendor_form">testUser</a>
+    </div>
 
-{#if form != null}
-    <h2 id={form?.status == 200 ? "registered" : "error"}>{form?.statusText}</h2>
-{/if}
+    {#if form != null}
+        <h2 id={form?.status == 200 ? "storeRegistered" : "error"}>{form?.statusText}</h2>
+    {/if}
 
-{#if (form?.userError || user == null) && isUserLoaded}
-    <h2 id="error">Please don't forget to log in!</h2>
-{/if}
+    {#if (form?.userError || user == null) && isUserLoaded}
+        <h2 id="error">Please don't forget to log in!</h2>
+    {/if}
 
-{#if user == null}
-    <OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUID={user} bind:loaded={isUserLoaded} bind:supabase={data.supabase}/>
-{/if}
+    {#if user == null}
+        <OAuthLoginComponent redirectLink="http://localhost:5173/vendor_form" bind:loggedInUID={user} bind:loaded={isUserLoaded} bind:supabase={data.supabase}/>
+    {/if}
 
-<form
-    method="post"
-    action="?/registerStorefront"
-    id="storefrontRegistration"
-    class="w-full">
+    <form
+        method="post"
+        action="?/registerStorefront"
+        id="storefrontRegistration"
+        class="w-full">
 
-    <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
-        <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
-            <div>
-                <h2 id="storefront">Storefront Information</h2>
-                <label class="label" for="storename">Store name</label>
-                <input  class="input"
-                        name="storename"
-                        type="text"
-                        bind:value={store_name}
-                        required
-                        />
-                <LocationSelectorComponent />
+        <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
+            <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
+                <div>
+                    <h2 id="storefront">Storefront Information</h2>
+                    <label class="label" for="storename">Store name</label>
+                    <input  class="input"
+                            name="storename"
+                            type="text"
+                            bind:value={store_name}
+                            required
+                            />
+                    <LocationSelectorComponent />
+                </div>
+                <div>
+                    <MenuBuilderComponent />
+                </div>
             </div>
-            <div>
-                <MenuBuilderComponent />
-            </div>
-        </div>
-        <button class="input" name="submit" id="sf_btn">Submit</button>
-    </fieldset>
-</form>
-
+            <button class="input" name="submit" id="sf_btn">Submit</button>
+        </fieldset>
+    </form>
 </div>
 
 <style>
-    .everything {
-        margin: 40px;
-    }
     title {
         top: 5px;
     }

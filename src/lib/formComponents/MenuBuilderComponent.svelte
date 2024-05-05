@@ -1,5 +1,5 @@
 <script lang="ts">
-    let menu = [
+    export let menu = [
         {foodName:"item 0", price:0, calories:0, fat:0, protein:0, carbs:0},
     ];  
 
