@@ -3,8 +3,6 @@
     import { onMount, onDestroy } from "svelte";
     import mapboxgl from "mapbox-gl";
 	import { browser } from "$app/environment";
-
-    export let showSidebar = false;
     
     export let initialLng = 121.063439;
     export let initialLat = 14.654888;
@@ -68,13 +66,6 @@
         border: 2px dashed black;
     }
 </style>
-
-
-{#if showSidebar}
-    <div class="sidebar">
-        Longitude: {mapData.lng.toFixed(4)} | Latitude: {mapData.lat.toFixed(4)} | Zoom: {mapData.zoom.toFixed(2)}
-    </div>
-{/if}
 
 <div class="map-wrap">
     <div class="map" bind:this={mapContainer} />
