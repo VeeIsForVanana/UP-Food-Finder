@@ -71,7 +71,6 @@
     action="?/registerStorefront"
     id="storefrontRegistration">
 
-    <!-- weird behavior with isUserVendored here -->
     <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
         <h2 id="storefront">Storefront Information</h2>
         <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
@@ -136,47 +135,6 @@
                                     required
                                     />
                         </div>
-                        <!-- The code below is what's causing the bug -->
-                        <!-- <div>
-                            <label class="label" for="menu_calories">Calories</label>
-                            <input  class="input w-40"
-                                    name="menu_calories_{i}"
-                                    type="number"
-                                    bind:value={menu_item.calories}
-                                    min="0"
-                                    required
-                                    />
-                        </div>
-                        <div>
-                            <label class="label" for="menu_fat">Fat</label>
-                            <input  class="input w-40"
-                                    name="menu_fat_{i}"
-                                    type="number"
-                                    bind:value={menu_item.fat}
-                                    min="0"
-                                    required
-                                    />
-                        </div>
-                        <div>
-                            <label class="label" for="menu_protein">Protein</label>
-                            <input  class="input w-40"
-                                    name="menu_protein_{i}"
-                                    type="number"
-                                    bind:value={menu_item.protein}
-                                    min="0"
-                                    required
-                                    />
-                        </div>
-                        <div>
-                            <label class="label" for="menu_carbs">Carbs</label>
-                            <input  class="input w-40"
-                                    name="menu_carbs_{i}"
-                                    type="number"
-                                    bind:value={menu_item.carbs}
-                                    min="0"
-                                    required
-                                    />
-                        </div> -->
                     </div>
                 {/each}
             </div>
