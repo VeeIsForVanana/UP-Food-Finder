@@ -5,7 +5,7 @@
 
     export let isExternalMapData = false;
     export let mapData: MapDataType = {lng: 0, lat: 0, zoom: 0};
-    export let debugMode = false;
+    export let debugMode = true;
 
     let updateMap: (lng: number, lat: number) => void;
     
@@ -22,7 +22,6 @@
         bind:value={mapData.lng}
         on:change={update_map_display}
         required
-        disabled
         hidden
         />
 
@@ -33,7 +32,6 @@
         bind:value={mapData.lat}
         on:change={update_map_display}
         required
-        disabled
         hidden
         />
 
