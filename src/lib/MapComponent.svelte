@@ -61,7 +61,7 @@
 <style>
     .map {
         position: relative;
-        width: 600px;
+        width: 100%;
         height: 300px;
         border: 2px dashed black;
     }
