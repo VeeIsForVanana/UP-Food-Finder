@@ -15,7 +15,6 @@ export const actions = {
         const formData: FormData = await request.formData();
         const user = String(formData.get("user"))
         const username = String(formData.get("username"));
-        const password = String(formData.get("password"));
         const phoneNumber = String(formData.get("phone_number"));
 
         let failure = false;
