@@ -4,8 +4,6 @@ import { registerVendor, isPhoneNumberExists, isUsernameExists, getUserVendor } 
 export async function load({ locals: {supabase} }) {
     const userVendor = (await getUserVendor(supabase))[0] ?? null;
 
-    console.log(userVendor)
-
     return {'userVendor': userVendor}
 }
 
