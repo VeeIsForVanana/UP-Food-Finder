@@ -24,29 +24,11 @@
 <h1 id="title">Create your vendor account</h1>
 
 <!-- result of submitting form, single place for displaying errors and results -->
-{#if form?.registrationSuccess}
-    <h2 id="registered">Congratulations, you are now a vendor.</h2>
-{/if}
-{#if form?.missing}
-    <h2 id="error">Some fields have not been filled.</h2>
-{/if}
-{#if form?.passwordError}
-    <h2 id="error">Password must be between 8 and 32 characters long.</h2>
+{#if form != null}
+    <h2 id={form?.status == 200 ? "registered" : "error"}>{form?.statusText}</h2>
 {/if}
 
-{#if form?.usernameExists}
-    <h2 id="error">Username is already registered. Please choose a different one.</h2>
-{/if}
-
-{#if form?.phoneNumberExists}
-    <h2 id="error">Phone number is already registered. Please choose a different one.</h2>
-{/if}
-
-{#if form?.phoneError}
-    <h2 id="error">Phone number must have format 0XXXXXXXXXX.</h2>
-{/if}
-
-{#if (form?.userError || user == null) && isUserLoaded}
+{#if (user == null) && isUserLoaded}
     <h2 id="error">Please don't forget to log in!</h2>
 {/if}
 
@@ -61,7 +43,7 @@
 
 <div>
     <form method="post" action="?/registerVendor" id="vendorRegistration">
-        <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
+        <fieldset disabled={user == null || !isUserLoaded || isUserVendored || form?.status == 200}>
             <label class="label" for="username">Username</label>
             <input  class="input"
                     name="username"
@@ -90,7 +72,7 @@
                             width:130px;"
                     id="btn"
                     type="submit"
-                    disabled={form?.registrationSuccess}/>
+                    disabled={form?.status == 200}/>
         </fieldset>
     </form>
 </div>

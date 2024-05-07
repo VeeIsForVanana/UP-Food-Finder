@@ -1,6 +1,6 @@
 import { getVendorStorefronts } from '$lib/server/database/storefronts';
 import { getLoggedInVendor } from '$lib/server/database/vendors';
-import { Vendor, Storefront } from '$lib/server/dataTransferObjects.js';
+import { Vendor, Storefront } from '$lib/dataTransferObjects';
 import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageLoad} */

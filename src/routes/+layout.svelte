@@ -19,7 +19,7 @@
 	<!-- (sidebarLeft) -->
 	<!-- (sidebarRight) -->
 	<!-- (pageHeader) -->
-	<div class="container h-full justify-left items-center max-w-screen-lg prose dark:prose-invert text-justify">
+	<div class="container h-full justify-left items-center max-w-screen-2xl prose dark:prose-invert text-justify">
 		<slot />
 	</div>
 	<!-- ---- / ---- -->

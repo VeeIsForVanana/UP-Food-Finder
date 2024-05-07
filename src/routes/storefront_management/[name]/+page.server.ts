@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { updateStorefront, deleteStorefront, isStorefrontNameExists, getStorefrontsFromNames } from '$lib/server/database/storefronts';
-import { type MenuItem, Storefront, storefrontToPOJO } from '$lib/server/dataTransferObjects.js';
-import type { coordinates } from '$lib/constants';
+import { type MenuItem, Storefront, storefrontToPOJO } from '$lib/dataTransferObjects';
+import type { coordinates } from "$lib/dataTransferObjects";
 
 // sample vendor as owner
 const NON_MENU = 7; // number of fields in form not for menu
@@ -51,13 +51,17 @@ export const actions = {
         
         const owner = formData.get('selectedStorefrontOwner') as string;
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
-        const coords: coordinates = [+formData.get("new_xcoords")!, +formData.get("new_ycoords")!];
+        const coords: coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
         
         const menu: MenuItem[] = [];
         for (let i = 0; i < menuItemCount; i++) {
             menu.push({
                 foodName: formData.get(`menu_name_${i}`)?.toString() ?? '',
                 price: +formData.get(`menu_price_${i}`)!,
+                calories: 0,
+                fat: 0,
+                protein: 0,
+                carbs: 0
             });
         }
 
