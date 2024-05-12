@@ -79,7 +79,10 @@ export class Review {
         return this.storefront;
     }
     getTimestamp() {
-        return this.timestamp;
+        return this.timestamp.toLocaleString('en-US', {
+            dateStyle: 'short',
+            timeStyle: 'short'
+        });
     }
     getReview() {
         return this.review;

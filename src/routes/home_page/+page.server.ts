@@ -48,21 +48,16 @@ export const actions = {
             const formData = await request.formData();
             const store_name = formData.get('storename')?.toString() || '';
 
-            console.log('loadReviews action');
-            console.log('formData', formData);
-
             const storefrontList = await getStorefrontsFromNames([store_name], supabase);
-            const storefront = storefrontList[0];
-            console.log('storefront', storefront);
-
-            if (!storefront) {  //should never happen but just in case
-                console.log('Storefront not found.');
-                return { reviews: []};
-            }
+            const storefront = storefrontList[0]; 
 
             const reviewRes = await getStorefrontReviews(storefront, supabase) ?? [];
-            const reviews = reviewRes.map(review => ({ ...review })); //convert to POJO
-            console.log('reviews', reviews);
+            const reviews = reviewRes.map(review => ({
+                storefront: review.getStorefront(),
+                timestamp: review.getTimestamp(),
+                review: review.getReview()
+            })); //convert to POJO
+
             return { reviews };
     },
     addReview: async ({ request, locals }) => {
@@ -71,12 +66,8 @@ export const actions = {
         const store_name = formData.get('storename')?.toString() || '';
         const review = formData.get('review')?.toString() || '';
 
-        console.log('review', review);
-
         const storefrontList = await getStorefrontsFromNames([store_name], supabase);
         const storefront = storefrontList[0];
-
-        console.log('addReview action');
 
         await addReviewToStorefront(storefront, review, supabase);
 

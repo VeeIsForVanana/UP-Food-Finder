@@ -40,6 +40,9 @@
             </Accordion>
         </div>
     {:else if activeTab === "Reviews"}
+        {#if reviews.length === 0}
+            <p>No reviews yet</p>
+        {/if}
         {#each reviews as review, i}
             <div class="review">
                 <p>{review.timestamp}</p>
