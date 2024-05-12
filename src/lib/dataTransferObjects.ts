@@ -69,3 +69,19 @@ export function storefrontToPOJO(storefront: Storefront): StorefrontPOJO {
     }
 }export type coordinates = readonly [number, number];
 
+export class Review {
+    constructor(
+        private storefront: string,
+        private timestamp: Date,
+        private review: string
+    ) { }
+    getStorefront() {
+        return this.storefront;
+    }
+    getTimestamp() {
+        return this.timestamp;
+    }
+    getReview() {
+        return this.review;
+    }
+}

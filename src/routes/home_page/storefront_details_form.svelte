@@ -6,6 +6,7 @@
     export let owner = "default owner";
     export let menu = [];
     // export let coords = {latitude: 0, longitude: 0};
+    export let reviews = [];
 
     let tabItems = ["Menu", "Reviews"];
     let activeTab = "Menu";
@@ -39,7 +40,17 @@
             </Accordion>
         </div>
     {:else if activeTab === "Reviews"}
-        <p>reviews here</p>
+        {#each reviews as review, i}
+            <div class="review">
+                <p>{review.timestamp}</p>
+                <p>{review.review}</p>
+            </div>
+        {/each}
+        <form method="POST" action = "?/addReview" autocomplete="off">
+            <input type="hidden" name = "storename" value = {storeName}/>
+            <input type="text" placeholder="Write a review" name = "review" required/>
+            <button>Submit</button>
+        </form>
     {:else}
         <p>default</p>
     {/if}

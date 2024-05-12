@@ -2,6 +2,8 @@
     import Modal from './components/modal.svelte';
     import Form from './storefront_details_form.svelte';
     import Box from './components/box.svelte';
+    import { enhance } from '$app/forms';
+    
 
     /** @type {import('./$types').PageData} */
 
@@ -21,11 +23,20 @@
         toggleModal();
         storeDetails = store;
     }
+    
+    let reviews;
+    $: reviews = form?.reviews || [];
 
+    let formElement;
+    let selectedStoreName = "";
+    const setSelectedStoreName = (storeName) => {
+        selectedStoreName = storeName;
+        formElement.requestSubmit();
+    }
 </script>
 
 <Modal {showModal} on:click={toggleModal}>
-    <Form {...storeDetails}>
+    <Form {...storeDetails} {reviews}>
     </Form>
 </Modal>
 
@@ -36,14 +47,20 @@
     </form>
 
     <h3>Default Recommendation:</h3>
-    <div class="grid grid-cols-4 gap-4">
-        {#each storefronts ?? [] as store (store.storeName) }
-            <Box on:click={() => handleStorefrontClick(store)}>
-                <h2>{store.storeName}</h2>
-                <p>{store.owner}</p>
-            </Box>
-        {/each}
-    </div>  
+        <div class="grid grid-cols-4 gap-4">
+            {#each storefronts ?? [] as store,i (store.storeName) }
+            <form   bind:this={formElement} 
+                method = "Post" 
+                use:enhance = {({formData}) => {formData.append('storename', selectedStoreName)}}
+                action = "?/loadReviews" >
+                
+                <Box on:click={() => {handleStorefrontClick(store); setSelectedStoreName(store.storeName);}}>
+                    <h2>{store.storeName}</h2>
+                    <p>{store.owner}</p>
+                </Box>
+            </form>
+            {/each}
+        </div>
 </div>
 
 <style>
