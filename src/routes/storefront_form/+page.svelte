@@ -2,6 +2,8 @@
     import OAuthLoginComponent from "$lib/OAuthLoginComponent.svelte";
 	import LocationSelectorComponent from "$lib/formComponents/LocationSelectorComponent.svelte";
 	import MenuBuilderComponent from "$lib/formComponents/MenuBuilderComponent.svelte";
+    import Avatar from "$lib/formComponents/Avatar.svelte";
+	import StorefrontDetailsForm from "../home_page/storefront_details_form.svelte";
 	
     export let form: any;
     export let data: any;
@@ -14,6 +16,11 @@
     let isUserVendored = data.userVendor != null
 
     let vendorData = data.userVendor ?? {username: null, password: null, phone_number: null}
+
+    let avatarUrl: string | null = null;
+    let avatarUrlFromComponent: string | null = null;
+
+    $: avatarUrl = avatarUrlFromComponent || '';
 
 </script>
 
@@ -45,7 +52,17 @@
         method="post"
         action="?/registerStorefront"
         id="storefrontRegistration"
-        class="w-full">
+        class="w-full"
+        >
+
+        <Avatar
+            supabase={data.supabase}
+            bind:url={(avatarUrlFromComponent)}
+            size={10}
+            on:upload={() => {
+                console.log("Avatar uploaded");
+            }}
+        />
 
         <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
             <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
