@@ -1,10 +1,11 @@
-<script>
+<script lang="ts">
+	import type { MenuItem } from '$lib/dataTransferObjects';
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 
     export let storeName = "default name";
     export let owner = "default owner";
-    export let menu = [];
+    export let menu: MenuItem[] = [];
     // export let coords = {latitude: 0, longitude: 0};
 
     let tabItems = ["Menu", "Reviews"];
@@ -19,7 +20,7 @@
     {#if activeTab === "Menu"}
         <div class="menu" style="overflow-y: scroll; max-height: 300px;">
             <Accordion>
-                {#each menu as item, i}
+                {#each menu as item, _}
                     <div class="menu_items">
                         <AccordionItem>
                             <svelte:fragment slot="summary"> <div class="summary-content"><p> {item.foodName}</p>
@@ -46,11 +47,6 @@
 </form>
 
 <style>
-    .menu {
-        /* display: grid;
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 0px; */
-    }
     .menu_items {
         margin-left: 50px;
         margin-right: 50px;
