@@ -40,20 +40,25 @@
             </Accordion>
         </div>
     {:else if activeTab === "Reviews"}
-        {#if reviews.length === 0}
-            <p>No reviews yet</p>
-        {/if}
-        {#each reviews as review, i}
-            <div class="review">
-                <p>{review.timestamp}</p>
-                <p>{review.review}</p>
-            </div>
-        {/each}
-        <form method="POST" action = "?/addReview" autocomplete="off">
-            <input type="hidden" name = "storename" value = {storeName}/>
-            <input type="text" placeholder="Write a review" name = "review" required/>
-            <button>Submit</button>
-        </form>
+        <div class = "overflow-y-auto h-64"> 
+            {#if reviews.length === 0}
+                <p>No reviews yet</p>
+            {/if}
+            {#each reviews as review}
+                <div class="flex items-start space-x-2">
+                    <p class="m-0">{review.timestamp}</p>
+                    <p class="m-0">{review.review}</p>
+                </div>
+                <hr class="my-2 border-gray-700">
+            {/each}
+        </div>
+        <div>
+            <form method="POST" action = "?/addReview" autocomplete="off">
+                <input type="hidden" name = "store_name" value = {storeName}/>
+                <input type="text" placeholder="Write a review" name = "review" class="input" required/>
+                <button id="submitButton">Submit</button>
+            </form>
+        </div>
     {:else}
         <p>default</p>
     {/if}

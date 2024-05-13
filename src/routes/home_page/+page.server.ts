@@ -1,5 +1,5 @@
-import { getStorefronts, getStorefrontReviews, addReviewToStorefront, getStorefrontsFromNames} from '$lib/server/database/storefronts';
-import type { Storefront } from '$lib/server/dataTransferObjects';
+import { getStorefronts, getStorefrontReviews, addReviewToStorefront} from '$lib/server/database/storefronts';
+import type { Storefront } from '$lib/dataTransferObjects';
 
 /** @type {import('./$types').PageServerLoad} */
 
@@ -44,32 +44,27 @@ export const actions = {
         return { storefronts, search };
     },
     loadReviews: async ({ request, locals }) => {
+            
             const { supabase } = locals;
             const formData = await request.formData();
-            const store_name = formData.get('storename')?.toString() || '';
+            const store_name = formData.get('store_name')?.toString() || '';
 
-            const storefrontList = await getStorefrontsFromNames([store_name], supabase);
-            const storefront = storefrontList[0]; 
-
-            const reviewRes = await getStorefrontReviews(storefront, supabase) ?? [];
+            const reviewRes = await getStorefrontReviews(store_name, supabase) ?? [];
             const reviews = reviewRes.map(review => ({
                 storefront: review.getStorefront(),
                 timestamp: review.getTimestamp(),
                 review: review.getReview()
             })); //convert to POJO
-
+            
             return { reviews };
     },
     addReview: async ({ request, locals }) => {
         const { supabase } = locals;
         const formData = await request.formData();
-        const store_name = formData.get('storename')?.toString() || '';
+        const store_name = formData.get('store_name')?.toString() || '';
         const review = formData.get('review')?.toString() || '';
 
-        const storefrontList = await getStorefrontsFromNames([store_name], supabase);
-        const storefront = storefrontList[0];
-
-        await addReviewToStorefront(storefront, review, supabase);
+        await addReviewToStorefront(store_name, review, supabase);
 
         return;
     }

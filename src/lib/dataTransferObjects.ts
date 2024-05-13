@@ -81,7 +81,8 @@ export class Review {
     getTimestamp() {
         return this.timestamp.toLocaleString('en-US', {
             dateStyle: 'short',
-            timeStyle: 'short'
+            timeStyle: 'short',
+            hour12: false
         });
     }
     getReview() {

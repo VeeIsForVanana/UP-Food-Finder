@@ -29,9 +29,14 @@
 
     let formElement;
     let selectedStoreName = "";
-    const setSelectedStoreName = (storeName) => {
+
+    const setSelectedStoreName = async (storeName) => {
         selectedStoreName = storeName;
-        formElement.requestSubmit();
+        await formElement.requestSubmit(); 
+
+        while (!form?.reviews) {
+            await new Promise(resolve => setTimeout(resolve, 100)); // Wait for 100ms
+        }
     }
 </script>
 
@@ -49,10 +54,11 @@
     <h3>Default Recommendation:</h3>
         <div class="grid grid-cols-4 gap-4">
             {#each storefronts ?? [] as store,i (store.storeName) }
-            <form   bind:this={formElement} 
-                method = "Post" 
-                use:enhance = {({formData}) => {formData.append('storename', selectedStoreName)}}
-                action = "?/loadReviews" >
+            <form   
+                bind:this={formElement} 
+                method = "Post"
+                action = "?/loadReviews"
+                use:enhance = {({formData}) => {formData.append('store_name', selectedStoreName)}} >
                 
                 <Box on:click={() => {handleStorefrontClick(store); setSelectedStoreName(store.storeName);}}>
                     <h2>{store.storeName}</h2>

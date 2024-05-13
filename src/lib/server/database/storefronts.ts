@@ -142,21 +142,21 @@ export async function getStorefronts(supabase: SupabaseClient) {
     return response.data?.map(storefrontDataToStorefront);
 }
 
-export async function addReviewToStorefront(storefront: Storefront, review: string, supabase: SupabaseClient) {
+export async function addReviewToStorefront(store_name : string, review: string, supabase: SupabaseClient) {
     const response = await supabase
         .from('storefront_reviews')
-        .insert({ store_name: storefront.getStoreName(), review: review })
+        .insert({ store_name: store_name, review: review })
     
     if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
     }
 }
 
-export async function getStorefrontReviews(storefront: Storefront, supabase: SupabaseClient) {
+export async function getStorefrontReviews(store_name : string, supabase: SupabaseClient) {
     const response = await supabase
         .from('storefront_reviews')
         .select()
-        .eq('store_name', storefront.getStoreName())
+        .eq('store_name', store_name)
     
     if (response.status > 399) {
         error(response.status as NumericRange<400, 599>, response.statusText);
