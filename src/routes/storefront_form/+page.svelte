@@ -17,10 +17,10 @@
 
     let vendorData = data.userVendor ?? {username: null, password: null, phone_number: null}
 
-    let avatarUrl: string | null = null;
-    let avatarUrlFromComponent: string | null = null;
+    let avatarUrlFromComponent: string | null;
+    let avatarUrl = '';
 
-    $: avatarUrl = avatarUrlFromComponent || '';
+    //$: avatarUrl = avatarUrlFromComponent?? '';
 
 </script>
 
@@ -57,12 +57,17 @@
 
         <Avatar
             supabase={data.supabase}
-            bind:url={(avatarUrlFromComponent)}
+            bind:url={(avatarUrl)}
             size={10}
             on:upload={() => {
                 console.log("Avatar uploaded");
+                store_name={store_name}
             }}
         />
+
+        {#if avatarUrlFromComponent}
+            <img src={avatarUrl} alt="User Avatar" class="avatar-image" />
+        {/if}
 
         <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
             <div class="grid grid-cols-2 gap-10 w-full columns-7xl">

@@ -1,10 +1,13 @@
 <!-- src/routes/account/Avatar.svelte -->
 <script lang="ts">
+	import { onMount } from 'svelte';
+    import Img from '@zerodevx/svelte-img';
 	import type { SupabaseClient } from '@supabase/supabase-js'
 	import { createEventDispatcher } from 'svelte'
 
 	export let size = 10
 	export let url: string
+	export let store_name: string;
 	export let supabase: SupabaseClient
 
 	let avatarUrl: string | null = null
@@ -31,6 +34,7 @@
 	}
 	
 	const uploadAvatar = async () => {
+		console.log("hello")
 		try {
 			uploading = true
 
@@ -49,10 +53,13 @@
 			}
 
 			url = filePath
-
-			setTimeout(() => {
+			dispatch('upload');
+			/*setTimeout(() => {
 				dispatch('upload')
-			}, 100)
+			}, 100)*/
+
+			await saveAvatarUrl(store_name, url);
+
 		} catch (error) {
 			if (error instanceof Error) {
 				alert(error.message)
@@ -63,19 +70,35 @@
 	}
 
 	$: if (url) downloadImage(url)
+
+	async function saveAvatarUrl(store_name:string, avatarUrl:string) {
+    const { data, error } = await supabase
+       .from('storefronts')
+       .update({ img_url: avatarUrl })
+       .match({ store_name: store_name });
+
+    if (error) {
+        console.error('Error saving avatar URL:', error);
+        // Handle error appropriately
+    } else {
+        console.log('Avatar URL saved successfully:', data);
+    }
+
+	onMount(async () => {
+        if (url) {
+            await downloadImage(url);
+        }
+    });
+}
 </script>
 
 <div>
 	{#if avatarUrl}
-		<img
-			src={avatarUrl}
-			alt={avatarUrl ? 'Avatar' : 'No image'}
-			class="avatar image"
-			style="height: {size}em; width: {size}em;"
-		/>
-	{:else}
-		<div class="avatar no-image" style="height: {size}em; width: {size}em;" />
+        <Img {avatarUrl} alt="Avatar" />
+    {:else}
+        <div class="avatar no-image" style="height: {size}em; width: {size}em;" />
 	{/if}
+	
 	<input name="avatarUrl" value={url} />
 
 	<div style="width: {size}em;">
