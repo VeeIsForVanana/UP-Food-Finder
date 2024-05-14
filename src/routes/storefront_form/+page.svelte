@@ -4,10 +4,12 @@
 	import MenuBuilderComponent from "$lib/formComponents/MenuBuilderComponent.svelte";
     import Avatar from "$lib/formComponents/Avatar.svelte";
 	import StorefrontDetailsForm from "../home_page/storefront_details_form.svelte";
+	import { url } from "inspector";
 	
     export let form: any;
     export let data: any;
 
+    let storeName;
     let store_name = "";
 
     let user: null | string = null;
@@ -21,6 +23,28 @@
     let avatarUrl = '';
 
     //$: avatarUrl = avatarUrlFromComponent?? '';
+
+    /*const handleUpload = async (event: CustomEvent<string>) => {
+        const filePath = event.detail;
+        await saveAvatarUrl(store_name, filePath);
+    };
+
+    async function saveAvatarUrl(store_name: string, avatarUrl: string) {
+        try {
+            const { error } = await data.supabase
+                .from('storefronts')
+                .update({ img_url: avatarUrl })
+                .match({ store_name: store_name });
+
+            if (error) {
+                console.error('Error saving avatar URL:', error);
+            } else {
+                console.log('Avatar URL saved successfully');
+            }
+        } catch (error) {
+            console.error('Error saving avatar URL:', error);
+        }
+    }*/
 
 </script>
 
@@ -61,7 +85,7 @@
             size={10}
             on:upload={() => {
                 console.log("Avatar uploaded");
-                store_name={store_name}
+                storeName={store_name};
             }}
         />
 

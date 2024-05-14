@@ -7,7 +7,7 @@
 
 	export let size = 10
 	export let url: string
-	export let store_name: string;
+	export let storeName: string;
 	export let supabase: SupabaseClient
 
 	let avatarUrl: string | null = null
@@ -18,7 +18,7 @@
 
 	const downloadImage = async (path: string) => {
 		try {
-			const { data, error } = await supabase.storage.from('avatars').download(path)
+			const { data, error } = await supabase.storage.from('storefront_photos').download(path)
 
 			if (error) {
 				throw error
@@ -34,7 +34,6 @@
 	}
 	
 	const uploadAvatar = async () => {
-		console.log("hello")
 		try {
 			uploading = true
 
@@ -46,19 +45,19 @@
 			const fileExt = file.name.split('.').pop()
 			const filePath = `${Math.random()}.${fileExt}`
 
-			const { error } = await supabase.storage.from('avatars').upload(filePath, file)
-
+			const { error } = await supabase.storage.from('storefront_photos').upload(filePath, file)
+			
 			if (error) {
 				throw error
 			}
 
 			url = filePath
-			dispatch('upload');
+			dispatch('upload', filePath);
+			await saveAvatarUrl(storeName, filePath);
+
 			/*setTimeout(() => {
 				dispatch('upload')
 			}, 100)*/
-
-			await saveAvatarUrl(store_name, url);
 
 		} catch (error) {
 			if (error instanceof Error) {
@@ -71,25 +70,31 @@
 
 	$: if (url) downloadImage(url)
 
-	async function saveAvatarUrl(store_name:string, avatarUrl:string) {
-    const { data, error } = await supabase
-       .from('storefronts')
-       .update({ img_url: avatarUrl })
-       .match({ store_name: store_name });
+	const handleUpload = async (event: CustomEvent<string>) => {
+		const filePath = event.detail;
+		await saveAvatarUrl(storeName, filePath);
+	};
 
-    if (error) {
-        console.error('Error saving avatar URL:', error);
-        // Handle error appropriately
-    } else {
-        console.log('Avatar URL saved successfully:', data);
-    }
+	async function saveAvatarUrl(store_name:string, avatarUrl:string) {
+		const { data, error } = await supabase
+		.from('storefronts')
+		.update({ img_url: avatarUrl })
+		.match({ store_name: store_name });
+
+		if (error) {
+			console.error('Error saving avatar URL:', error);
+			// Handle error appropriately
+		} else {
+			console.log('Avatar URL saved successfully:', data);
+		}
+	}
 
 	onMount(async () => {
         if (url) {
             await downloadImage(url);
         }
     });
-}
+
 </script>
 
 <div>
