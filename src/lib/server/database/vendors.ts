@@ -77,7 +77,7 @@ export async function getVendors(
 // get the sole user (if it exists) associated to a given user
 export async function getUserVendor(
     supabase: SupabaseClient
-) {
+): Promise<Vendor[]> {
     const response = await supabase
         .from('vendors')
         .select();
