@@ -39,7 +39,7 @@
             {#if user == null}
                 <button on:click={loginWithGoogle}>Login with Google</button>
             {:else}
-                <h6 class="h6">You are currently logged in as <a href="private" class="underline text-secondary-800">{user}</a> (<button class="underline" on:click={logoutOfGoogle}>Sign Out</button>)</h6>
+                <h6 class="h6">You are currently logged in as <a href="/private" class="underline text-secondary-800">{user}</a> (<button class="underline" on:click={logoutOfGoogle}>Sign Out</button>)</h6>
                 
             {/if} 
         {/await}

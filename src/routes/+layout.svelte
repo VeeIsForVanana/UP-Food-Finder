@@ -13,7 +13,7 @@
 
 <AppShell>
 	<svelte:fragment slot="header"><AppBar gridColumns="grid-cols-2" background="bg-surface-400 text-primary-500" slotTrail="place-content-end">
-		<h4 class="h4"><a href="home_page">UP Food Finder</a></h4>
+		<h4 class="h4"><a href="/home_page">UP Food Finder</a></h4>
 		<svelte:fragment slot="trail"><UpperBarLoginComponent supabase={supabase}/></svelte:fragment>
 	</AppBar></svelte:fragment>
 	<!-- (sidebarLeft) -->
