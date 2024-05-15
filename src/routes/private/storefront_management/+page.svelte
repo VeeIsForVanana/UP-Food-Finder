@@ -17,7 +17,7 @@
 	<ul>
 		<li>
             {#each data.storefronts as storefront}
-			<a href="/storefront_management/{storefront}">
+			<a href="storefront_management/{storefront}">
 				<span class="flex-auto">{storefront}</span>
 			</a>
             {/each}
