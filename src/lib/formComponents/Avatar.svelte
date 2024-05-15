@@ -104,7 +104,7 @@
         <div class="avatar no-image" style="height: {size}em; width: {size}em;" />
 	{/if}
 	
-	<input name="avatarUrl" value={url} />
+	<input name="avatarUrl" value={url}/>
 
 	<div style="width: {size}em;">
 		<label class="button primary block" id="btn" for="single">
