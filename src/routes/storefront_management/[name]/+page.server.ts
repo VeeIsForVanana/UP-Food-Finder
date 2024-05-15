@@ -94,7 +94,7 @@ export const actions = {
         
         if(targets[0]) {
             deleteStorefront(targets[0], supabase)
-            return redirect(303, '/storefront_management')
+            return redirect(303, 'private/storefront_management')
         }
         else {
             return fail(400, { storefrontDeleteFail: true, })
