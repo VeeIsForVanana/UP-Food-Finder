@@ -1,14 +1,18 @@
 <script lang="ts">
-	import type { MenuItem } from '$lib/dataTransferObjects';
+    import MapComponent from '$lib/MapComponent.svelte';
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 
     export let storeName = "default name";
     export let owner = "default owner";
-    export let menu: MenuItem[] = [];
-    // export let coords = {latitude: 0, longitude: 0};
+    export let menu = [];
+    export let coords: [number, number];
+    export let reviews = [];
 
-    let tabItems = ["Menu", "Reviews"];
+    let lng = coords[0];
+    let lat = coords[1];
+
+    let tabItems = ["Menu", "Reviews", "Map"];
     let activeTab = "Menu";
 </script>
 
@@ -20,7 +24,7 @@
     {#if activeTab === "Menu"}
         <div class="menu" style="overflow-y: scroll; max-height: 300px;">
             <Accordion>
-                {#each menu as item, _}
+                {#each menu as item, _i}
                     <div class="menu_items">
                         <AccordionItem>
                             <svelte:fragment slot="summary"> <div class="summary-content"><p> {item.foodName}</p>
@@ -40,13 +44,36 @@
             </Accordion>
         </div>
     {:else if activeTab === "Reviews"}
-        <p>reviews here</p>
-    {:else}
-        <p>default</p>
+        <div class = "overflow-y-auto h-64"> 
+            {#if reviews.length === 0}
+                <p>No reviews yet</p>
+            {/if}
+            {#each reviews as review}
+                <div class="flex items-start space-x-2">
+                    <p class="m-0">{review.timestamp}</p>
+                    <p class="m-0">{review.review}</p>
+                </div>
+                <hr class="my-2 border-gray-700">
+            {/each}
+        </div>
+        <div>
+            <form method="POST" action = "?/addReview" autocomplete="off">
+                <input type="hidden" name = "store_name" value = {storeName}/>
+                <input type="text" placeholder="Write a review" name = "review" class="input" required/>
+                <button id="submitButton">Submit</button>
+            </form>
+        </div>
+    {:else if activeTab === "Map"}
+        <MapComponent initialLat={lat} initialLng={lng} isDraggable={false}></MapComponent>
     {/if}
 </form>
 
 <style>
+    .menu {
+        /* display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 0px; */
+    }
     .menu_items {
         margin-left: 50px;
         margin-right: 50px;

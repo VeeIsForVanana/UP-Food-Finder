@@ -9,6 +9,7 @@
     export let initialZoom = 14.75;
 
     export const mapData = {lng: initialLng, lat: initialLat, zoom: initialZoom};
+    export let isDraggable = true;
     
     let map: mapboxgl.Map;
     let marker: mapboxgl.Marker;
@@ -37,6 +38,7 @@
             style: 'mapbox://styles/mapbox/streets-v12', 
             center: [initialState.lng, initialState.lat],
             zoom: initialState.zoom,
+            interactive: isDraggable,
         });
 
         marker = new mapboxgl.Marker().setLngLat([mapData.lng, mapData.lat]).addTo(map);
