@@ -1,6 +1,6 @@
-<div class="box" on:click>
+<button class="w-80 border-2 border-black border-solid shadow-lg hover:shadow-xl p-1, m-3" on:click>
 	<slot />
-</div>
+</button>
 
 <style>
 	.box {

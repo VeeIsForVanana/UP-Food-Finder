@@ -1,14 +1,15 @@
-<script>
+<script lang="ts">
     import Modal from './components/modal.svelte';
     import Form from './storefront_details_form.svelte';
     import Box from './components/box.svelte';
+	import type { MenuItem } from '$lib/dataTransferObjects';
 
     /** @type {import('./$types').PageData} */
 
     export let data;
     export let form;
 
-    let storefronts;
+    let storefronts: {storeName: string, owner: string, latitude: string, longitude: string, menu: MenuItem[]}[];
     $: storefronts = form?.storefronts || data.storefronts;
 
     let showModal = false;
@@ -17,7 +18,7 @@
     }
 
     let storeDetails = {};
-    const handleStorefrontClick = (store) => {
+    const handleStorefrontClick = (store: {storeName: string, owner: string, latitude: string, longitude: string, menu: MenuItem[]}) => {
         toggleModal();
         storeDetails = store;
     }

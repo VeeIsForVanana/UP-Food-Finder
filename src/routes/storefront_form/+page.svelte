@@ -85,12 +85,6 @@
         text-align: right;
     }
 
-    .menu_prices, .menu_names {
-        float: left;
-        width: 25%;
-        min-height: 50px;
-    }
-
     #storeRegistered {
         color: green;
     }

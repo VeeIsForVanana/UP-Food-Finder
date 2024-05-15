@@ -7,33 +7,24 @@
 
 </script>
 
-<div class="tabs">
+<div class="mb-2 gap-4 grid-cols-2 col-span-1">
     <ul>
         {#each tabItems as item}
-            <li on:click = {() => dispatch('changeTab', item)}>
-                <div class:active={item === activeTab}>
+            <div class="p-4" class:active={item === activeTab}>
+                <button on:click = {() => dispatch('changeTab', item)}>
                     {item}
-                </div>
-            </li>
+                </button>
+            </div>
         {/each}
     </ul>
 </div>
 
 <style>
-    .tabs {
-        margin-bottom: 40px;
-    }
     ul {
         display: flex;
         justify-content: center;
         list-style-type: none;
         padding: 0;
-    }
-    li{
-        margin: 0 16px;
-        font-size: 18px;
-        color: #555;
-        cursor: pointer;
     }
     .active{
         color: #500;
