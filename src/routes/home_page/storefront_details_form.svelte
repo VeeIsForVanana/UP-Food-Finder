@@ -1,6 +1,7 @@
 <script>
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+    import Filter from 'bad-words';
 
     export let storeName = "default name";
     export let owner = "default owner";
@@ -10,6 +11,18 @@
 
     let tabItems = ["Menu", "Reviews"];
     let activeTab = "Menu";
+
+    let userInput = "";
+    let errorMessage = "";
+    const filter = new Filter();
+    let handleSubmit = async (e) => {
+        if (filter.isProfane(userInput)) {
+            e.preventDefault();
+            errorMessage = 'Profanity detected! Review not accepted.';
+        } else {
+            errorMessage = '';
+        }
+    }
 </script>
 
 <form>
@@ -53,9 +66,10 @@
             {/each}
         </div>
         <div>
-            <form method="POST" action = "?/addReview" autocomplete="off">
+            <form method="POST" action = "?/addReview" autocomplete="off" on:submit={handleSubmit}>
+                {#if {errorMessage}} <p class = "error">{errorMessage}</p> {/if}
                 <input type="hidden" name = "store_name" value = {storeName}/>
-                <input type="text" placeholder="Write a review" name = "review" class="input" required/>
+                <input type="text" placeholder="Write a review" name = "review" class="input" bind:value={userInput} required/>
                 <button id="submitButton">Submit</button>
             </form>
         </div>
@@ -78,5 +92,8 @@
         display: flex;
         justify-content: space-between; 
         margin-bottom: 0px; 
+    }
+    .error {
+        color: maroon;
     }
 </style>
