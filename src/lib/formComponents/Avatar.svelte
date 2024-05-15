@@ -70,8 +70,6 @@
 		}
 	}
 
-	$: if (url) downloadImage(url)
-
 	const handleUpload = async (event: CustomEvent<string>) => {
 		const filePath = event.detail;
 		await saveAvatarUrl(storeName, filePath);

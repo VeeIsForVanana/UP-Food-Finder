@@ -19,7 +19,6 @@
 
     let vendorData = data.userVendor ?? {username: null, password: null, phone_number: null}
 
-    let avatarUrlFromComponent: string | null;
     let avatarUrl = '';
 
     //$: avatarUrl = avatarUrlFromComponent?? '';
