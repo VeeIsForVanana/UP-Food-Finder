@@ -3,7 +3,6 @@
 	import type { coordinates } from "$lib/dataTransferObjects.ts";
 	import LocationSelectorComponent from "$lib/formComponents/LocationSelectorComponent.svelte";
 	import MenuBuilderComponent from "$lib/formComponents/MenuBuilderComponent.svelte";
-    import Avatar from "$lib/formComponents/Avatar.svelte";
 
     /** @type {import('./$types').PageData} */
 
@@ -83,22 +82,6 @@
                 <div>
                     <MenuBuilderComponent menu={menu}/>
                 </div>
-                <div>
-                    <Avatar
-                        supabase={data.supabase}
-                        bind:url={(avatarUrl)}
-                        size={10}
-                        on:upload={() => {
-                            console.log("Avatar uploaded");
-                            storeName={store_name};
-                        }}
-                    />
-
-                    {#if avatarUrl}
-                        <img src={avatarUrl} alt="User Avatar" class="avatar-image" />
-                    {/if}
-                </div>
-
             </div>
 
             <input type="hidden" name="selectedStorefrontOwner" bind:value={storefrontOwner} />

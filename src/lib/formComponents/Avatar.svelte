@@ -91,30 +91,37 @@
 		}
 	}
 
-	onMount(async () => {
-        if (url) {
-            await downloadImage(url);
-        }
-    });
+	const removeAvatar = async () => {
+		try {
+			// Remove the image from Supabase Storage
+			const { error } = await supabase.storage.from('storefront_photos').remove([avatarUrl]);
+			if (error) {
+			throw error;
+			}
+
+			// Clear the avatarUrl
+			avatarUrl = null;
+
+			// Update the database with an empty img_url
+			await saveAvatarUrl(storeName, '');
+		} catch (error) {
+			if (error instanceof Error) {
+			console.error('Error removing avatar:', error.message);
+			}
+		}
+	};
 
 </script>
 
 <div>
-	{#if url}
-		<div class="avatar-container">
-			<img class="avatar-image" src={url} alt="User Avatar"/>
-		</div>
-    {:else}
-        <div class="avatar no-image" style="height: {size}em; width: {size}em;" />
-	{/if}
-	
-	<input name="avatarUrl" value={avatarUrl}/>
+	<input name="avatarUrl" value={avatarUrl} type="hidden"/>
 
 	<div style="width: {size}em;">
-		<label class="button primary block" id="btn" for="single">
-			{uploading ? 'Uploading ...' : 'Upload'}
+		<label for="single">
+			{uploading ? 'Uploading ...' : 'Storefront image'}
 		</label>
 		<input
+			class="input bg-primary-900 w-80"
 			style="position:relative;"
 			type="file"
 			id="single"
@@ -124,5 +131,13 @@
 			disabled={uploading}
 		/>
 	</div>
-</div>
 
+	{#if url}
+		<div class="avatar-container mt-2">
+			<img class="avatar-image m-0" src={url} alt="User Avatar"/>
+		</div>
+		<button type="button" class="btn btn-error relative m-0" on:click={removeAvatar}>Remove</button>
+    {:else}
+        <div class="avatar no-image" />
+	{/if}
+</div>

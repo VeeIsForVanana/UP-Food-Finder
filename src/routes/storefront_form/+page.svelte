@@ -79,20 +79,6 @@
         class="w-full"
         >
 
-        <Avatar
-            supabase={data.supabase}
-            bind:url={(avatarUrl)}
-            size={10}
-            on:upload={() => {
-                console.log("Avatar uploaded");
-                storeName={store_name};
-            }}
-        />
-
-        <!-- {#if avatarUrl}
-            <img src={avatarUrl} alt="User Avatar" class="avatar-image" />
-        {/if} -->
-
         <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
             <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
                 <div>
@@ -104,7 +90,17 @@
                             bind:value={store_name}
                             required
                             />
+                    <label class="label" for="location">Location</label>
                     <LocationSelectorComponent />
+                    <Avatar
+                        supabase={data.supabase}
+                        bind:url={(avatarUrl)}
+                        size={10}
+                        on:upload={() => {
+                            console.log("Avatar uploaded");
+                            storeName={store_name};
+                        }}
+                    />
                 </div>
                 <div>
                     <MenuBuilderComponent />
