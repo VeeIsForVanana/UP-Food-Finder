@@ -101,7 +101,9 @@
 
 <div>
 	{#if url}
-		<img src={url} alt="User Avatar" class="avatar-image" style="max-width: 200px; max-height: 200px; object-fit: cover; object-position: center;"/>
+		<div class="avatar-container">
+			<img class="avatar-image" src={url} alt="User Avatar"/>
+		</div>
     {:else}
         <div class="avatar no-image" style="height: {size}em; width: {size}em;" />
 	{/if}
@@ -123,3 +125,4 @@
 		/>
 	</div>
 </div>
+
