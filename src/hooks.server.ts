@@ -49,6 +49,16 @@ export const handle: Handle = async ({ event, resolve }) => {
     return { session, user }
   }
 
+  const { session } = await event.locals.safeGetSession()
+
+  if (!session && event.url.pathname.startsWith('/private')) {
+    return redirect(303, '/auth')
+  }
+
+  if (session && event.url.pathname === '/auth') {
+    return redirect(303, '/private')
+  }
+
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range'
