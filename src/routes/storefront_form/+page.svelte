@@ -22,7 +22,7 @@
     <title>Storefront Registration</title>
 </head>
 
-<div class = "m-10">
+<div>
     <h1 id="title">New storefront registration form</h1>
 
     <div class="vendor_name">
@@ -70,10 +70,6 @@
 </div>
 
 <style>
-    title {
-        top: 5px;
-    }
-
     label {
         display: block;
     }
