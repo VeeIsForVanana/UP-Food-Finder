@@ -89,9 +89,9 @@
             }}
         />
 
-        {#if avatarUrlFromComponent}
+        <!-- {#if avatarUrl}
             <img src={avatarUrl} alt="User Avatar" class="avatar-image" />
-        {/if}
+        {/if} -->
 
         <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
             <div class="grid grid-cols-2 gap-10 w-full columns-7xl">

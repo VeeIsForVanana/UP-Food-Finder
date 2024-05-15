@@ -24,8 +24,8 @@
 				throw error
 			}
 
-			const url = URL.createObjectURL(data)
-			avatarUrl = url
+			url = URL.createObjectURL(data)
+			//avatarUrl = url
 		} catch (error) {
 			if (error instanceof Error) {
 				console.log('Error downloading image: ', error.message)
@@ -51,7 +51,9 @@
 				throw error
 			}
 
-			url = filePath
+			await downloadImage(filePath);
+			//url = avatarUrl
+			avatarUrl = filePath
 			dispatch('upload', filePath);
 			await saveAvatarUrl(storeName, filePath);
 
@@ -98,13 +100,13 @@
 </script>
 
 <div>
-	{#if avatarUrl}
-        <Img {avatarUrl} alt="Avatar" />
+	{#if url}
+		<img src={url} alt="User Avatar" class="avatar-image" style="max-width: 200px; max-height: 200px; object-fit: cover; object-position: center;"/>
     {:else}
         <div class="avatar no-image" style="height: {size}em; width: {size}em;" />
 	{/if}
 	
-	<input name="avatarUrl" value={url}/>
+	<input name="avatarUrl" value={avatarUrl}/>
 
 	<div style="width: {size}em;">
 		<label class="button primary block" id="btn" for="single">
