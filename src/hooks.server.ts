@@ -3,7 +3,7 @@
 // src/hooks.server.ts
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY } from '$env/static/public'
 import { createServerClient } from '@supabase/ssr'
-import type { Handle } from '@sveltejs/kit'
+import { redirect, type Handle } from '@sveltejs/kit'
 
 export const handle: Handle = async ({ event, resolve }) => {
   event.locals.supabase = createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY, {
@@ -52,10 +52,10 @@ export const handle: Handle = async ({ event, resolve }) => {
   const { session } = await event.locals.safeGetSession()
 
   if (!session && event.url.pathname.startsWith('/private')) {
-    return redirect(303, '/auth')
+    return redirect(303, '/vendor_form')
   }
 
-  if (session && event.url.pathname === '/auth') {
+  if (session && event.url.pathname === '/vendor_form') {
     return redirect(303, '/private')
   }
 
