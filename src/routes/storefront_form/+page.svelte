@@ -93,7 +93,7 @@
                     <LocationSelectorComponent />
                     <Avatar
                         supabase={data.supabase}
-                        bind:url={(avatarUrl)}
+                        bind:avatarUrl={(avatarUrl)}
                         size={10}
                         on:upload={() => {
                             console.log("Avatar uploaded");

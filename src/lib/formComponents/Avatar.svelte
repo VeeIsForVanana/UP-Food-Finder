@@ -11,7 +11,7 @@
 	export let storeName: string;
 	export let supabase: SupabaseClient
 
-	avatarUrl = null
+	//avatarUrl = null
 	let uploading = false
 	let files: FileList
 	const dispatch = createEventDispatcher()
