@@ -2,6 +2,8 @@ import { fail, redirect } from '@sveltejs/kit';
 import { updateStorefront, deleteStorefront, isStorefrontNameExists, getStorefrontsFromNames } from '$lib/server/database/storefronts';
 import { type MenuItem, Storefront, storefrontToPOJO } from '$lib/dataTransferObjects';
 import type { coordinates } from "$lib/dataTransferObjects";
+import { getNutrition } from '$lib/healthAPI';
+
 
 // sample vendor as owner
 const NON_MENU = 7; // number of fields in form not for menu
@@ -26,7 +28,6 @@ export async function load({params, locals}) {
 export const actions = {
     updateStorefront: async ({ request, locals }) => {
         const { supabase } = locals;
-        console.log("page.server.ts actions");
         const formData: FormData = await request.formData();
         const oldStorefrontName: string = formData.get('selectedStorefrontName') as string;
 
@@ -55,13 +56,14 @@ export const actions = {
         
         const menu: MenuItem[] = [];
         for (let i = 0; i < menuItemCount; i++) {
+            const nutritionDeets = await getNutrition(formData.get(`menu_name_${i}`)?.toString() ?? '');
             menu.push({
                 foodName: formData.get(`menu_name_${i}`)?.toString() ?? '',
                 price: +formData.get(`menu_price_${i}`)!,
-                calories: 0,
-                fat: 0,
-                protein: 0,
-                carbs: 0
+                calories: nutritionDeets.Calories,
+                fat: nutritionDeets.Fat,
+                protein: nutritionDeets.Protein,
+                carbs: nutritionDeets.Carbohydrate
             });
         }
 
