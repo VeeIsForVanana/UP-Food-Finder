@@ -1,7 +1,7 @@
 <script>
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-    import { downloadImage } from '$lib/formComponents/Avatar.svelte';
+    import downloadImage from '$lib/formComponents/Avatar.svelte';
 
     export let storeName = "default name";
     export let owner = "default owner";
@@ -9,15 +9,12 @@
     // export let coords = {latitude: 0, longitude: 0};
     export let img_url = "";
     export let avatarUrl = "";
-    export let supabase;
 
     let tabItems = ["Menu", "Reviews"];
     let activeTab = "Menu";
 
     $: if (img_url) {
-        downloadImage(img_url, supabase).then((url) => {
-        avatarUrl = url;
-        });
+        avatarUrl = img_url;
     } else {
         avatarUrl = "";
     }

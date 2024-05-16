@@ -8,7 +8,7 @@
 
 	export let size = 10
 	export let url: string
-	export let storeName: string;
+	export let storeName: string
 	export let supabase: SupabaseClient
 
 	let avatarUrl: string | null = null

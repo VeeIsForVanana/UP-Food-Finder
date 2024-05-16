@@ -1,8 +1,12 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { createEventDispatcher } from 'svelte'
 
 let avatarUrl: string | null = null
 let uploading = false
+let url: string | null = null
 let files: FileList
+let supabase: SupabaseClient
+const dispatch = createEventDispatcher()
 
 export const downloadImage = async (path: string, supabase: SupabaseClient) => {
     try {
@@ -75,16 +79,21 @@ async function saveAvatarUrl(store_name:string, avatarUrl:string) {
 export const removeAvatar = async (supabase: SupabaseClient) => {
     try {
         // Remove the image from Supabase Storage
-        const { error } = await supabase.storage.from('storefront_photos').remove([avatarUrl]);
-        if (error) {
-        throw error;
+        if (avatarUrl!== null) {
+            const { error } = await supabase.storage.from('storefront_photos').remove([avatarUrl]);
+            if (error) {
+            throw error;
+            }
+
+            // Clear the avatarUrl
+            avatarUrl = null;
+
+            // Update the database with an empty img_url
+            await saveAvatarUrl(storeName, '');
         }
-
-        // Clear the avatarUrl
-        avatarUrl = null;
-
-        // Update the database with an empty img_url
-        await saveAvatarUrl(storeName, '');
+        else {
+            console.warn('No avatar URL found to remove.');
+        }
     } catch (error) {
         if (error instanceof Error) {
         console.error('Error removing avatar:', error.message);
