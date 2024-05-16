@@ -16,7 +16,7 @@
 
 	const dispatch = createEventDispatcher()
 
-	const downloadImage = async (path: string) => {
+	export const downloadImage = async (path: string) => {
 		try {
 			const { data, error } = await supabase.storage.from('storefront_photos').download(path)
 

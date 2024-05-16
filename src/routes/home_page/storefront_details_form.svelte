@@ -1,11 +1,13 @@
 <script>
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+    import { downloadImage } from '../../lib/formComponents/Avatar.svelte';
 
     export let storeName = "default name";
     export let owner = "default owner";
     export let menu = [];
     // export let coords = {latitude: 0, longitude: 0};
+    export let img_url = "";
 
     let tabItems = ["Menu", "Reviews"];
     let activeTab = "Menu";
@@ -14,6 +16,7 @@
 <form>
     <h3>Storefront Details</h3>
     <p>Name: {storeName}</p>
+    <img class="avatar-image m-0" src={img_url} alt="User Avatar"/>
     <p>Owner: {owner}</p>
     <Tabs {tabItems} {activeTab} on:changeTab={e => activeTab = e.detail}/>
     {#if activeTab === "Menu"}
