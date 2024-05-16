@@ -36,8 +36,6 @@
     function remove_menu_item() {
         menu = menu.slice(0, menu.length-1);
     }
-
-    let avatarUrl: string | null = null;
     
 </script>
 
@@ -84,7 +82,7 @@
                     <LocationSelectorComponent isExternalMapData={true} mapData={mapData}/>
                     <Avatar
                         supabase={data.supabase}
-                        bind:url={(avatarUrl)}
+                        bind:avatarUrl={(img_url)}
                         size={10}
                         on:upload={() => {
                             console.log("Avatar uploaded");

@@ -7,10 +7,11 @@
 
 	export let size = 10
 	export let url: string
+	export let avatarUrl: string | null
 	export let storeName: string;
 	export let supabase: SupabaseClient
 
-	let avatarUrl: string | null = null
+	avatarUrl = null
 	let uploading = false
 	let files: FileList
 	const dispatch = createEventDispatcher()
@@ -94,6 +95,7 @@
 
 			// Clear the avatarUrl
 			avatarUrl = null;
+			url = '';
 
 			// Update the database with an empty img_url
 			await saveAvatarUrl(storeName, '');
