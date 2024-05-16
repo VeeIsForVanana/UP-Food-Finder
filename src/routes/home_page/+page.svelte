@@ -8,6 +8,8 @@
     export let data;
     export let form;
 
+    let supabase = data.supabase
+
     let storefronts;
     $: storefronts = form?.storefronts || data.storefronts;
 
@@ -25,7 +27,7 @@
 </script>
 
 <Modal {showModal} on:click={toggleModal}>
-    <Form {...storeDetails}>
+    <Form {...storeDetails}{supabase}>
     </Form>
 </Modal>
 

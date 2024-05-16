@@ -8,15 +8,26 @@
     export let menu = [];
     // export let coords = {latitude: 0, longitude: 0};
     export let img_url = "";
+    export let avatarUrl = "";
+    export let supabase;
 
     let tabItems = ["Menu", "Reviews"];
     let activeTab = "Menu";
+
+    $: if (img_url) {
+        downloadImage(img_url, supabase).then((url) => {
+        avatarUrl = url;
+        });
+    } else {
+        avatarUrl = "";
+    }
+
 </script>
 
 <form>
     <h3>Storefront Details</h3>
     <p>Name: {storeName}</p>
-    <img class="avatar-image m-0" src={img_url} alt="User Avatar"/>
+    <img class="avatar-image m-0" src={avatarUrl} alt="User Avatar"/>
     <p>Owner: {owner}</p>
     <Tabs {tabItems} {activeTab} on:changeTab={e => activeTab = e.detail}/>
     {#if activeTab === "Menu"}
