@@ -26,10 +26,10 @@
                                                             <p>Php {item.price}</p> </div> </svelte:fragment>
                             <svelte:fragment slot="content">
                                 <div class="menu-item-details">
-                                    <p>Calories: {item.calories !== undefined ? `${item.calories}` : `${Math.floor(Math.random() * 100)}`} kcal</p>
-                                    <p>Fat: {item.fat !== undefined ? `${item.fat}` : `${Math.floor(Math.random() * 10)}`} g</p>
-                                    <p>Protein: {item.protein !== undefined ? `${item.protein}` : `${Math.floor(Math.random() * 20)}`} g</p>
-                                    <p>Carbs: {item.carbs !== undefined ? `${item.carbs}` : `${Math.floor(Math.random() * 30)}`} g</p>
+                                    <p>Calories: {item.calories !== undefined ? `${item.calories}` : `not available`}</p>
+                                    <p>Fat: {item.fat !== undefined ? `${item.fat}` : `not available`}</p>
+                                    <p>Protein: {item.protein !== undefined ? `${item.protein}` : `not available`}</p>
+                                    <p>Carbs: {item.carbs !== undefined ? `${item.carbs}` : `not available`}</p>
                                 </div>
                             </svelte:fragment>
 
