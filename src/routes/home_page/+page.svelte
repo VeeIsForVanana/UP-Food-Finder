@@ -3,8 +3,7 @@
     import Form from './storefront_details_form.svelte';
     import Box from './components/box.svelte';
     import { enhance } from '$app/forms';
-    
-	import type { MenuItem } from '$lib/dataTransferObjects';
+	  import type { MenuItem } from '$lib/dataTransferObjects';
 
     /** @type {import('./$types').PageData} */
 
