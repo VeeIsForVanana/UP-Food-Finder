@@ -19,9 +19,9 @@
     <title>Vendor Registration</title>
 </head>
 
-<div class = "everything">
+<div class="xl:max-w-screen-2xl max-w-screen-md">
 
-<h1>Create your vendor account</h1>
+<h1 class="h3 md:h2">Create your vendor account</h1>
 
 <!-- result of submitting form, single place for displaying errors and results -->
 {#if form != null}
@@ -44,17 +44,17 @@
 <div>
     <form method="post" action="?/registerVendor" id="vendorRegistration">
         <fieldset disabled={user == null || !isUserLoaded || isUserVendored || form?.status == 200}>
-            <label class="label" for="username">Username</label>
-            <input  class="input"
+            <label class="" for="username">Username</label>
+            <input  class="input max-w-80 md:max-w-screen-sm"
                     name="username"
                     id="username"
                     type="text"
                     bind:value={vendorData.username}
                     required/>
 
-            <label class="label" for="phone_number">Phone Number</label>
+            <label class="" for="phone_number">Phone Number</label>
             <!-- requires format 0XXXXXXXXXX -->
-            <input  class="input"
+            <input  class="input max-w-80 md:max-w-screen-sm"
                     name="phone_number"
                     id="phone_number"
                     type="tel"
@@ -65,12 +65,11 @@
 
             <input hidden name="user" bind:value={user}/>
 
-            <input  class="input"
+            <input  class="input block btn-md my-10"
                     style=" background-color: rgb(var(--color-secondary-500));
                             color: rgb(var(--color-surface-500));
                             height:50px;
                             width:130px;"
-                    id="btn"
                     type="submit"
                     disabled={form?.status == 200}/>
         </fieldset>
