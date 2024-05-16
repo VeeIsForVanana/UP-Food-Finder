@@ -36,8 +36,9 @@
     function remove_menu_item() {
         menu = menu.slice(0, menu.length-1);
     }
+
+    let avatarUrl: string | null = null;
     
-    let avatarUrl = '';
 </script>
 
 
