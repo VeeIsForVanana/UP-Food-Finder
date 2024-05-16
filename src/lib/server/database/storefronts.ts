@@ -119,7 +119,8 @@ export async function updateStorefront(
             owner: newStorefront.getOwner(), 
             coords_lat: newStorefront.getCoords()[0], 
             coords_lng: newStorefront.getCoords()[1], 
-            menu: newStorefront.getMenu() 
+            menu: newStorefront.getMenu(),
+            img_url: newStorefront.getPhoto(),
         })
         .eq('store_name', originalStorefrontName)
         .select()

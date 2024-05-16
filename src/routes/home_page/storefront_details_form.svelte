@@ -34,7 +34,8 @@
     $: downloadImage();
 </script>
 
-<form style="overflow-y: scroll">
+<form style="margin:0">
+    <div>
     <h3>Storefront Details</h3>
     <p>Name: {storeName}</p>
     <div class="avatar-container mt-2">
@@ -69,6 +70,7 @@
     {:else}
         <p>default</p>
     {/if}
+    </div>
 </form>
 
 <style>
