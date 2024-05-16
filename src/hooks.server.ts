@@ -55,10 +55,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     return redirect(303, '/vendor_form')
   }
 
-  if (session && event.url.pathname === '/vendor_form') {
-    return redirect(303, '/private')
-  }
-
   return resolve(event, {
     filterSerializedResponseHeaders(name) {
       return name === 'content-range'
