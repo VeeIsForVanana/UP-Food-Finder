@@ -11,7 +11,7 @@
     <ul>
         {#each tabItems as item}
             <div class="p-4" class:active={item === activeTab}>
-                <button on:click = {() => dispatch('changeTab', item)}>
+                <button on:click|preventDefault = {() => dispatch('changeTab', item)}>
                     {item}
                 </button>
             </div>
