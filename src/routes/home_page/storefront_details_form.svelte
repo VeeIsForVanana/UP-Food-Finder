@@ -38,9 +38,15 @@
     <div>
     <h3>Storefront Details</h3>
     <p>Name: {storeName}</p>
-    <div class="avatar-container mt-2">
-        <img class="avatar-image m-0" src={avatarUrl} alt="User Avatar"/>
-    </div>
+
+    {#if avatarUrl}
+        <div class="avatar-container mt-2">
+            <img class="avatar-image m-0" src={avatarUrl} alt="User Avatar"/>
+        </div>
+    {:else}
+        <div class="avatar no-image" />
+	{/if}
+
     <p>Owner: {owner}</p>
     <Tabs {tabItems} {activeTab} on:changeTab={e => activeTab = e.detail}/>
     {#if activeTab === "Menu"}
