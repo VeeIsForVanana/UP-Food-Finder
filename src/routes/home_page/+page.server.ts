@@ -38,9 +38,6 @@ export const actions = {
 
         storefronts = filterStores(storefronts, search);
 
-        console.log('search', search);
-        console.log('storefronts', storefronts);
-
         return { storefronts, search };
     }
 }
