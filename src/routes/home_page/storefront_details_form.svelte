@@ -1,7 +1,7 @@
 <script>
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-    import { downloadImage } from '../../lib/formComponents/Avatar.svelte';
+    import { downloadImage } from '$lib/formComponents/Avatar.svelte';
 
     export let storeName = "default name";
     export let owner = "default owner";
