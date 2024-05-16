@@ -1,7 +1,8 @@
-<script>
+<script lang="ts">
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-    import { downloadImage } from '$lib/formComponents/Avatar.svelte';
+    import type { SupabaseClient } from '@supabase/supabase-js';
+    //import { downloadImage } from '$lib/formComponents/Avatar.svelte';
 
     export let storeName = "default name";
     export let owner = "default owner";
@@ -9,29 +10,40 @@
     // export let coords = {latitude: 0, longitude: 0};
     export let img_url = "";
     export let avatarUrl = "";
-    export let supabase;
+    export let supabase: SupabaseClient;
 
     let tabItems = ["Menu", "Reviews"];
     let activeTab = "Menu";
+ 
+    // Function to download the image
+    async function downloadImage() {
+        if (img_url) {
+            const { data, error } = await supabase.storage.from('storefront_photos').download(img_url);
+            console.log(data)
+            if (error || data === null) {
+                throw error;
+            }
 
-    $: if (img_url) {
-        downloadImage(img_url, supabase).then((url) => {
-        avatarUrl = url;
-        });
-    } else {
-        avatarUrl = "";
+            avatarUrl = URL.createObjectURL(data);
+        } else {
+            avatarUrl = "";
+        }
     }
 
+    // Reactive statement to call the downloadImage function whenever img_url changes
+    $: downloadImage();
 </script>
 
-<form>
+<form style="overflow-y: scroll">
     <h3>Storefront Details</h3>
     <p>Name: {storeName}</p>
-    <img class="avatar-image m-0" src={avatarUrl} alt="User Avatar"/>
+    <div class="avatar-container mt-2">
+        <img class="avatar-image m-0" src={avatarUrl} alt="User Avatar"/>
+    </div>
     <p>Owner: {owner}</p>
     <Tabs {tabItems} {activeTab} on:changeTab={e => activeTab = e.detail}/>
     {#if activeTab === "Menu"}
-        <div class="menu" style="overflow-y: scroll; max-height: 300px;">
+        <div class="menu">
             <Accordion>
                 {#each menu as item, i}
                     <div class="menu_items">

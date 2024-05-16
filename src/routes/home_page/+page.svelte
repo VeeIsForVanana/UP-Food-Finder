@@ -27,7 +27,7 @@
 </script>
 
 <Modal {showModal} on:click={toggleModal}>
-    <Form {...storeDetails}{supabase}>
+    <Form supabase={supabase} {...storeDetails}>
     </Form>
 </Modal>
 
