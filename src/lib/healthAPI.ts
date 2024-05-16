@@ -5,7 +5,7 @@ export async function searchFood(foodName: string) {
     const url = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${PUBLIC_USDA_KEY}&query=${foodName}&pageSize=1`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
+    console.log(data.foods[0]);
     
     return data.foods[0]?.fdcId;
 }
@@ -30,18 +30,28 @@ export async function getNutrition(foodName: string) {
         ["energy", "Calories"],
         ["protein", "Protein"],
         ["fat", "Fat"],
-        ["carb", "Carb"],
+        ["carbohydrate", "Carb"],
     ]);
 
     const formatted_nutrients: {Calories: string, Protein: string, Fat: string, Carb: string} = {Calories: '', Protein: '', Fat: '', Carb: ''};
-    for (const nutrient_name of ['energy', 'protein', 'fat', 'carb']) {
+    for (const nutrient_name of ['energy', 'protein', 'fat', 'carbohydrate']) {
         const actual_nutrient_name: "Calories" | "Protein" | "Fat" | "Carb" = map_nutrient_name.get(nutrient_name) ?? 'Fat';
+
+        /*
         const filtered_nutrients = data.foodNutrients.filter((nutrientObj: {nutrient: {name: string}}) => {
             return nutrientObj.nutrient.name.toLowerCase().includes(nutrient_name);
+        });
+        */
+
+        const nutrientRegex = new RegExp(`(?<![a-zA-Z])${nutrient_name}(?![a-zA-Z])`);
+        const filtered_nutrients = data.foodNutrients.filter((nutrientObj: {nutrient: {name: string}}) => {
+            let name = nutrientObj.nutrient.name.toLowerCase();
+            return nutrientRegex.test(name);
         });
 
         if (filtered_nutrients.length === 0) {
             formatted_nutrients[actual_nutrient_name] = 'not available';
+            continue;
         }
 
         const nutrient_amounts = filtered_nutrients.map(
