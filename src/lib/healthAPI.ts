@@ -5,7 +5,7 @@ export async function searchFood(foodName: string) {
     const url = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${PUBLIC_USDA_KEY}&query=${foodName}&pageSize=1`;
     const response = await fetch(url);
     const data = await response.json();
-
+    
     return data.foods[0]?.fdcId;
 }
 
