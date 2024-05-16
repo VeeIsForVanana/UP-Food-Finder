@@ -108,7 +108,7 @@
 </script>
 
 <div>
-	<input name="avatarUrl" value={avatarUrl}/>
+	<input name="avatarUrl" value={avatarUrl} type="hidden"/>
 
 	<div style="width: {size}em;">
 		<label for="single">
