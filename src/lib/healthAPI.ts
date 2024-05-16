@@ -5,6 +5,7 @@ export async function searchFood(foodName: string) {
     const url = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${PUBLIC_USDA_KEY}&query=${foodName}&pageSize=1`;
     const response = await fetch(url);
     const data = await response.json();
+    console.log(data);
     
     return data.foods[0]?.fdcId;
 }
@@ -17,30 +18,41 @@ export async function getNutrition(foodName: string) {
             Calories: 'not available',
             Protein: 'not available',
             Fat: 'not available',
-            Carbohydrate: 'not available'
+            Carb: 'not available'
         };
     }
 
     const url = `https://api.nal.usda.gov/fdc/v1/food/${id}?api_key=${PUBLIC_USDA_KEY}`;
     const response = await fetch(url);
     const data = await response.json();
-    const nutrients = data.foodNutrients.filter((nutrientObj: {nutrient: {name: string}}) => {
-        return ['Energy', 'Protein', 'Total lipid (fat)', 'Carbohydrate, by difference'].includes(nutrientObj.nutrient.name);
-    });
-    const map_nutrient_name = new Map([
-        ["Energy", "Calories"],
-        ["Protein", "Protein"],
-        ["Total lipid (fat)", "Fat"],
-        ["Carbohydrate, by difference", "Carbohydrate"],
+
+    const map_nutrient_name: Map<string, "Calories" | "Protein" | "Fat" | "Carb"> = new Map([
+        ["energy", "Calories"],
+        ["protein", "Protein"],
+        ["fat", "Fat"],
+        ["carb", "Carb"],
     ]);
 
-    const formatted_nutrients = nutrients.map((nutrientObj: {nutrient: {name: string, unitName: string}, amount: number}) => {
-        const nutrient_name = map_nutrient_name.get(nutrientObj.nutrient.name);
-        const amount = nutrientObj.amount.toString();
-        const unit = nutrientObj.nutrient.unitName;
-        return [nutrient_name, amount + ' ' + unit];
-    });
+    const formatted_nutrients: {Calories: string, Protein: string, Fat: string, Carb: string} = {Calories: '', Protein: '', Fat: '', Carb: ''};
+    for (const nutrient_name of ['energy', 'protein', 'fat', 'carb']) {
+        const actual_nutrient_name: "Calories" | "Protein" | "Fat" | "Carb" = map_nutrient_name.get(nutrient_name) ?? 'Fat';
+        const filtered_nutrients = data.foodNutrients.filter((nutrientObj: {nutrient: {name: string}}) => {
+            return nutrientObj.nutrient.name.toLowerCase().includes(nutrient_name);
+        });
 
-    return Object.fromEntries(formatted_nutrients);
-    //return {calories: data.calories, fat: data.fat, protein: data.protein, carbs: data.carbs};
+        if (filtered_nutrients.length === 0) {
+            formatted_nutrients[actual_nutrient_name] = 'not available';
+        }
+
+        const nutrient_amounts = filtered_nutrients.map(
+            (nutrientObj: {amount: number}) => nutrientObj.amount
+        ).filter(
+            (elem: number) => !isNaN(elem)
+        );
+
+        const sum_nutrient_amount = nutrient_amounts.reduce((acc: number, cur: number) => acc + cur, 0);
+        const avg_nutrient_amount: string = (sum_nutrient_amount / nutrient_amounts.length).toFixed(2).toString();
+        formatted_nutrients[actual_nutrient_name] = avg_nutrient_amount + ' ' + filtered_nutrients[0].nutrient.unitName;
+    }
+    return formatted_nutrients;
 }

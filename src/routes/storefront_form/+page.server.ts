@@ -49,7 +49,7 @@ export const actions = {
                     calories: nutritionDeets.Calories,
                     fat: nutritionDeets.Fat,
                     protein: nutritionDeets.Protein,
-                    carbs: nutritionDeets.Carbohydrate
+                    carbs: nutritionDeets.Carb
                 }   
             );
         }
