@@ -15,19 +15,19 @@
 <div class="grid gap-10 w-full columns-7xl">
     <div style="display: grid-template-columns:repeat(1) ">
         {#each menu as menu_item, i}
-            <div style="display: grid; grid-template-columns: repeat(6, 1fr);">
-                <div class="menu_names">
-                    <label class="label" for="menu_names">Name</label>
-                    <input  class="input w-60"
+            <div class="grid grid-rows-2 lg:grid-cols-2 gap-1">
+                <div>
+                    <label class="w-40" for="menu_names">Name</label>
+                    <input  class="input w-60 md:max-w-screen-sm"
                             name="menu_name_{i}"
                             type="text"
                             bind:value={menu_item.foodName}
                             required
                             />
                 </div>
-                <div class="menu_prices">
-                    <label class="label" for="menu_prices">Price</label>
-                    <input  class="input w-60"
+                <div>
+                    <label class="w-40" for="menu_prices">Price</label>
+                    <input  class="input w-auto md:max-w-screen-sm"
                             name="menu_price_{i}"
                             type="number"
                             bind:value={menu_item.price}

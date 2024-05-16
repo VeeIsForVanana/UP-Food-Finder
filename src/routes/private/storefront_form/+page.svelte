@@ -22,12 +22,8 @@
     <title>Storefront Registration</title>
 </head>
 
-<div>
+<div class="w-80 md:w-auto">
     <h1 id="title">New storefront registration form</h1>
-
-    <div class="vendor_name">
-        <a href="/vendor_form">testUser</a>
-    </div>
 
     {#if form != null}
         <h2 id={form?.status == 200 ? "storeRegistered" : "error"}>{form?.statusText}</h2>
@@ -48,11 +44,11 @@
         class="w-full">
 
         <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
-            <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
+            <div class="grid grid-rows-2 gap-10 w-full md:columns-7xl md:grid-cols-2">
                 <div>
                     <h2 id="storefront">Storefront Information</h2>
                     <label class="label" for="storename">Store name</label>
-                    <input  class="input"
+                    <input  class="input max-w-80 md:max-w-screen-sm"
                             name="storename"
                             type="text"
                             bind:value={store_name}
@@ -64,7 +60,7 @@
                     <MenuBuilderComponent />
                 </div>
             </div>
-            <button class="input" name="submit" id="sf_btn">Submit</button>
+            <button class="input max-w-80 md:max-w-screen-sm" name="submit" id="sf_btn">Submit</button>
         </fieldset>
     </form>
 </div>
