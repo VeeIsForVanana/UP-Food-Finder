@@ -16,7 +16,7 @@
         width: 100%;
         height: 100%;
         position: fixed;
-        background: rgba(0,0,0,0.5);
+        /* background: rgba(0,0,0,0.5); */
     }
     .modal-content{
         padding: 20px; /* Increased padding for better spacing */
