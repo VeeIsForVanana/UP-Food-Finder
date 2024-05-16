@@ -1,4 +1,4 @@
-import { Vendor } from "$lib/dataTransferObjects";
+import { Vendor, type VendorPOJO } from "$lib/dataTransferObjects";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { error, type NumericRange } from '@sveltejs/kit';
 
@@ -77,7 +77,7 @@ export async function getVendors(
 // get the sole user (if it exists) associated to a given user
 export async function getUserVendor(
     supabase: SupabaseClient
-) {
+): Promise<VendorPOJO[]> {
     const response = await supabase
         .from('vendors')
         .select();

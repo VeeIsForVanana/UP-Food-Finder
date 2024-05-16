@@ -20,6 +20,8 @@ export class Vendor {
     }
 }
 
+export type VendorPOJO = { username: string, phoneNumber: string }
+
 export type MenuItem = {
     foodName: string;
     price: number;

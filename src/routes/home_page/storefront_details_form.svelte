@@ -1,14 +1,18 @@
-<script>
+<script lang="ts">
+    import MapComponent from '$lib/MapComponent.svelte';
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 
     export let storeName = "default name";
     export let owner = "default owner";
     export let menu = [];
-    // export let coords = {latitude: 0, longitude: 0};
+    export let coords: [number, number];
     export let reviews = [];
 
-    let tabItems = ["Menu", "Reviews"];
+    let lng = coords[0];
+    let lat = coords[1];
+
+    let tabItems = ["Menu", "Reviews", "Map"];
     let activeTab = "Menu";
 </script>
 
@@ -20,7 +24,7 @@
     {#if activeTab === "Menu"}
         <div class="menu" style="overflow-y: scroll; max-height: 300px;">
             <Accordion>
-                {#each menu as item, i}
+                {#each menu as item, _i}
                     <div class="menu_items">
                         <AccordionItem>
                             <svelte:fragment slot="summary"> <div class="summary-content"><p> {item.foodName}</p>
@@ -59,8 +63,8 @@
                 <button id="submitButton">Submit</button>
             </form>
         </div>
-    {:else}
-        <p>default</p>
+    {:else if activeTab === "Map"}
+        <MapComponent initialLat={lat} initialLng={lng} isDraggable={false}></MapComponent>
     {/if}
 </form>
 
