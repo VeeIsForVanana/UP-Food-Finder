@@ -5,7 +5,6 @@ export async function searchFood(foodName: string) {
     const url = `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${PUBLIC_USDA_KEY}&query=${foodName}&pageSize=1`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return data.foods[0].fdcId;
 }
 
@@ -15,6 +14,23 @@ export async function getNutrition(foodName: string) {
     const url = `https://api.nal.usda.gov/fdc/v1/food/${id}?api_key=${PUBLIC_USDA_KEY}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
+    const nutrients = data.foodNutrients.filter((nutrientObj) => {
+        return ['Energy', 'Protein', 'Total lipid (fat)', 'Carbohydrate, by difference'].includes(nutrientObj.nutrient.name);
+    });
+    const map_nutrient_name = new Map([
+        ["Energy", "Calories"],
+        ["Protein", "Protein"],
+        ["Total lipid (fat)", "Fat"],
+        ["Carbohydrate, by difference", "Carbohydrate"],
+    ]);
+
+    const formatted_nutrients = nutrients.map((nutrientObj) => {
+        const nutrient_name = map_nutrient_name.get(nutrientObj.nutrient.name);
+        const amount = nutrientObj.amount.toString();
+        const unit = nutrientObj.nutrient.unitName;
+        return [nutrient_name, amount + ' ' + unit];
+    });
+
+    return Object.fromEntries(formatted_nutrients);
     //return {calories: data.calories, fat: data.fat, protein: data.protein, carbs: data.carbs};
 }
