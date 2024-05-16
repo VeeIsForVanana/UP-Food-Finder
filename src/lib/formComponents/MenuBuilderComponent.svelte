@@ -15,7 +15,7 @@
 <div class="grid gap-10 w-full columns-7xl">
     <div style="display: grid-template-columns:repeat(1) ">
         {#each menu as menu_item, i}
-            <div class="grid grid-rows-2 lg:grid-cols-2 gap-1">
+            <div class="grid md:grid-rows-2 md:grid-cols-1 lg:grid-rows-1 lg:grid-cols-2 gap-10 w-max">
                 <div>
                     <label class="w-40" for="menu_names">Name</label>
                     <input  class="input w-60 md:max-w-screen-sm"
@@ -27,7 +27,7 @@
                 </div>
                 <div>
                     <label class="w-40" for="menu_prices">Price</label>
-                    <input  class="input w-auto md:max-w-screen-sm"
+                    <input  class="input w-60 md:max-w-screen-sm"
                             name="menu_price_{i}"
                             type="number"
                             bind:value={menu_item.price}
