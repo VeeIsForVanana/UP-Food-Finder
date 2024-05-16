@@ -42,7 +42,7 @@
     <title>Storefront Management</title>
 </head>
 
-<div class="m-10">
+<div class="w-80 md:w-auto">
     {#await data.storefront}
         <h1>Loading ...</h1>
     {:then storefront} 
@@ -69,8 +69,8 @@
             action="?/updateStorefront"
             id="storefrontManagement">
 
-            <div class="grid grid-cols-2 gap-10 w-full columns-7xl">
-                <div>
+            <div class="grid grid-rows-2 gap-10 w-full md:columns-7xl md:grid-cols-2">
+                <div class="h-max md:h-auto">
                     <h3 class="h3">Storefront Information</h3>
                     <div class="input_div">
                         <label for="new_storename">Rename Storefront</label>

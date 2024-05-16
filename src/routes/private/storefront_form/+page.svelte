@@ -45,7 +45,7 @@
 
         <fieldset disabled={user == null || !isUserLoaded || isUserVendored}>
             <div class="grid grid-rows-2 gap-10 w-full md:columns-7xl md:grid-cols-2">
-                <div>
+                <div class="h-max">
                     <h2 id="storefront">Storefront Information</h2>
                     <label class="label" for="storename">Store name</label>
                     <input  class="input max-w-80 md:max-w-screen-sm"
@@ -56,7 +56,7 @@
                             />
                     <LocationSelectorComponent />
                 </div>
-                <div>
+                <div class="h-max">
                     <MenuBuilderComponent />
                 </div>
             </div>
