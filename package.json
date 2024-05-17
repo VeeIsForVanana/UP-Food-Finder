@@ -54,6 +54,7 @@
 	"dependencies": {
 		"@supabase/ssr": "^0.3.0",
 		"@supabase/supabase-js": "^2.39.8",
+		"bad-words": "^3.0.4",
 		"leaflet": "^1.9.4",
 		"mapbox-gl": "^3.2.0",
 		"ts-node": "^10.9.2",

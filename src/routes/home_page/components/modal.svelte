@@ -4,11 +4,11 @@
 </script>
 
 {#if showModal}
-    <div class="backdrop" on:click|self>
+    <button class="backdrop" on:click|self>
         <div class="modal-content">
             <slot></slot>
         </div>
-    </div>
+    </button>
 {/if}
 
 <style>
@@ -32,6 +32,7 @@
         top: 280px; /* Centering the modal vertically */
         left: 50%; /* Centering the modal horizontally */
         transform: translate(-50%, -50%); /* Centering the modal */
+        cursor: default;
         overflow-y: scroll;
     }
 </style>

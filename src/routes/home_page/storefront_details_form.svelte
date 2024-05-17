@@ -1,19 +1,37 @@
 <script lang="ts">
+    import MapComponent from '$lib/MapComponent.svelte';
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+    import Filter from 'bad-words';
     import type { SupabaseClient } from '@supabase/supabase-js';
     //import { downloadImage } from '$lib/formComponents/Avatar.svelte';
 
     export let storeName = "default name";
     export let owner = "default owner";
     export let menu = [];
-    // export let coords = {latitude: 0, longitude: 0};
+    export let coords: [number, number];
+    export let reviews = [];
+
+    let lng = coords[0];
+    let lat = coords[1];
     export let img_url = "";
     export let avatarUrl = "";
     export let supabase: SupabaseClient;
 
-    let tabItems = ["Menu", "Reviews"];
+    let tabItems = ["Menu", "Reviews", "Map"];
     let activeTab = "Menu";
+
+    let userInput = "";
+    let errorMessage = "";
+    const filter = new Filter();
+    let handleSubmit = async (e) => {
+        if (filter.isProfane(userInput)) {
+            e.preventDefault();
+            errorMessage = 'Profanity detected! Review not accepted.';
+        } else {
+            errorMessage = '';
+        }
+    }
  
     // Function to download the image
     async function downloadImage() {
@@ -52,17 +70,17 @@
     {#if activeTab === "Menu"}
         <div class="menu">
             <Accordion>
-                {#each menu as item, i}
+                {#each menu as item, _i}
                     <div class="menu_items">
                         <AccordionItem>
                             <svelte:fragment slot="summary"> <div class="summary-content"><p> {item.foodName}</p>
                                                             <p>Php {item.price}</p> </div> </svelte:fragment>
                             <svelte:fragment slot="content">
                                 <div class="menu-item-details">
-                                    <p>Calories: {item.calories !== undefined ? `${item.calories}` : `${Math.floor(Math.random() * 100)}`} kcal</p>
-                                    <p>Fat: {item.fat !== undefined ? `${item.fat}` : `${Math.floor(Math.random() * 10)}`} g</p>
-                                    <p>Protein: {item.protein !== undefined ? `${item.protein}` : `${Math.floor(Math.random() * 20)}`} g</p>
-                                    <p>Carbs: {item.carbs !== undefined ? `${item.carbs}` : `${Math.floor(Math.random() * 30)}`} g</p>
+                                    <p>Calories: {item.calories !== undefined ? `${item.calories}` : `not available`}</p>
+                                    <p>Fat: {item.fat !== undefined ? `${item.fat}` : `not available`}</p>
+                                    <p>Protein: {item.protein !== undefined ? `${item.protein}` : `not available`}</p>
+                                    <p>Carbs: {item.carbs !== undefined ? `${item.carbs}` : `not available`}</p>
                                 </div>
                             </svelte:fragment>
 
@@ -72,9 +90,28 @@
             </Accordion>
         </div>
     {:else if activeTab === "Reviews"}
-        <p>reviews here</p>
-    {:else}
-        <p>default</p>
+        <div class = "overflow-y-auto h-64"> 
+            {#if reviews.length === 0}
+                <p>No reviews yet</p>
+            {/if}
+            {#each reviews as review}
+                <div class="flex items-start space-x-2">
+                    <p class="m-0">{review.timestamp}</p>
+                    <p class="m-0">{review.review}</p>
+                </div>
+                <hr class="my-2 border-gray-700">
+            {/each}
+        </div>
+        <div>
+            <form method="POST" action = "?/addReview" autocomplete="off" on:submit={handleSubmit}>
+                {#if {errorMessage}} <p class = "error">{errorMessage}</p> {/if}
+                <input type="hidden" name = "store_name" value = {storeName}/>
+                <input type="text" placeholder="Write a review" name = "review" class="input" bind:value={userInput} required/>
+                <button id="submitButton">Submit</button>
+            </form>
+        </div>
+    {:else if activeTab === "Map"}
+        <MapComponent initialLat={lat} initialLng={lng} isDraggable={false}></MapComponent>
     {/if}
     </div>
 </form>
@@ -93,5 +130,8 @@
         display: flex;
         justify-content: space-between; 
         margin-bottom: 0px; 
+    }
+    .error {
+        color: maroon;
     }
 </style>

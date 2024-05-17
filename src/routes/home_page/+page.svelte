@@ -1,7 +1,9 @@
-<script>
+<script lang="ts">
     import Modal from './components/modal.svelte';
     import Form from './storefront_details_form.svelte';
     import Box from './components/box.svelte';
+    import { enhance } from '$app/forms';
+	  import type { MenuItem } from '$lib/dataTransferObjects';
 
     /** @type {import('./$types').PageData} */
 
@@ -10,7 +12,7 @@
 
     let supabase = data.supabase
 
-    let storefronts;
+    let storefronts: {storeName: string, owner: string, latitude: string, longitude: string, menu: MenuItem[]}[];
     $: storefronts = form?.storefronts || data.storefronts;
 
     let showModal = false;
@@ -19,15 +21,29 @@
     }
 
     let storeDetails = {};
-    const handleStorefrontClick = (store) => {
+    const handleStorefrontClick = (store: {storeName: string, owner: string, latitude: string, longitude: string, menu: MenuItem[]}) => {
         toggleModal();
         storeDetails = store;
     }
+    
+    let reviews;
+    $: reviews = form?.reviews || [];
 
+    let formElement;
+    let selectedStoreName = "";
+
+    const setSelectedStoreName = async (storeName) => {
+        selectedStoreName = storeName;
+        await formElement.requestSubmit(); 
+
+        while (!form?.reviews) {
+            await new Promise(resolve => setTimeout(resolve, 100)); // Wait for 100ms
+        }
+    }
 </script>
 
 <Modal {showModal} on:click={toggleModal}>
-    <Form supabase={supabase} {...storeDetails}>
+    <Form supabase={supabase} {...storeDetails} {reviews}>
     </Form>
 </Modal>
 
@@ -38,14 +54,21 @@
     </form>
 
     <h3>Default Recommendation:</h3>
-    <div class="grid grid-cols-4 gap-4">
-        {#each storefronts ?? [] as store (store.storeName) }
-            <Box on:click={() => handleStorefrontClick(store)}>
-                <h2>{store.storeName}</h2>
-                <p>{store.owner}</p>
-            </Box>
-        {/each}
-    </div>  
+        <div class="grid grid-cols-4 gap-4">
+            {#each storefronts ?? [] as store,i (store.storeName) }
+            <form   
+                bind:this={formElement} 
+                method = "Post"
+                action = "?/loadReviews"
+                use:enhance = {({formData}) => {formData.append('store_name', selectedStoreName)}} >
+                
+                <Box on:click={() => {handleStorefrontClick(store); setSelectedStoreName(store.storeName);}}>
+                    <h2>{store.storeName}</h2>
+                    <p>{store.owner}</p>
+                </Box>
+            </form>
+            {/each}
+        </div>
 </div>
 
 <style>

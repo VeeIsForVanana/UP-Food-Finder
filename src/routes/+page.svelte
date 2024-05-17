@@ -7,13 +7,13 @@
         <a href="/vendor_form">Sprint 1: Vendor Form</a>
     </div>
     <div>
-        <a href="/storefront_form">Sprint 2: Storefront Form</a>
+        <a href="private/storefront_form">Sprint 2: Storefront Form</a>
     </div>
     <div>
         <a href="/home_page">Sprint 3: Home Page</a>
     </div>
     <div>
-        <a href="/storefront_management">Sprint 4: Storefront Management</a>
+        <a href="private/storefront_management">Sprint 4: Storefront Management</a>
     </div>
 </div>
 

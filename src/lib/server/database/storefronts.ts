@@ -1,5 +1,5 @@
 import type { coordinates } from "../../dataTransferObjects";
-import { Vendor, Storefront, type MenuItem } from '$lib/dataTransferObjects';
+import { Vendor, Storefront, type MenuItem, Review } from '$lib/dataTransferObjects';
 import { error, type NumericRange } from '@sveltejs/kit';
 import type { SupabaseClient } from "@supabase/supabase-js";
 
@@ -50,7 +50,7 @@ function storefrontDataToStorefront(data: storefrontData | null) {
 export async function getStorefrontsFromNames(storeNames: string[], supabase: SupabaseClient) {
 
     const response = await supabase
-        .from('storefronts')
+        .from('view_storefronts')
         .select()
         .in('store_name', storeNames);
     
@@ -59,7 +59,7 @@ export async function getStorefrontsFromNames(storeNames: string[], supabase: Su
     }
 
     return response.data?.map(storefrontDataToStorefront);
-
+    
 }
 
 export async function isStorefrontNameExists(storeName: string, supabase: SupabaseClient) {
@@ -144,4 +144,36 @@ export async function getStorefronts(supabase: SupabaseClient) {
     }
 
     return response.data?.map(storefrontDataToStorefront);
+}
+
+export async function addReviewToStorefront(store_name : string, review: string, supabase: SupabaseClient) {
+    const response = await supabase
+        .from('storefront_reviews')
+        .insert({ store_name: store_name, review: review })
+    
+    if (response.status > 399) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+}
+
+export async function getStorefrontReviews(store_name : string, supabase: SupabaseClient) {
+    const response = await supabase
+        .from('storefront_reviews')
+        .select()
+        .eq('store_name', store_name)
+    
+    if (response.status > 399) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    if (response.data == null) {
+        return [];
+    }
+    const reviewsList = response.data.map(row => new Review(
+        row.store_name,
+        new Date(row.timestamp),
+        row.review
+    ));
+
+    return reviewsList;
 }
