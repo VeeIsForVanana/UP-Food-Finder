@@ -3,7 +3,6 @@
 	import LocationSelectorComponent from "$lib/formComponents/LocationSelectorComponent.svelte";
 	import MenuBuilderComponent from "$lib/formComponents/MenuBuilderComponent.svelte";
     import Avatar from "$lib/formComponents/Avatar.svelte";
-	import StorefrontDetailsForm from "../home_page/storefront_details_form.svelte";
 	// import { url } from "inspector";
 	
     export let form: any;
