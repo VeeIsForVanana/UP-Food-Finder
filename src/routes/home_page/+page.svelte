@@ -47,7 +47,7 @@
     </Form>
 </Modal>
 
-<div class="w-auto max-w-screen-xl">
+<div class="w-auto">
     <form method="POST" action = "?/searchResult">
         <input class="search-input" name = "search" type="text" placeholder="Search" value={form?.search ?? ''}/>
         <button class="search-button" name = "search_button" style="width: 10%; height: 40px">Search</button>
