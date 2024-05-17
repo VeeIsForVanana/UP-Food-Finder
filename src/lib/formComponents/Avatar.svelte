@@ -97,6 +97,9 @@
 			avatarUrl = null;
 			url = '';
 
+			const photoHandler = document.getElementById('single') as HTMLInputElement;
+			photoHandler.value = '';
+
 			// Update the database with an empty img_url
 			await saveAvatarUrl(storeName, '');
 		} catch (error) {
