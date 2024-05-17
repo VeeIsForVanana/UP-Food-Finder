@@ -19,7 +19,7 @@
     const logoutOfGoogle = async () => {
         supabase?.auth.signOut();
         loggedInUID = null;
-        await goto("/");
+        await goto("/home_page");
     }
 
     const currentUser = async () => {

@@ -20,7 +20,7 @@ export const actions = {
         const { session } = await safeGetSession()
 
         if (!session) {
-            throw redirect(303, '/')
+            throw redirect(303, '/home_page')
         }
         
         // check if the user is logged in
