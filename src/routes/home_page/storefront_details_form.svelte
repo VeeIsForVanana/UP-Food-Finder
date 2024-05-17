@@ -58,8 +58,8 @@
     <p>Name: {storeName}</p>
 
     {#if avatarUrl}
-        <div class="avatar-container mt-2">
-            <img class="avatar-image m-0" src={avatarUrl} alt="User Avatar"/>
+        <div class="avatar-container mt-2 flex justify-center m-auto">
+            <img class="avatar-image m-0 self-center" src={avatarUrl} alt="User Avatar"/>
         </div>
     {:else}
         <div class="avatar no-image" />
