@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import { getStorefronts, registerStorefront, addStorefrontToVendor, isStorefrontNameExists } from '$lib/server/database/storefronts';
 import { getLoggedInVendor } from '$lib/server/database/vendors';
 import { Vendor, type MenuItem, type coordinates } from '$lib/dataTransferObjects';
+import { getNutrition } from '$lib/healthAPI';
 
 const NON_MENU = 4; // number of fields in form not for menu
 
@@ -14,7 +15,6 @@ export async function load({ locals: { supabase } }) {
 export const actions = {
     registerStorefront: async ({ request, locals}) => {
         const { supabase } = locals;
-        console.log(await getStorefronts(supabase))
         const vendor = await getLoggedInVendor(supabase);
         if (vendor == null) {
             return fail(401, {status: 401, statusText: "This action is not authorized"})
@@ -41,14 +41,15 @@ export const actions = {
         // Retrieve and build formData
 
         for (let i = 0; i < menuItemCount; i++) {
+            const nutritionDeets = await getNutrition(formData.get(`menu_name_${i}`)?.toString() ?? '');
             menu.push(
                 {
                     foodName: formData.get(`menu_name_${i}`)?.toString() ?? '',
                     price: +formData.get(`menu_price_${i}`)!,
-                    calories: +formData.get(`menu_calories_${i}`)!,     
-                    fat: +formData.get(`menu_fat_${i}`)!,         
-                    protein: +formData.get(`menu_protein_${i}`)!,     
-                    carbs: +formData.get(`menu_carbs_${i}`)!,       
+                    calories: nutritionDeets.Calories,
+                    fat: nutritionDeets.Fat,
+                    protein: nutritionDeets.Protein,
+                    carbs: nutritionDeets.Carb
                 }   
             );
         }
