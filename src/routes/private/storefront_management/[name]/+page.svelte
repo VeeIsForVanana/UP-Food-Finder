@@ -88,22 +88,22 @@
                             console.log("Avatar uploaded");
                         }}
                     />
+                    <div>
+                        <button name="submit" class="input" id="sf_btn">Submit</button>
+                    </div>
+                    <div>
+                        <button formaction="?/deleteStorefront" name="delete_storefront" class="input" id="sf_btn">Delete Storefront</button>
+                    </div>
 
                 </div>
                 <div>
                     <MenuBuilderComponent menu={menu}/>
                 </div>
-            </div>
+            
 
             <input type="hidden" name="selectedStorefrontOwner" bind:value={storefrontOwner} />
             <input type="hidden" name="selectedStorefrontName" bind:value={storefrontName} />
-
-            <div>
-                <button name="submit" class="input" id="sf_btn">Submit</button>
-            </div>
-            <div>
-                <button formaction="?/deleteStorefront" name="delete_storefront" class="input" id="sf_btn">Delete Storefront</button>
-            </div>
+        </div>
         </form>
     {/await}
 </div>
