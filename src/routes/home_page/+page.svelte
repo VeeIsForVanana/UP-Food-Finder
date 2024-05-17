@@ -47,23 +47,23 @@
     </Form>
 </Modal>
 
-<div class = "ml-10 mr-80 w-screen">
+<div class="w-auto">
     <form method="POST" action = "?/searchResult">
         <input class="search-input" name = "search" type="text" placeholder="Search" value={form?.search ?? ''}/>
         <button class="search-button" name = "search_button" style="width: 10%; height: 40px">Search</button>
     </form>
 
     <h3>Default Recommendation:</h3>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-1 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4 xl:gap-4 w-auto">
             {#each storefronts ?? [] as store,i (store.storeName) }
-            <form   
+            <form 
                 bind:this={formElement} 
                 method = "Post"
                 action = "?/loadReviews"
                 use:enhance = {({formData}) => {formData.append('store_name', selectedStoreName)}} >
                 
                 <Box on:click={() => {handleStorefrontClick(store); setSelectedStoreName(store.storeName);}}>
-                    <h2>{store.storeName}</h2>
+                    <h2 class="text-xl">{store.storeName}</h2>
                     <p>{store.owner}</p>
                 </Box>
             </form>

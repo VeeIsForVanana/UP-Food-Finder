@@ -5,7 +5,7 @@
 
     export let isExternalMapData = false;
     export let mapData: MapDataType = {lng: 0, lat: 0, zoom: 0};
-    export let debugMode = true;
+    export let debugMode = false;
 
     let updateMap: (lng: number, lat: number) => void;
     
@@ -35,7 +35,7 @@
         hidden
         />
 
-<div class="my-5">
+<div class="my-5 w-80 md:w-auto">
     {#if isExternalMapData}
         <MapComponent
             initialLng={mapData.lng}
