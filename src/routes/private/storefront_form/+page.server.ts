@@ -24,6 +24,7 @@ export const actions = {
         const storeName = String(formData.get("storename"));
         const storeCoords : coordinates = [+formData.get("store_x")!, +formData.get("store_y")!];
         const owner: Vendor = vendor;
+        const img_url = String(formData.get("avatarUrl"));
         const menuItemCount = (Array.from(formData.keys()).length - NON_MENU) / 2; // remove non menu items then halve for name and price
         const menu : MenuItem[] = [];
 
@@ -61,6 +62,7 @@ export const actions = {
                 owner,
                 menu,
                 storeCoords,
+                img_url,
                 supabase
             )
         );

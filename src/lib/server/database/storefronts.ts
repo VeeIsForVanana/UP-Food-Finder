@@ -3,25 +3,27 @@ import { Vendor, Storefront, type MenuItem, Review } from '$lib/dataTransferObje
 import { error, type NumericRange } from '@sveltejs/kit';
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-type storefrontData = { store_name: string, owner: string, coords_lat: number, coords_lng: number, menu: MenuItem[] }
+type storefrontData = { store_name: string, owner: string, coords_lat: number, coords_lng: number, menu: MenuItem[] , img_url: string}
 
 export async function registerStorefront(
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
     coords: coordinates,
+    img_url: string,
     supabase: SupabaseClient
 ) {
     const newStorefront = new Storefront(
         storeName,
         owner.getUsername(),
         menu,
-        coords
+        coords,
+        img_url,
     );
 
     const response = await supabase
         .from('storefronts')
-        .insert({ store_name: storeName, owner: owner.getUsername(), coords_lat: coords[0], coords_lng: coords[1], menu: menu })
+        .insert({ store_name: storeName, owner: owner.getUsername(), coords_lat: coords[0], coords_lng: coords[1], menu: menu, img_url: img_url})
     
     if (response.status > 399) {
         console.log(`${response.status} error on request, details: ${response.error?.details} \nand hint: ${response.error?.hint}`)
@@ -41,6 +43,7 @@ function storefrontDataToStorefront(data: storefrontData | null) {
         data.owner,
         data.menu,
         [data.coords_lat, data.coords_lng],
+        data.img_url,
     )
 }
 
@@ -116,7 +119,8 @@ export async function updateStorefront(
             owner: newStorefront.getOwner(), 
             coords_lat: newStorefront.getCoords()[0], 
             coords_lng: newStorefront.getCoords()[1], 
-            menu: newStorefront.getMenu() 
+            menu: newStorefront.getMenu(),
+            img_url: newStorefront.getPhoto(),
         })
         .eq('store_name', originalStorefrontName)
         .select()

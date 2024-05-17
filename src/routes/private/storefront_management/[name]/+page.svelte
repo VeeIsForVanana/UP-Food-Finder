@@ -3,6 +3,7 @@
 	import type { coordinates } from "$lib/dataTransferObjects.ts";
 	import LocationSelectorComponent from "$lib/formComponents/LocationSelectorComponent.svelte";
 	import MenuBuilderComponent from "$lib/formComponents/MenuBuilderComponent.svelte";
+    import Avatar from "$lib/formComponents/Avatar.svelte";
 
     /** @type {import('./$types').PageData} */
 
@@ -19,6 +20,7 @@
     let storefrontName: string = storefront.storeName;
     let storefrontMenu : any[] = storefront.menu;
     let storefrontCoords: coordinates = storefront.coords;
+    let img_url: string = storefront.img_url;
     
     let mapData = {
         lat: storefrontCoords[1],
@@ -78,6 +80,15 @@
                     </div>
                     
                     <LocationSelectorComponent isExternalMapData={true} mapData={mapData}/>
+                    <Avatar
+                        supabase={data.supabase}
+                        bind:avatarUrl={(img_url)}
+                        size={10}
+                        on:upload={() => {
+                            console.log("Avatar uploaded");
+                        }}
+                    />
+
                 </div>
                 <div>
                     <MenuBuilderComponent menu={menu}/>

@@ -3,6 +3,8 @@
     import Tabs from './components/tabs.svelte';
     import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
     import Filter from 'bad-words';
+    import type { SupabaseClient } from '@supabase/supabase-js';
+    //import { downloadImage } from '$lib/formComponents/Avatar.svelte';
 
     export let storeName = "default name";
     export let owner = "default owner";
@@ -12,6 +14,9 @@
 
     let lng = coords[0];
     let lat = coords[1];
+    export let img_url = "";
+    export let avatarUrl = "";
+    export let supabase: SupabaseClient;
 
     let tabItems = ["Menu", "Reviews", "Map"];
     let activeTab = "Menu";
@@ -27,15 +32,43 @@
             errorMessage = '';
         }
     }
+ 
+    // Function to download the image
+    async function downloadImage() {
+        if (img_url) {
+            const { data, error } = await supabase.storage.from('storefront_photos').download(img_url);
+            console.log(data)
+            if (error || data === null) {
+                throw error;
+            }
+
+            avatarUrl = URL.createObjectURL(data);
+        } else {
+            avatarUrl = "";
+        }
+    }
+
+    // Reactive statement to call the downloadImage function whenever img_url changes
+    $: downloadImage();
 </script>
 
-<form>
+<form style="margin:0">
+    <div>
     <h3>Storefront Details</h3>
     <p>Name: {storeName}</p>
+
+    {#if avatarUrl}
+        <div class="avatar-container mt-2">
+            <img class="avatar-image m-0" src={avatarUrl} alt="User Avatar"/>
+        </div>
+    {:else}
+        <div class="avatar no-image" />
+	{/if}
+
     <p>Owner: {owner}</p>
     <Tabs {tabItems} {activeTab} on:changeTab={e => activeTab = e.detail}/>
     {#if activeTab === "Menu"}
-        <div class="menu" style="overflow-y: scroll; max-height: 300px;">
+        <div class="menu">
             <Accordion>
                 {#each menu as item, _i}
                     <div class="menu_items">
@@ -80,6 +113,7 @@
     {:else if activeTab === "Map"}
         <MapComponent initialLat={lat} initialLng={lng} isDraggable={false}></MapComponent>
     {/if}
+    </div>
 </form>
 
 <style>

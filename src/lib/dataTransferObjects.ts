@@ -38,7 +38,8 @@ export class Storefront {
         private storeName: string,
         private owner: string,
         private menu: MenuItem[],
-        private coords: coordinates
+        private coords: coordinates,
+        private img_url: string,
     ) { }
 
     getStoreName() {
@@ -55,19 +56,24 @@ export class Storefront {
         return this.owner;
     }
 
+    getPhoto() {
+        return this.img_url;
+    }
+
     setOwner(newOwner: Vendor) {
         this.owner = newOwner.getUsername();
     }
 }
 
-type StorefrontPOJO = { storeName: string, owner: string, menu: MenuItem[], coords: coordinates }
+type StorefrontPOJO = { storeName: string, owner: string, menu: MenuItem[], coords: coordinates , img_url: string}
 
 export function storefrontToPOJO(storefront: Storefront): StorefrontPOJO {
     return {
         'storeName' : storefront.getStoreName(),
         'owner': storefront.getOwner(),
         'menu': storefront.getMenu(),
-        'coords': storefront.getCoords()
+        'coords': storefront.getCoords(),
+        'img_url': storefront.getPhoto(),
     }
 }export type coordinates = readonly [number, number];
 
