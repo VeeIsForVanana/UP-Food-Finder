@@ -107,7 +107,7 @@
                 {#if {errorMessage}} <p class = "error">{errorMessage}</p> {/if}
                 <input type="hidden" name = "store_name" value = {storeName}/>
                 <input type="text" placeholder="Write a review" name = "review" class="input" bind:value={userInput} required/>
-                <button on:click|preventDefault type="submit" id="submitButton">Submit</button>
+                <button type="submit" id="submitButton">Submit</button>
             </form>
         </div>
     {:else if activeTab === "Map"}
