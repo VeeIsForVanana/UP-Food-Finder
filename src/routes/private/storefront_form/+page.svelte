@@ -110,13 +110,6 @@
         display: block;
     }
 
-    .vendor_name {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        text-align: right;
-    }
-
     #storeRegistered {
         color: green;
     }
