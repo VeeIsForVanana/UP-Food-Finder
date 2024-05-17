@@ -10,14 +10,14 @@
     <title>Storefront Management</title>
 </head>
 
-<h1 id="title">Storefront Management</h1>
+<h1>Storefront Management</h1>
 
 <nav class="list-nav">
 	<!-- (optionally you can provide a label here) -->
 	<ul>
 		<li>
             {#each data.storefronts as storefront}
-			<a href="/storefront_management/{storefront}">
+			<a href="storefront_management/{storefront}">
 				<span class="flex-auto">{storefront}</span>
 			</a>
             {/each}

@@ -10,6 +10,16 @@ test('vendor page has expected label', async ({ page }) => {
 	await expect(page.getByRole('heading', { name: 'Create your vendor account'})).toBeVisible();
 });
 
+test('vendor form does not allow unidentified users to log in', async({ page }) => {
+	await page.goto('/vendor_form');
+	await expect(page.getByRole('heading', { name: "Please don't forget to log in!" })).toBeVisible();
+})
+
+test('vendor form shows oauth login component to unidentified users', async({ page }) => {
+	await page.goto('/vendor_form');
+	await expect(page.getByRole('heading', {name: "Login with a Third Party Service"})).toBeVisible();
+})
+
 /*
 test('vendor page submission with empty fields results in no greeting message', async ({ page }) => {
 	await page.goto('/vendor_form');

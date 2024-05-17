@@ -1,27 +1,29 @@
-import type { coordinates } from '$lib/constants';
-import { Vendor, Storefront, type MenuItem } from '$lib/server/dataTransferObjects';
+import type { coordinates } from "../../dataTransferObjects";
+import { Vendor, Storefront, type MenuItem, Review } from '$lib/dataTransferObjects';
 import { error, type NumericRange } from '@sveltejs/kit';
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-type storefrontData = { store_name: string, owner: string, coords_lat: number, coords_lng: number, menu: MenuItem[] }
+type storefrontData = { store_name: string, owner: string, coords_lat: number, coords_lng: number, menu: MenuItem[] , img_url: string}
 
 export async function registerStorefront(
     storeName: string,
     owner: Vendor,
     menu: MenuItem[],
     coords: coordinates,
+    img_url: string,
     supabase: SupabaseClient
 ) {
     const newStorefront = new Storefront(
         storeName,
         owner.getUsername(),
         menu,
-        coords
+        coords,
+        img_url,
     );
 
     const response = await supabase
         .from('storefronts')
-        .insert({ store_name: storeName, owner: owner.getUsername(), coords_lat: coords[0], coords_lng: coords[1], menu: menu })
+        .insert({ store_name: storeName, owner: owner.getUsername(), coords_lat: coords[0], coords_lng: coords[1], menu: menu, img_url: img_url})
     
     if (response.status > 399) {
         console.log(`${response.status} error on request, details: ${response.error?.details} \nand hint: ${response.error?.hint}`)
@@ -41,13 +43,14 @@ function storefrontDataToStorefront(data: storefrontData | null) {
         data.owner,
         data.menu,
         [data.coords_lat, data.coords_lng],
+        data.img_url,
     )
 }
 
 export async function getStorefrontsFromNames(storeNames: string[], supabase: SupabaseClient) {
 
     const response = await supabase
-        .from('storefronts')
+        .from('view_storefronts')
         .select()
         .in('store_name', storeNames);
     
@@ -56,7 +59,7 @@ export async function getStorefrontsFromNames(storeNames: string[], supabase: Su
     }
 
     return response.data?.map(storefrontDataToStorefront);
-
+    
 }
 
 export async function isStorefrontNameExists(storeName: string, supabase: SupabaseClient) {
@@ -116,7 +119,8 @@ export async function updateStorefront(
             owner: newStorefront.getOwner(), 
             coords_lat: newStorefront.getCoords()[0], 
             coords_lng: newStorefront.getCoords()[1], 
-            menu: newStorefront.getMenu() 
+            menu: newStorefront.getMenu(),
+            img_url: newStorefront.getPhoto(),
         })
         .eq('store_name', originalStorefrontName)
         .select()
@@ -140,4 +144,36 @@ export async function getStorefronts(supabase: SupabaseClient) {
     }
 
     return response.data?.map(storefrontDataToStorefront);
+}
+
+export async function addReviewToStorefront(store_name : string, review: string, supabase: SupabaseClient) {
+    const response = await supabase
+        .from('storefront_reviews')
+        .insert({ store_name: store_name, review: review })
+    
+    if (response.status > 399) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+}
+
+export async function getStorefrontReviews(store_name : string, supabase: SupabaseClient) {
+    const response = await supabase
+        .from('storefront_reviews')
+        .select()
+        .eq('store_name', store_name)
+    
+    if (response.status > 399) {
+        error(response.status as NumericRange<400, 599>, response.statusText);
+    }
+
+    if (response.data == null) {
+        return [];
+    }
+    const reviewsList = response.data.map(row => new Review(
+        row.store_name,
+        new Date(row.timestamp),
+        row.review
+    ));
+
+    return reviewsList;
 }

@@ -1,14 +1,3 @@
-<div class="box" on:click>
+<button class="flex flex-col content-evenly items-center border-2 border-black border-solid shadow-lg hover:shadow-xl h-40 w-full" on:click>
 	<slot />
-</div>
-
-<style>
-	.box {
-		width: 300px;
-		border: 1px solid #aaa;
-		border-radius: 2px;
-		box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-		padding: 1em;
-		margin: 10px;
-	}
-</style>
+</button>

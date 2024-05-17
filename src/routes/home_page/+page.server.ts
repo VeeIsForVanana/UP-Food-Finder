@@ -1,5 +1,5 @@
-import { getStorefronts} from '$lib/server/database/storefronts';
-import type { Storefront } from '$lib/server/dataTransferObjects';
+import { getStorefronts, getStorefrontReviews, addReviewToStorefront} from '$lib/server/database/storefronts';
+import type { Storefront } from '$lib/dataTransferObjects';
 
 /** @type {import('./$types').PageServerLoad} */
 
@@ -24,7 +24,7 @@ export async function load({locals: { supabase }}) {
     const storefrontRes = await getStorefronts(supabase) ?? [];
     const storefronts = storefrontRes.map(storefront => ({ ...storefront })); //convert to POJO
 
-    return { storefronts };
+    return { storefronts};
 }
 
 export const actions = {
@@ -38,9 +38,31 @@ export const actions = {
 
         storefronts = filterStores(storefronts, search);
 
-        console.log('search', search);
-        console.log('storefronts', storefronts);
-
         return { storefronts, search };
+    },
+    loadReviews: async ({ request, locals }) => {
+            
+            const { supabase } = locals;
+            const formData = await request.formData();
+            const store_name = formData.get('store_name')?.toString() || '';
+
+            const reviewRes = await getStorefrontReviews(store_name, supabase) ?? [];
+            const reviews = reviewRes.map(review => ({
+                storefront: review.getStorefront(),
+                timestamp: review.getTimestamp(),
+                review: review.getReview()
+            })); //convert to POJO
+            
+            return { reviews };
+    },
+    addReview: async ({ request, locals }) => {
+        const { supabase } = locals;
+        const formData = await request.formData();
+        const store_name = formData.get('store_name')?.toString() || '';
+        const review = formData.get('review')?.toString() || '';
+
+        await addReviewToStorefront(store_name, review, supabase);
+
+        return;
     }
-}
+};
