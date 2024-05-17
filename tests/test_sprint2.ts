@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import { fail } from 'assert';
 
 const forceSleep = (time_ms: number) => new Promise((_) => setTimeout(_, time_ms)) ;
 

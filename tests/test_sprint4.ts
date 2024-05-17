@@ -1,5 +1,4 @@
 import { expect, test } from '@playwright/test';
-import { fail } from 'assert';
 
 test('Menu item displays health information fields when open', async ({ page }) => {
   await page.goto('/home_page');
