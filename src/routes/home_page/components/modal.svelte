@@ -4,7 +4,7 @@
 </script>
 
 {#if showModal}
-    <button class="backdrop" on:click|self>
+    <button class="backdrop" on:click|self|preventDefault>
         <div class="modal-content">
             <slot></slot>
         </div>
