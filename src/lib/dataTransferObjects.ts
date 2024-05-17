@@ -20,6 +20,8 @@ export class Vendor {
     }
 }
 
+export type VendorPOJO = { username: string, phoneNumber: string }
+
 export type MenuItem = {
     foodName: string;
     price: number;
@@ -69,3 +71,23 @@ export function storefrontToPOJO(storefront: Storefront): StorefrontPOJO {
     }
 }export type coordinates = readonly [number, number];
 
+export class Review {
+    constructor(
+        private storefront: string,
+        private timestamp: Date,
+        private review: string
+    ) { }
+    getStorefront() {
+        return this.storefront;
+    }
+    getTimestamp() {
+        return this.timestamp.toLocaleString('en-US', {
+            dateStyle: 'short',
+            timeStyle: 'short',
+            hour12: false
+        });
+    }
+    getReview() {
+        return this.review;
+    }
+}
