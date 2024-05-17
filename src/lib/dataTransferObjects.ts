@@ -25,10 +25,10 @@ export type VendorPOJO = { username: string, phoneNumber: string }
 export type MenuItem = {
     foodName: string;
     price: number;
-    calories: number;        // health info
-    fat: number;            // health info
-    protein: number;        // health info
-    carbs: number;          // health info
+    calories: string;        // health info
+    fat: string;            // health info
+    protein: string;        // health info
+    carbs: string;          // health info
 
 };
 
