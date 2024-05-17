@@ -54,7 +54,7 @@
     </form>
 
     <h3>Default Recommendation:</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-1 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4 xl:gap-4 w-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 md:gap-1 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4 xl:gap-4 w-full">
             {#each storefronts ?? [] as store,i (store.storeName) }
             <form 
                 bind:this={formElement} 
