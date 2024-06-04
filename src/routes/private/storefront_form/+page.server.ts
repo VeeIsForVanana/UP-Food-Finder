@@ -4,7 +4,7 @@ import { getLoggedInVendor } from '$lib/server/database/vendors';
 import { Vendor, type MenuItem, type coordinates } from '$lib/dataTransferObjects';
 import { getNutrition } from '$lib/healthAPI';
 
-const NON_MENU = 4; // number of fields in form not for menu
+const NON_MENU = 5; // number of fields in form not for menu
 
 export async function load({ locals: { supabase } }) {
     const disabled = await getLoggedInVendor(supabase) ==  null
